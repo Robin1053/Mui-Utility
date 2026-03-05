@@ -3,14 +3,14 @@
 import React, { createContext, useContext, useState } from "react";
 import { Snackbar, Alert } from "@mui/material";
 
-type ToastType = "success" | "error" | "info" | "warning";
+export type ToastType = "success" | "error" | "info" | "warning";
 
-interface ToastMessage {
+export interface ToastMessage {
   message: string;
   type: ToastType;
 }
 
-interface NotificationContextValue {
+export interface NotificationContextValue {
   notify: (toast: ToastMessage) => void;
 }
 

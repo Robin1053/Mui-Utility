@@ -26,62 +26,145 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-// src/components/index.js
+// src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  ActionButton: () => ActionButton
+  ActionButton: () => ActionButton,
+  NotificationProvider: () => NotificationProvider,
+  useNotification: () => useNotification
 });
 module.exports = __toCommonJS(index_exports);
 
 // src/components/ActionButton/ActionButton.tsx
-var React = __toESM(require("react"));
+var import_material2 = require("@mui/material");
+var React2 = __toESM(require("react"));
+
+// src/components/ui/Notifications.tsx
+var import_react = require("react");
 var import_material = require("@mui/material");
+var import_jsx_runtime = require("react/jsx-runtime");
+var NotificationContext = (0, import_react.createContext)({
+  notify: () => {
+  }
+});
+var useNotification = () => (0, import_react.useContext)(NotificationContext);
+var NotificationProvider = ({ children }) => {
+  const [open, setOpen] = (0, import_react.useState)(false);
+  const [toast, setToast] = (0, import_react.useState)({
+    message: "",
+    type: "info"
+  });
+  const notify = ({ message, type }) => {
+    setToast({ message, type });
+    setOpen(true);
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(NotificationContext.Provider, { value: { notify }, children: [
+    children,
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+      import_material.Snackbar,
+      {
+        open,
+        autoHideDuration: 4e3,
+        onClose: () => setOpen(false),
+        anchorOrigin: { vertical: "bottom", horizontal: "left" },
+        children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          import_material.Alert,
+          {
+            onClose: () => setOpen(false),
+            severity: toast.type,
+            sx: { width: "100%" },
+            children: toast.message
+          }
+        )
+      }
+    )
+  ] });
+};
+
+// src/components/ActionButton/ActionButton.tsx
+var import_jsx_runtime2 = require("react/jsx-runtime");
 function ActionButton({
-  label,
   action,
   requireAreYouSure = false,
   icon,
   DialogProps = {},
-  destructive = false
+  ButtonProps = {},
+  destructive = false,
+  children,
+  Notification = {}
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
-  const handleClick = async () => {
+  const [open, setopen] = React2.useState(false);
+  const [loading, setloading] = React2.useState(false);
+  const [error, seterror] = React2.useState(false);
+  const { notify } = useNotification();
+  async function Clicked() {
     if (requireAreYouSure) {
-      setOpen(true);
-      return;
+      setopen(true);
+    } else {
+      await executeAction();
     }
-    await executeAction();
-  };
-  const executeAction = async () => {
-    if (!action) return;
+  }
+  async function executeAction() {
+    setloading(true);
+    seterror(false);
     try {
-      setLoading(true);
       await action();
+      if (Notification.useNotification === true) {
+        notify({ message: Notification.successmessage, type: "success" });
+      }
+    } catch (error2) {
+      seterror(true);
+      if (Notification.useNotification === true) {
+        notify({ type: "error", message: Notification.errormessage });
+      }
     } finally {
-      setLoading(false);
-      setOpen(false);
+      setopen(false);
+      setloading(false);
     }
-  };
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(
-    import_material.Button,
-    {
-      onClick: handleClick,
-      disabled: loading,
-      startIcon: icon
-    },
-    label
-  ), /* @__PURE__ */ React.createElement(import_material.Dialog, { open, onClose: () => setOpen(false), ...DialogProps }, /* @__PURE__ */ React.createElement(import_material.DialogTitle, null, DialogProps.dialogTitle ?? "Are you sure?"), /* @__PURE__ */ React.createElement(import_material.DialogContent, null, /* @__PURE__ */ React.createElement(import_material.DialogContentText, null, DialogProps.dialogContent ?? "This action cannot be undone.")), /* @__PURE__ */ React.createElement(import_material.DialogActions, null, /* @__PURE__ */ React.createElement(import_material.Button, { onClick: () => setOpen(false) }, "Cancel"), /* @__PURE__ */ React.createElement(
-    import_material.Button,
-    {
-      onClick: executeAction,
-      disabled: loading,
-      color: destructive ? "error" : "primary"
-    },
-    DialogProps.confirmText ?? `Yes, ${label.toLowerCase()}`
-  ))));
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+      import_material2.Button,
+      {
+        onClick: Clicked,
+        loading,
+        disabled: loading,
+        color: destructive || error ? "error" : "primary",
+        startIcon: loading ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.CircularProgress, {}) : icon,
+        sx: ButtonProps.sx,
+        children
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Dialogfunction, {})
+  ] });
+  function Dialogfunction() {
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_material2.Dialog, { open, onClose: () => setopen(false), sx: DialogProps.sx, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogTitle, { children: DialogProps.dialogTitle }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContent, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContentText, { children: DialogProps.dialogContent }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_material2.DialogActions, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          import_material2.Button,
+          {
+            onClick: () => setopen(false),
+            color: "error",
+            children: "Cancel"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+          import_material2.Button,
+          {
+            onClick: () => executeAction(),
+            color: destructive ? "error" : "primary",
+            children: DialogProps.confirmText
+          }
+        )
+      ] })
+    ] }) });
+  }
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  ActionButton
+  ActionButton,
+  NotificationProvider,
+  useNotification
 });

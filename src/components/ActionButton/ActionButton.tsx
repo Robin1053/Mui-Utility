@@ -1,88 +1,138 @@
-import * as React from "react";
 import {
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-} from "@mui/material";
+  CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+} from "@mui/material"
+import type { ButtonProps as MuiButtonProps } from "@mui/material"
+import type { SxProps, Theme } from "@mui/material/styles"
+import * as React from "react"
+import { useNotification } from "../ui/Notifications";
 
-type ActionButtonProps = {
-  action?: () => void | Promise<void>;
+export type ActionButtonNotification =
+  | {
+    useNotification: true;
+    errormessage: string;
+    successmessage: string;
+  }
+  | {
+    useNotification?: false;
+    errormessage?: never;
+    successmessage?: never;
+  };
+
+export type ActionButtonProps = {
+  action: () => void | Promise<void>;
   requireAreYouSure?: boolean;
   icon?: React.ReactNode;
-  label: string;
   DialogProps?: {
     dialogTitle?: React.ReactNode;
     dialogContent?: React.ReactNode;
     confirmText?: string;
-  },
+    sx?: SxProps<Theme>;
+  };
+  ButtonProps?: MuiButtonProps;
   destructive?: boolean;
+  children: React.ReactNode;
+  Notification?: ActionButtonNotification;
 };
 
-export function ActionButton({
-  label,
+
+function ActionButton({
   action,
   requireAreYouSure = false,
   icon,
   DialogProps = {},
+  ButtonProps = {},
   destructive = false,
+  children,
+  Notification = {}
 }: ActionButtonProps) {
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
 
-  const handleClick = async () => {
+  const [open, setopen] = React.useState(false);
+  const [loading, setloading] = React.useState(false);
+  const [error, seterror] = React.useState(false);
+
+  const { notify } = useNotification();
+
+
+
+  async function Clicked() {
     if (requireAreYouSure) {
-      setOpen(true);
-      return;
+      setopen(true)
+    } else {
+      await executeAction()
     }
+  }
 
-    await executeAction();
-  };
-
-  const executeAction = async () => {
-    if (!action) return;
-
+  async function executeAction() {
+    setloading(true)
+    seterror(false)
     try {
-      setLoading(true);
       await action();
+      if (Notification.useNotification === true) {
+        notify({ message: Notification.successmessage, type: "success" })
+      }
+    } catch (error) {
+      seterror(true)
+      if (Notification.useNotification === true) {
+        notify({ type: "error", message: Notification.errormessage })
+      }
     } finally {
-      setLoading(false);
-      setOpen(false);
-    }
-  };
+      setopen(false)
+      setloading(false)
 
+    }
+  }
   return (
     <>
       <Button
-        onClick={handleClick}
+        onClick={Clicked}
+        loading={loading}
         disabled={loading}
-        startIcon={icon}
+        color={destructive || error ? "error" : "primary"}
+        startIcon={loading ? <CircularProgress /> : icon}
+        sx={ButtonProps.sx}
       >
-        {label}
+        {children}
       </Button>
-
-      <Dialog open={open} onClose={() => setOpen(false)} {...DialogProps}>
-        <DialogTitle>{DialogProps.dialogTitle ?? "Are you sure?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            {DialogProps.dialogContent ?? "This action cannot be undone."}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>
-            Cancel
-          </Button>
-          <Button
-            onClick={executeAction}
-            disabled={loading}
-            color={destructive ? "error" : "primary"}
-          >
-            {DialogProps.confirmText ?? `Yes, ${label.toLowerCase()}`}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Dialogfunction />
     </>
   );
+
+
+
+  function Dialogfunction() {
+    return (
+      <>
+        <Dialog open={open} onClose={() => setopen(false)} sx={DialogProps.sx}>
+          <DialogTitle>
+            {DialogProps.dialogTitle}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              {DialogProps.dialogContent}
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => setopen(false)}
+              color={"error"}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => executeAction()}
+              color={destructive ? "error" : "primary"}
+            >
+              {DialogProps.confirmText}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
+  }
 }
+
+
+
+
+export { ActionButton };

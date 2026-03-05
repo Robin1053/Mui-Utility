@@ -1,3 +1,10 @@
+![License](https://img.shields.io/github/license/Robin1053/Mui-Utility)
+![last commit](https://img.shields.io/github/last-commit/Robin1053/Mui-Utility)
+[![Repo Size](https://img.shields.io/github/repo-size/Robin1053/Mui-Utility)](https://github.com/Robin1053/Mui-Utility)
+[![Top Language](https://img.shields.io/github/languages/top/Robin1053/Mui-Utility)](https://github.com/Robin1053/Mui-Utility)
+[![React](https://img.shields.io/badge/React-%2320232a.svg?logo=react&logoColor=%2361DAFB)](#)
+
+
 # @robineb/mui-utility
 
 Utility components for MUI projects.

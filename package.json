@@ -1,8 +1,11 @@
 {
   "name": "mui-utility",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility extensions for MUI",
-  "keywords": ["mui", "utility"],
+  "keywords": [
+    "mui",
+    "utility"
+  ],
   "homepage": "https://github.com/Robin1053/Mui-Utility#readme",
   "bugs": {
     "url": "https://github.com/Robin1053/Mui-Utility/issues"
@@ -13,7 +16,6 @@
   },
   "license": "MIT",
   "author": "robin1053",
-
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -24,9 +26,9 @@
       "require": "./dist/index.js"
     }
   },
-
-  "files": ["dist"],
-
+  "files": [
+    "dist"
+  ],
   "peerDependencies": {
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19",
@@ -34,12 +36,10 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11"
   },
-
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch"
   },
-
   "devDependencies": {
     "tsup": "^8.0.0",
     "typescript": "^5.9.3"

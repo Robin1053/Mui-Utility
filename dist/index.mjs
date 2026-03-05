@@ -1,4 +1,4 @@
-// src/components/ActionButton/ActionButton.tsx
+// src/components/ui/ActionButton/ActionButton.tsx
 import {
   Button,
   CircularProgress,
@@ -52,7 +52,7 @@ var NotificationProvider = ({ children }) => {
   ] });
 };
 
-// src/components/ActionButton/ActionButton.tsx
+// src/components/ui/ActionButton/ActionButton.tsx
 import { Fragment, jsx as jsx2, jsxs as jsxs2 } from "react/jsx-runtime";
 function ActionButton({
   action,
@@ -103,6 +103,7 @@ function ActionButton({
         color: destructive || error ? "error" : "primary",
         startIcon: loading ? /* @__PURE__ */ jsx2(CircularProgress, {}) : icon,
         sx: ButtonProps.sx,
+        variant: "outlined",
         children
       }
     ),
@@ -110,8 +111,8 @@ function ActionButton({
   ] });
   function Dialogfunction() {
     return /* @__PURE__ */ jsx2(Fragment, { children: /* @__PURE__ */ jsxs2(Dialog, { open, onClose: () => setopen(false), sx: DialogProps.sx, children: [
-      /* @__PURE__ */ jsx2(DialogTitle, { children: DialogProps.dialogTitle }),
-      /* @__PURE__ */ jsx2(DialogContent, { children: /* @__PURE__ */ jsx2(DialogContentText, { children: DialogProps.dialogContent }) }),
+      /* @__PURE__ */ jsx2(DialogTitle, { children: DialogProps.dialogTitle || "Confirm Action" }),
+      /* @__PURE__ */ jsx2(DialogContent, { children: /* @__PURE__ */ jsx2(DialogContentText, { children: DialogProps.dialogContent || "Are you sure you want to do this?" }) }),
       /* @__PURE__ */ jsxs2(DialogActions, { children: [
         /* @__PURE__ */ jsx2(
           Button,
@@ -126,7 +127,7 @@ function ActionButton({
           {
             onClick: () => executeAction(),
             color: destructive ? "error" : "primary",
-            children: DialogProps.confirmText
+            children: DialogProps.confirmText || "Yes"
           }
         )
       ] })

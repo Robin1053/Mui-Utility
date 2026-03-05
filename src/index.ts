@@ -1,8 +1,8 @@
-export { ActionButton } from "./components/ActionButton/ActionButton";
+export { ActionButton } from "./components/ui/ActionButton/ActionButton";
 export type {
   ActionButtonProps,
   ActionButtonNotification
-} from "./components/ActionButton/ActionButton";
+} from "./components/ui/ActionButton/ActionButton";
 
 export { NotificationProvider, useNotification } from "./components/ui/Notifications";
 export type {

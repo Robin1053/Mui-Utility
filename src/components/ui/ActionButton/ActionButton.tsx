@@ -1,11 +1,16 @@
 import {
   Button,
-  CircularProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions
 } from "@mui/material"
 import type { ButtonProps as MuiButtonProps } from "@mui/material"
 import type { SxProps, Theme } from "@mui/material/styles"
 import * as React from "react"
-import { useNotification } from "../ui/Notifications";
+import { useNotification } from "../Notifications";
 
 export type ActionButtonNotification =
   | {
@@ -91,6 +96,7 @@ function ActionButton({
         color={destructive || error ? "error" : "primary"}
         startIcon={loading ? <CircularProgress /> : icon}
         sx={ButtonProps.sx}
+        variant="outlined"
       >
         {children}
       </Button>
@@ -105,11 +111,11 @@ function ActionButton({
       <>
         <Dialog open={open} onClose={() => setopen(false)} sx={DialogProps.sx}>
           <DialogTitle>
-            {DialogProps.dialogTitle}
+            {DialogProps.dialogTitle || "Confirm Action"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText>
-              {DialogProps.dialogContent}
+              {DialogProps.dialogContent || "Are you sure you want to do this?"}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -123,7 +129,7 @@ function ActionButton({
               onClick={() => executeAction()}
               color={destructive ? "error" : "primary"}
             >
-              {DialogProps.confirmText}
+              {DialogProps.confirmText || "Yes"}
             </Button>
           </DialogActions>
         </Dialog>

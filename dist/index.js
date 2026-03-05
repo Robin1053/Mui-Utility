@@ -35,7 +35,7 @@ __export(index_exports, {
 });
 module.exports = __toCommonJS(index_exports);
 
-// src/components/ActionButton/ActionButton.tsx
+// src/components/ui/ActionButton/ActionButton.tsx
 var import_material2 = require("@mui/material");
 var React2 = __toESM(require("react"));
 
@@ -81,7 +81,7 @@ var NotificationProvider = ({ children }) => {
   ] });
 };
 
-// src/components/ActionButton/ActionButton.tsx
+// src/components/ui/ActionButton/ActionButton.tsx
 var import_jsx_runtime2 = require("react/jsx-runtime");
 function ActionButton({
   action,
@@ -132,6 +132,7 @@ function ActionButton({
         color: destructive || error ? "error" : "primary",
         startIcon: loading ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.CircularProgress, {}) : icon,
         sx: ButtonProps.sx,
+        variant: "outlined",
         children
       }
     ),
@@ -139,8 +140,8 @@ function ActionButton({
   ] });
   function Dialogfunction() {
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_material2.Dialog, { open, onClose: () => setopen(false), sx: DialogProps.sx, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogTitle, { children: DialogProps.dialogTitle }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContent, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContentText, { children: DialogProps.dialogContent }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogTitle, { children: DialogProps.dialogTitle || "Confirm Action" }),
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContent, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContentText, { children: DialogProps.dialogContent || "Are you sure you want to do this?" }) }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_material2.DialogActions, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
           import_material2.Button,
@@ -155,7 +156,7 @@ function ActionButton({
           {
             onClick: () => executeAction(),
             color: destructive ? "error" : "primary",
-            children: DialogProps.confirmText
+            children: DialogProps.confirmText || "Yes"
           }
         )
       ] })

@@ -1,8 +1,8 @@
-# @robin1053/mui-utility
+# @robineb/mui-utility
 
 Utility components for MUI projects.
 
-`@robin1053/mui-utility` provides lightweight building blocks you can reuse across apps:
+`@robineb/mui-utility` provides lightweight building blocks you can reuse across apps:
 
 - `ActionButton`: Button with async action handling, optional confirmation dialog, error state, and optional toast notifications.
 - `NotificationProvider` + `useNotification`: Global snackbar/alert notification context based on MUI.
@@ -10,7 +10,7 @@ Utility components for MUI projects.
 ## Installation
 
 ```bash
-npm install @robin1053/mui-utility
+npm install @robineb/mui-utility
 ```
 
 Peer dependencies:
@@ -24,7 +24,7 @@ Peer dependencies:
 ## Exports
 
 ```ts
-import { ActionButton, NotificationProvider, useNotification } from "@robin1053/mui-utility";
+import { ActionButton, NotificationProvider, useNotification } from "@robineb/mui-utility";
 ```
 
 ## Quick Start
@@ -33,7 +33,7 @@ Wrap your app once with `NotificationProvider`:
 
 ```tsx
 import React from "react";
-import { NotificationProvider } from "@robin1053/mui-utility";
+import { NotificationProvider } from "@robineb/mui-utility";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
 	return <NotificationProvider>{children}</NotificationProvider>;
@@ -44,7 +44,7 @@ Use `ActionButton` in your UI:
 
 ```tsx
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { ActionButton } from "@robin1053/mui-utility";
+import { ActionButton } from "@robineb/mui-utility";
 
 function DeleteUserButton() {
 	return (
@@ -114,7 +114,7 @@ notify({ message: string, type: "success" | "error" | "info" | "warning" })
 Example:
 
 ```tsx
-import { useNotification } from "@robin1053/mui-utility";
+import { useNotification } from "@robineb/mui-utility";
 
 function SaveButton() {
 	const { notify } = useNotification();

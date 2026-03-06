@@ -1,5 +1,5 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import { ButtonProps } from '@mui/material';
+import { ButtonProps, TextFieldProps } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 import * as React from 'react';
 import React__default from 'react';
@@ -43,4 +43,9 @@ declare const NotificationProvider: ({ children }: {
     children: React__default.ReactNode;
 }) => react_jsx_runtime.JSX.Element;
 
-export { ActionButton, type ActionButtonNotification, type ActionButtonProps, type NotificationContextValue, NotificationProvider, type ToastMessage, type ToastType, useNotification };
+type PasswordfieldProps = {
+    loading?: boolean;
+} & Omit<TextFieldProps, "type">;
+declare function Passwordfield({ loading, InputProps, ...props }: PasswordfieldProps): react_jsx_runtime.JSX.Element;
+
+export { ActionButton, type ActionButtonNotification, type ActionButtonProps, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ToastMessage, type ToastType, useNotification };

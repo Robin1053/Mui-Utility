@@ -78,6 +78,8 @@ function ActionButton({
       }
     } catch (error) {
       seterror(true)
+      setloading(false)
+      setopen(false)
       if (Notification.useNotification === true) {
         notify({ type: "error", message: Notification.errormessage })
       }
@@ -93,8 +95,8 @@ function ActionButton({
         onClick={Clicked}
         loading={loading}
         disabled={loading}
-        color={destructive || error ? "error" : "primary"}
-        startIcon={loading ? <CircularProgress /> : icon}
+        color={destructive ? "error" : "primary"}
+        startIcon={icon}
         sx={ButtonProps.sx}
         variant="outlined"
       >

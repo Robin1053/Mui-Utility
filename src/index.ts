@@ -10,3 +10,6 @@ export type {
   ToastMessage,
   NotificationContextValue
 } from "./components/ui/Notifications";
+
+export { Passwordfield } from "./components/ui/Passwordfield";
+export type { PasswordfieldProps } from "./components/ui/Passwordfield";

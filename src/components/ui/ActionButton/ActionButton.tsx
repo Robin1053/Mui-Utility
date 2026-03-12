@@ -1,11 +1,11 @@
 import {
   Button,
-  CircularProgress,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  ClickAwayListener
 } from "@mui/material"
 import type { ButtonProps as MuiButtonProps } from "@mui/material"
 import type { SxProps, Theme } from "@mui/material/styles"
@@ -52,9 +52,9 @@ function ActionButton({
   Notification = {}
 }: ActionButtonProps) {
 
-  const [open, setopen] = React.useState(false);
-  const [loading, setloading] = React.useState(false);
-  const [error, seterror] = React.useState(false);
+  const [Open, setOpen] = React.useState(false);
+  const [Loading, setLoading] = React.useState(false);
+  const [Error, setError] = React.useState(false);
 
   const { notify } = useNotification();
 
@@ -62,47 +62,57 @@ function ActionButton({
 
   async function Clicked() {
     if (requireAreYouSure) {
-      setopen(true)
+      setOpen(true)
     } else {
       await executeAction()
     }
   }
 
   async function executeAction() {
-    setloading(true)
-    seterror(false)
+    setLoading(true)
+    setError(false)
     try {
       await action();
       if (Notification.useNotification === true) {
         notify({ message: Notification.successmessage, type: "success" })
       }
     } catch (error) {
-      seterror(true)
-      setloading(false)
-      setopen(false)
+      setError(true)
+      setLoading(false)
+      setOpen(false)
       if (Notification.useNotification === true) {
         notify({ type: "error", message: Notification.errormessage })
       }
     } finally {
-      setopen(false)
-      setloading(false)
+      setOpen(false)
+      setLoading(false)
 
     }
   }
+
+const handleClickAway = () => {
+    setOpen(false);
+  };
+
+
   return (
     <>
-      <Button
-        onClick={Clicked}
-        loading={loading}
-        disabled={loading}
-        color={destructive ? "error" : "primary"}
-        startIcon={icon}
-        sx={ButtonProps.sx}
-        variant="outlined"
-      >
-        {children}
-      </Button>
-      <Dialogfunction />
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <>
+          <Button
+            onClick={Clicked}
+            loading={Loading}
+            disabled={Loading}
+            color={destructive || Error? "error" : "primary"}
+            startIcon={icon}
+            sx={ButtonProps.sx}
+            variant="outlined"
+          >
+            {children}
+          </Button>
+          <Dialogfunction />
+        </>
+      </ClickAwayListener>
     </>
   );
 
@@ -111,7 +121,7 @@ function ActionButton({
   function Dialogfunction() {
     return (
       <>
-        <Dialog open={open} onClose={() => setopen(false)} sx={DialogProps.sx}>
+        <Dialog open={Open} onClose={() => setOpen(false)} sx={DialogProps.sx}>
           <DialogTitle>
             {DialogProps.dialogTitle || "Confirm Action"}
           </DialogTitle>
@@ -122,7 +132,7 @@ function ActionButton({
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={() => setopen(false)}
+              onClick={() => setOpen(false)}
               color={"error"}
             >
               Cancel

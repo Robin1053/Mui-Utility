@@ -38,3 +38,6 @@ next-env.d.ts
 
 # packed files
 *.tgz
+
+# exports 
+*/dist/*

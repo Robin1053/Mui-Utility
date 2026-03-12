@@ -11,5 +11,7 @@ export type {
   NotificationContextValue
 } from "./components/ui/Notifications";
 
-export { Passwordfield } from "./components/ui/Passwordfield";
-export type { PasswordfieldProps } from "./components/ui/Passwordfield";
+export { Passwordfield } from "./components/ui/fields/Passwordfield";
+export type { PasswordfieldProps } from "./components/ui/fields/Passwordfield";
+export { Avatarupload } from "./components/ui/fields/Avatarupload";
+export type { AvataruploadProps } from "./components/ui/fields/Avatarupload";

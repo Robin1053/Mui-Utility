@@ -30,7 +30,9 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   ActionButton: () => ActionButton,
+  Avatarupload: () => Avatarupload,
   NotificationProvider: () => NotificationProvider,
+  Passwordfield: () => Passwordfield,
   useNotification: () => useNotification
 });
 module.exports = __toCommonJS(index_exports);
@@ -93,60 +95,65 @@ function ActionButton({
   children,
   Notification = {}
 }) {
-  const [open, setopen] = React2.useState(false);
-  const [loading, setloading] = React2.useState(false);
-  const [error, seterror] = React2.useState(false);
+  const [Open, setOpen] = React2.useState(false);
+  const [Loading, setLoading] = React2.useState(false);
+  const [Error2, setError] = React2.useState(false);
   const { notify } = useNotification();
   async function Clicked() {
     if (requireAreYouSure) {
-      setopen(true);
+      setOpen(true);
     } else {
       await executeAction();
     }
   }
   async function executeAction() {
-    setloading(true);
-    seterror(false);
+    setLoading(true);
+    setError(false);
     try {
       await action();
       if (Notification.useNotification === true) {
         notify({ message: Notification.successmessage, type: "success" });
       }
-    } catch (error2) {
-      seterror(true);
+    } catch (error) {
+      setError(true);
+      setLoading(false);
+      setOpen(false);
       if (Notification.useNotification === true) {
         notify({ type: "error", message: Notification.errormessage });
       }
     } finally {
-      setopen(false);
-      setloading(false);
+      setOpen(false);
+      setLoading(false);
     }
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
+  const handleClickAway = () => {
+    setOpen(false);
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.ClickAwayListener, { onClickAway: handleClickAway, children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_jsx_runtime2.Fragment, { children: [
     /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
       import_material2.Button,
       {
         onClick: Clicked,
-        loading,
-        disabled: loading,
-        color: destructive || error ? "error" : "primary",
-        startIcon: loading ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.CircularProgress, {}) : icon,
+        loading: Loading,
+        disabled: Loading,
+        color: destructive || Error2 ? "error" : "primary",
+        startIcon: icon,
         sx: ButtonProps.sx,
         variant: "outlined",
         children
       }
     ),
     /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(Dialogfunction, {})
-  ] });
+  ] }) }) });
   function Dialogfunction() {
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_material2.Dialog, { open, onClose: () => setopen(false), sx: DialogProps.sx, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_jsx_runtime2.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_material2.Dialog, { open: Open, onClose: () => setOpen(false), sx: DialogProps.sx, children: [
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogTitle, { children: DialogProps.dialogTitle || "Confirm Action" }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContent, { children: /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(import_material2.DialogContentText, { children: DialogProps.dialogContent || "Are you sure you want to do this?" }) }),
       /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(import_material2.DialogActions, { children: [
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
           import_material2.Button,
           {
-            onClick: () => setopen(false),
+            onClick: () => setOpen(false),
             color: "error",
             children: "Cancel"
           }
@@ -163,9 +170,84 @@ function ActionButton({
     ] }) });
   }
 }
+
+// src/components/ui/fields/Passwordfield.tsx
+var import_material3 = require("@mui/material");
+var import_icons_material = require("@mui/icons-material");
+var React3 = __toESM(require("react"));
+var import_jsx_runtime3 = require("react/jsx-runtime");
+function Passwordfield({
+  loading = false,
+  InputProps,
+  ...props
+}) {
+  const [showPassword, setShowPassword] = React3.useState(false);
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    import_material3.TextField,
+    {
+      ...props,
+      type: showPassword ? "text" : "password",
+      disabled: loading,
+      slotProps: {
+        input: {
+          ...InputProps,
+          endAdornment: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_material3.InputAdornment, { position: "end", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+            import_material3.IconButton,
+            {
+              onClick: () => setShowPassword((prev) => !prev),
+              edge: "end",
+              tabIndex: props.tabIndex,
+              children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_icons_material.VisibilityOff, {}) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_icons_material.Visibility, {})
+            }
+          ) })
+        }
+      }
+    }
+  );
+}
+
+// src/components/ui/fields/Avatarupload.tsx
+var import_material4 = require("@mui/material");
+var import_PhotoCamera = __toESM(require("@mui/icons-material/PhotoCamera"));
+var import_jsx_runtime4 = require("react/jsx-runtime");
+function Avatarupload({ image, onUpload, icon }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_material4.IconButton, { component: "label", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+      "input",
+      {
+        hidden: true,
+        accept: "image/*",
+        type: "file",
+        onChange: (e) => {
+          const file = e.target.files?.[0];
+          if (file) {
+            onUpload(file);
+          }
+        }
+      }
+    ),
+    /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+      import_material4.Badge,
+      {
+        overlap: "circular",
+        anchorOrigin: { vertical: "bottom", horizontal: "right" },
+        badgeContent: icon || /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(import_PhotoCamera.default, { sx: { fontSize: 18 } }),
+        children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+          import_material4.Avatar,
+          {
+            src: image,
+            sx: { width: 128, height: 128 }
+          }
+        )
+      }
+    )
+  ] });
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ActionButton,
+  Avatarupload,
   NotificationProvider,
+  Passwordfield,
   useNotification
 });

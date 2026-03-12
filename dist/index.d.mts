@@ -1,7 +1,7 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
 import { ButtonProps, TextFieldProps } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
-import * as React from 'react';
+import * as React$1 from 'react';
 import React__default from 'react';
 
 type ActionButtonNotification = {
@@ -16,16 +16,16 @@ type ActionButtonNotification = {
 type ActionButtonProps = {
     action: () => void | Promise<void>;
     requireAreYouSure?: boolean;
-    icon?: React.ReactNode;
+    icon?: React$1.ReactNode;
     DialogProps?: {
-        dialogTitle?: React.ReactNode;
-        dialogContent?: React.ReactNode;
+        dialogTitle?: React$1.ReactNode;
+        dialogContent?: React$1.ReactNode;
         confirmText?: string;
         sx?: SxProps<Theme>;
     };
     ButtonProps?: ButtonProps;
     destructive?: boolean;
-    children: React.ReactNode;
+    children: React$1.ReactNode;
     Notification?: ActionButtonNotification;
 };
 declare function ActionButton({ action, requireAreYouSure, icon, DialogProps, ButtonProps, destructive, children, Notification }: ActionButtonProps): react_jsx_runtime.JSX.Element;
@@ -48,4 +48,11 @@ type PasswordfieldProps = {
 } & Omit<TextFieldProps, "type">;
 declare function Passwordfield({ loading, InputProps, ...props }: PasswordfieldProps): react_jsx_runtime.JSX.Element;
 
-export { ActionButton, type ActionButtonNotification, type ActionButtonProps, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ToastMessage, type ToastType, useNotification };
+type AvataruploadProps = {
+    image?: string;
+    onUpload: (file: File) => void;
+    icon?: React.ReactNode;
+};
+declare function Avatarupload({ image, onUpload, icon }: AvataruploadProps): react_jsx_runtime.JSX.Element;
+
+export { ActionButton, type ActionButtonNotification, type ActionButtonProps, Avatarupload, type AvataruploadProps, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ToastMessage, type ToastType, useNotification };

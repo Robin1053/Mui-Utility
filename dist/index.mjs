@@ -142,49 +142,98 @@ function ActionButton({
 
 // src/components/ui/fields/Passwordfield.tsx
 import {
-  TextField,
   InputAdornment,
-  IconButton
+  IconButton,
+  FormControl,
+  InputLabel,
+  Input,
+  Divider,
+  LinearProgress
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import * as React3 from "react";
-import { jsx as jsx3 } from "react/jsx-runtime";
+import { Fragment as Fragment2, jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
 function Passwordfield({
   loading = false,
-  InputProps,
+  children,
+  showstrength = false,
+  error = false,
+  onChange,
+  value,
   ...props
 }) {
   const [showPassword, setShowPassword] = React3.useState(false);
-  return /* @__PURE__ */ jsx3(
-    TextField,
-    {
-      ...props,
-      type: showPassword ? "text" : "password",
-      disabled: loading,
-      slotProps: {
-        input: {
-          ...InputProps,
-          endAdornment: /* @__PURE__ */ jsx3(InputAdornment, { position: "end", children: /* @__PURE__ */ jsx3(
-            IconButton,
-            {
-              onClick: () => setShowPassword((prev) => !prev),
-              edge: "end",
-              tabIndex: props.tabIndex,
-              children: showPassword ? /* @__PURE__ */ jsx3(VisibilityOff, {}) : /* @__PURE__ */ jsx3(Visibility, {})
-            }
-          ) })
-        }
-      }
+  const [internalPassword, setInternalPassword] = React3.useState("");
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
+  function getPasswordStrength(password) {
+    if (!password) return 0;
+    let score = 0;
+    const len = password.length;
+    if (len > 12) score += 40;
+    else if (len > 8) score += 25;
+    else if (len > 5) score += 10;
+    else score += 5;
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[^A-Za-z0-9]/.test(password);
+    if (hasUpper) score += 15;
+    if (hasLower) score += 15;
+    if (hasNumber) score += 15;
+    if (hasSpecial) score += 15;
+    const variationCount = [hasUpper, hasLower, hasNumber, hasSpecial].filter(Boolean).length;
+    if (variationCount <= 1 && len > 5) {
+      score -= 20;
     }
-  );
+    return Math.max(0, Math.min(100, score));
+  }
+  const passwordValue = typeof value === "string" ? value : internalPassword;
+  const strength = getPasswordStrength(passwordValue);
+  return /* @__PURE__ */ jsx3(Fragment2, { children: /* @__PURE__ */ jsxs3(FormControl, { sx: { m: 1, width: "25ch" }, variant: "outlined", children: [
+    /* @__PURE__ */ jsx3(InputLabel, { htmlFor: "Passwordfield", children }),
+    /* @__PURE__ */ jsx3(
+      Input,
+      {
+        ...props,
+        disableUnderline: true,
+        inputComponent: "input",
+        id: "Passwordfield",
+        type: showPassword ? "text" : "password",
+        value,
+        onChange: (event) => {
+          setInternalPassword(event.target.value);
+          onChange?.(event);
+        },
+        endAdornment: /* @__PURE__ */ jsx3(InputAdornment, { position: "end", children: /* @__PURE__ */ jsx3(
+          IconButton,
+          {
+            "aria-label": showPassword ? "hide the password" : "display the password",
+            onClick: () => setShowPassword((prev) => !prev),
+            onMouseDown: handleMouseDownPassword,
+            onMouseUp: handleMouseUpPassword,
+            edge: "end",
+            children: showPassword ? /* @__PURE__ */ jsx3(VisibilityOff, {}) : /* @__PURE__ */ jsx3(Visibility, {})
+          }
+        ) }),
+        name: "Password",
+        error
+      }
+    ),
+    !showstrength ? /* @__PURE__ */ jsx3(Divider, {}) : /* @__PURE__ */ jsx3(LinearProgress, { variant: "determinate", value: strength })
+  ] }) });
 }
 
 // src/components/ui/fields/Avatarupload.tsx
 import { Avatar, Badge, IconButton as IconButton2 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
-function Avatarupload({ image, onUpload, icon }) {
-  return /* @__PURE__ */ jsxs3(IconButton2, { component: "label", children: [
+import { jsx as jsx4, jsxs as jsxs4 } from "react/jsx-runtime";
+function AvatarUpload({ image, onUpload, icon }) {
+  return /* @__PURE__ */ jsxs4(IconButton2, { component: "label", children: [
     /* @__PURE__ */ jsx4(
       "input",
       {
@@ -218,7 +267,7 @@ function Avatarupload({ image, onUpload, icon }) {
 }
 export {
   ActionButton,
-  Avatarupload,
+  AvatarUpload,
   NotificationProvider,
   Passwordfield,
   useNotification

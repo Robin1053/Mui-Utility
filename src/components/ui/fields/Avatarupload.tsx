@@ -7,7 +7,7 @@ type AvataruploadProps = {
     icon?: React.ReactNode;
 
 }
-function Avatarupload({ image, onUpload, icon }: AvataruploadProps) {
+function AvatarUpload({ image, onUpload, icon }: AvataruploadProps) {
     return (
         <IconButton component="label">
             <input
@@ -35,4 +35,4 @@ function Avatarupload({ image, onUpload, icon }: AvataruploadProps) {
     )
 }
 
-export { type AvataruploadProps, Avatarupload }
+export { type AvataruploadProps, AvatarUpload }

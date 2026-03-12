@@ -30,7 +30,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var index_exports = {};
 __export(index_exports, {
   ActionButton: () => ActionButton,
-  Avatarupload: () => Avatarupload,
+  AvatarUpload: () => AvatarUpload,
   NotificationProvider: () => NotificationProvider,
   Passwordfield: () => Passwordfield,
   useNotification: () => useNotification
@@ -178,39 +178,84 @@ var React3 = __toESM(require("react"));
 var import_jsx_runtime3 = require("react/jsx-runtime");
 function Passwordfield({
   loading = false,
-  InputProps,
+  children,
+  showstrength = false,
+  error = false,
+  onChange,
+  value,
   ...props
 }) {
   const [showPassword, setShowPassword] = React3.useState(false);
-  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
-    import_material3.TextField,
-    {
-      ...props,
-      type: showPassword ? "text" : "password",
-      disabled: loading,
-      slotProps: {
-        input: {
-          ...InputProps,
-          endAdornment: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_material3.InputAdornment, { position: "end", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
-            import_material3.IconButton,
-            {
-              onClick: () => setShowPassword((prev) => !prev),
-              edge: "end",
-              tabIndex: props.tabIndex,
-              children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_icons_material.VisibilityOff, {}) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_icons_material.Visibility, {})
-            }
-          ) })
-        }
-      }
+  const [internalPassword, setInternalPassword] = React3.useState("");
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleMouseUpPassword = (event) => {
+    event.preventDefault();
+  };
+  function getPasswordStrength(password) {
+    if (!password) return 0;
+    let score = 0;
+    const len = password.length;
+    if (len > 12) score += 40;
+    else if (len > 8) score += 25;
+    else if (len > 5) score += 10;
+    else score += 5;
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[^A-Za-z0-9]/.test(password);
+    if (hasUpper) score += 15;
+    if (hasLower) score += 15;
+    if (hasNumber) score += 15;
+    if (hasSpecial) score += 15;
+    const variationCount = [hasUpper, hasLower, hasNumber, hasSpecial].filter(Boolean).length;
+    if (variationCount <= 1 && len > 5) {
+      score -= 20;
     }
-  );
+    return Math.max(0, Math.min(100, score));
+  }
+  const passwordValue = typeof value === "string" ? value : internalPassword;
+  const strength = getPasswordStrength(passwordValue);
+  return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_jsx_runtime3.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(import_material3.FormControl, { sx: { m: 1, width: "25ch" }, variant: "outlined", children: [
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_material3.InputLabel, { htmlFor: "Passwordfield", children }),
+    /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+      import_material3.Input,
+      {
+        ...props,
+        disableUnderline: true,
+        inputComponent: "input",
+        id: "Passwordfield",
+        type: showPassword ? "text" : "password",
+        value,
+        onChange: (event) => {
+          setInternalPassword(event.target.value);
+          onChange?.(event);
+        },
+        endAdornment: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_material3.InputAdornment, { position: "end", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          import_material3.IconButton,
+          {
+            "aria-label": showPassword ? "hide the password" : "display the password",
+            onClick: () => setShowPassword((prev) => !prev),
+            onMouseDown: handleMouseDownPassword,
+            onMouseUp: handleMouseUpPassword,
+            edge: "end",
+            children: showPassword ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_icons_material.VisibilityOff, {}) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_icons_material.Visibility, {})
+          }
+        ) }),
+        name: "Password",
+        error
+      }
+    ),
+    !showstrength ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_material3.Divider, {}) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(import_material3.LinearProgress, { variant: "determinate", value: strength })
+  ] }) });
 }
 
 // src/components/ui/fields/Avatarupload.tsx
 var import_material4 = require("@mui/material");
 var import_PhotoCamera = __toESM(require("@mui/icons-material/PhotoCamera"));
 var import_jsx_runtime4 = require("react/jsx-runtime");
-function Avatarupload({ image, onUpload, icon }) {
+function AvatarUpload({ image, onUpload, icon }) {
   return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)(import_material4.IconButton, { component: "label", children: [
     /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
       "input",
@@ -246,7 +291,7 @@ function Avatarupload({ image, onUpload, icon }) {
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ActionButton,
-  Avatarupload,
+  AvatarUpload,
   NotificationProvider,
   Passwordfield,
   useNotification

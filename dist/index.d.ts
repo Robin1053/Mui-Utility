@@ -1,5 +1,5 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import { ButtonProps, TextFieldProps } from '@mui/material';
+import { ButtonProps, OutlinedInputProps } from '@mui/material';
 import { SxProps, Theme } from '@mui/material/styles';
 import * as React$1 from 'react';
 import React__default from 'react';
@@ -45,14 +45,17 @@ declare const NotificationProvider: ({ children }: {
 
 type PasswordfieldProps = {
     loading?: boolean;
-} & Omit<TextFieldProps, "type">;
-declare function Passwordfield({ loading, InputProps, ...props }: PasswordfieldProps): react_jsx_runtime.JSX.Element;
+    showstrength?: boolean;
+    children: React$1.ReactNode;
+    error?: boolean;
+} & Omit<OutlinedInputProps, "type">;
+declare function Passwordfield({ loading, children, showstrength, error, onChange, value, ...props }: PasswordfieldProps): react_jsx_runtime.JSX.Element;
 
 type AvataruploadProps = {
     image?: string;
     onUpload: (file: File) => void;
     icon?: React.ReactNode;
 };
-declare function Avatarupload({ image, onUpload, icon }: AvataruploadProps): react_jsx_runtime.JSX.Element;
+declare function AvatarUpload({ image, onUpload, icon }: AvataruploadProps): react_jsx_runtime.JSX.Element;
 
-export { ActionButton, type ActionButtonNotification, type ActionButtonProps, Avatarupload, type AvataruploadProps, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ToastMessage, type ToastType, useNotification };
+export { ActionButton, type ActionButtonNotification, type ActionButtonProps, AvatarUpload, type AvataruploadProps, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ToastMessage, type ToastType, useNotification };

@@ -13,5 +13,5 @@ export type {
 
 export { Passwordfield } from "./components/ui/fields/Passwordfield";
 export type { PasswordfieldProps } from "./components/ui/fields/Passwordfield";
-export { Avatarupload } from "./components/ui/fields/Avatarupload";
+export { AvatarUpload } from "./components/ui/fields/Avatarupload";
 export type { AvataruploadProps } from "./components/ui/fields/Avatarupload";

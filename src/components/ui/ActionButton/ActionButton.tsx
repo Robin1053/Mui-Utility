@@ -54,13 +54,13 @@ function ActionButton({
 
   const [Open, setOpen] = React.useState(false);
   const [Loading, setLoading] = React.useState(false);
-  const [Error, setError] = React.useState(false);
-
+	const [Error, setError] = React.useState<Error | null>(null);
   const { notify } = useNotification();
 
 
 
   async function Clicked() {
+		if (error) setError(null); 
     if (requireAreYouSure) {
       setOpen(true)
     } else {
@@ -70,20 +70,21 @@ function ActionButton({
 
   async function executeAction() {
     setLoading(true)
-    setError(false)
     try {
       await action();
       if (Notification.useNotification === true) {
         notify({ message: Notification.successmessage, type: "success" })
       }
-    } catch (error) {
-      setError(true)
-      setLoading(false)
-      setOpen(false)
+		} catch (e) {
+      const caughtError = e instanceof Error ? e : new Error("An unknown error has occurred.");
+      setError(caughtError);
+
       if (Notification.useNotification === true) {
-        notify({ type: "error", message: Notification.errormessage })
+
+				const errorMessage = caughtError.message || Notification.errormessage;
+        notify({ type: "error", message: errorMessage });
       }
-    } finally {
+} finally {
       setOpen(false)
       setLoading(false)
 
@@ -102,8 +103,7 @@ const handleClickAway = () => {
           <Button
             onClick={Clicked}
             loading={Loading}
-            disabled={Loading}
-            color={destructive || Error? "error" : "primary"}
+            color={destructive || error ? "error" : "primary"}
             startIcon={icon}
             sx={ButtonProps.sx}
             variant="outlined"

@@ -48,8 +48,11 @@ type PasswordfieldProps = {
     showstrength?: boolean;
     children: React$1.ReactNode;
     error?: boolean;
-} & Omit<OutlinedInputProps, "type">;
-declare function Passwordfield({ loading, children, showstrength, error, onChange, value, ...props }: PasswordfieldProps): react_jsx_runtime.JSX.Element;
+    onChange?: (event: React$1.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    value?: string;
+    Muiprops?: Omit<OutlinedInputProps, "type">;
+};
+declare function Passwordfield({ loading, children, showstrength, error, onChange, value, Muiprops, ...props }: PasswordfieldProps): react_jsx_runtime.JSX.Element;
 
 type AvataruploadProps = {
     image?: string;

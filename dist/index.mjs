@@ -66,9 +66,10 @@ function ActionButton({
 }) {
   const [Open, setOpen] = React2.useState(false);
   const [Loading, setLoading] = React2.useState(false);
-  const [Error, setError] = React2.useState(false);
+  const [error, setError] = React2.useState(null);
   const { notify } = useNotification();
   async function Clicked() {
+    if (error) setError(null);
     if (requireAreYouSure) {
       setOpen(true);
     } else {
@@ -77,18 +78,17 @@ function ActionButton({
   }
   async function executeAction() {
     setLoading(true);
-    setError(false);
     try {
       await action();
       if (Notification.useNotification === true) {
         notify({ message: Notification.successmessage, type: "success" });
       }
-    } catch (error) {
-      setError(true);
-      setLoading(false);
-      setOpen(false);
+    } catch (e) {
+      const caughtError = e instanceof Error ? e : new Error("An unknown error has occurred.");
+      setError(caughtError);
       if (Notification.useNotification === true) {
-        notify({ type: "error", message: Notification.errormessage });
+        const errorMessage = caughtError.message || Notification.errormessage;
+        notify({ type: "error", message: errorMessage });
       }
     } finally {
       setOpen(false);
@@ -104,8 +104,7 @@ function ActionButton({
       {
         onClick: Clicked,
         loading: Loading,
-        disabled: Loading,
-        color: destructive || Error ? "error" : "primary",
+        color: destructive || error ? "error" : "primary",
         startIcon: icon,
         sx: ButtonProps.sx,
         variant: "outlined",
@@ -140,7 +139,7 @@ function ActionButton({
   }
 }
 
-// src/components/ui/fields/Passwordfield.tsx
+// src/components/ui/fields/Password/Passwordfield.tsx
 import {
   InputAdornment,
   IconButton,
@@ -152,6 +151,34 @@ import {
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import * as React3 from "react";
+
+// src/components/ui/fields/Password/Passwordstrenght.tsx
+function getPasswordStrength(password) {
+  if (!password) return 0;
+  let score = 0;
+  const len = password.length;
+  if (len > 12) score += 40;
+  else if (len > 8) score += 25;
+  else if (len > 5) score += 10;
+  else score += 5;
+  const hasUpper = /[A-Z]/.test(password);
+  const hasLower = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecial = /[^A-Za-z0-9]/.test(password);
+  if (hasUpper) score += 15;
+  if (hasLower) score += 15;
+  if (hasNumber) score += 15;
+  if (hasSpecial) score += 15;
+  const variationCount = [hasUpper, hasLower, hasNumber, hasSpecial].filter(
+    Boolean
+  ).length;
+  if (variationCount <= 1 && len > 5) {
+    score -= 20;
+  }
+  return Math.max(0, Math.min(100, score));
+}
+
+// src/components/ui/fields/Password/Passwordfield.tsx
 import { Fragment as Fragment2, jsx as jsx3, jsxs as jsxs3 } from "react/jsx-runtime";
 function Passwordfield({
   loading = false,
@@ -160,6 +187,7 @@ function Passwordfield({
   error = false,
   onChange,
   value,
+  Muiprops,
   ...props
 }) {
   const [showPassword, setShowPassword] = React3.useState(false);
@@ -170,28 +198,6 @@ function Passwordfield({
   const handleMouseUpPassword = (event) => {
     event.preventDefault();
   };
-  function getPasswordStrength(password) {
-    if (!password) return 0;
-    let score = 0;
-    const len = password.length;
-    if (len > 12) score += 40;
-    else if (len > 8) score += 25;
-    else if (len > 5) score += 10;
-    else score += 5;
-    const hasUpper = /[A-Z]/.test(password);
-    const hasLower = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSpecial = /[^A-Za-z0-9]/.test(password);
-    if (hasUpper) score += 15;
-    if (hasLower) score += 15;
-    if (hasNumber) score += 15;
-    if (hasSpecial) score += 15;
-    const variationCount = [hasUpper, hasLower, hasNumber, hasSpecial].filter(Boolean).length;
-    if (variationCount <= 1 && len > 5) {
-      score -= 20;
-    }
-    return Math.max(0, Math.min(100, score));
-  }
   const passwordValue = typeof value === "string" ? value : internalPassword;
   const strength = getPasswordStrength(passwordValue);
   return /* @__PURE__ */ jsx3(Fragment2, { children: /* @__PURE__ */ jsxs3(FormControl, { sx: { m: 1, width: "25ch" }, variant: "outlined", children: [
@@ -199,12 +205,13 @@ function Passwordfield({
     /* @__PURE__ */ jsx3(
       Input,
       {
-        ...props,
+        "aria-label": "Password field",
+        ...Muiprops,
         disableUnderline: true,
         inputComponent: "input",
         id: "Passwordfield",
         type: showPassword ? "text" : "password",
-        value,
+        value: passwordValue,
         onChange: (event) => {
           setInternalPassword(event.target.value);
           onChange?.(event);

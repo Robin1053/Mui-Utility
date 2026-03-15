@@ -7,7 +7,7 @@ export function getPasswordStrength(password: string): number {
   const len = password.length;
   if (len > 12) score += 40;
   else if (len > 8) score += 25;
-  else if (len > 5) score += 10;
+  else if (len > 6) score += 10;
   else score += 5;
 
   // 2. Character Diversity (Max 60 points)

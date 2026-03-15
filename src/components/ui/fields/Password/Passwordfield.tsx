@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  TextField,
   InputAdornment,
   IconButton,
   FormControl,
@@ -15,15 +14,18 @@ import { VisibilityOff, Visibility } from "@mui/icons-material";
 import * as React from "react";
 import { getPasswordStrength } from "./Passwordstrenght";
 
-
 export type PasswordfieldProps = {
   loading?: boolean;
   showstrength?: boolean;
   children: React.ReactNode;
   error?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange?: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
   value?: string;
-  Muiprops?: Omit<OutlinedInputProps, "type">;
+  Props?: {
+    Muiprops?: OutlinedInputProps;
+  };
 };
 
 export function Passwordfield({
@@ -32,8 +34,10 @@ export function Passwordfield({
   showstrength = false,
   error = false,
   onChange,
+  Props = {
+    Muiprops: {},
+  },
   value,
-  Muiprops,
 }: PasswordfieldProps) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [internalPassword, setInternalPassword] = React.useState("");
@@ -59,13 +63,16 @@ export function Passwordfield({
         <InputLabel htmlFor="Passwordfield">{children}</InputLabel>
         <Input
           aria-label="Password field"
-          {...Muiprops}
+          {...Props.Muiprops}
+          sx={Props.Muiprops?.sx}
           disableUnderline
           inputComponent={"input"}
           id="Passwordfield"
           type={showPassword ? "text" : "password"}
           value={passwordValue}
-          onChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+          onChange={(
+            event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+          ) => {
             setInternalPassword(event.target.value);
             onChange?.(event);
           }}
@@ -90,7 +97,11 @@ export function Passwordfield({
         {!showstrength ? (
           <Divider />
         ) : (
-          <LinearProgress variant="determinate" value={strength} />
+          <LinearProgress
+            variant="determinate"
+            value={strength}
+            sx={{ height: "2px" }}
+          />
         )}
       </FormControl>
     </>

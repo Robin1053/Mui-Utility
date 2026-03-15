@@ -15,3 +15,4 @@ export { Passwordfield } from "./components/ui/fields/Password/Passwordfield";
 export type { PasswordfieldProps } from "./components/ui/fields/Password/Passwordfield";
 export { AvatarUpload } from "./components/ui/fields/Avatarupload";
 export type { AvataruploadProps } from "./components/ui/fields/Avatarupload";
+export * as SVGs from "./components/ui/fields/Sozial-Signin/SVGs";

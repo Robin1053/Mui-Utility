@@ -40,7 +40,10 @@ next-env.d.ts
 *.tgz
 
 # exports 
-dist/
+dist/index.d.mts
+dist/index.d.ts
+dist/index.js
+dist/index.mjs
 
 # Test files
 Test/*

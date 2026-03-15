@@ -1,51 +1,59 @@
 import {
   Button,
-  Dialog,
+  Dialog as MuiDialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
   ClickAwayListener,
+  DialogProps,
+  ButtonProps
 } from "@mui/material";
-import type { ButtonProps as MuiButtonProps } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
 import * as React from "react";
 import { useNotification } from "../Notifications";
 
 export type ActionButtonNotification =
   | {
-      useNotification: true;
-      errormessage: string;
-      successmessage: string;
-    }
+    useNotification: true;
+    errormessage: string;
+    successmessage: string;
+  }
   | {
-      useNotification?: false;
-      errormessage?: never;
-      successmessage?: never;
-    };
+    useNotification?: false;
+    errormessage?: never;
+    successmessage?: never;
+  };
 
 export type ActionButtonProps = {
   action: () => void | Promise<void>;
   requireAreYouSure?: boolean;
   icon?: React.ReactNode;
-  DialogProps?: {
+  Dialog?: {
     dialogTitle?: React.ReactNode;
     dialogContent?: React.ReactNode;
     confirmText?: string;
     sx?: SxProps<Theme>;
   };
-  Muiprops?: MuiButtonProps;
+  Props?: {
+    ButtonProps?: ButtonProps;
+    DialogProps?: DialogProps;
+  };
   destructive?: boolean;
   children: React.ReactNode;
   Notification?: ActionButtonNotification;
+
 };
 
 function ActionButton({
   action,
   requireAreYouSure = false,
   icon,
-  DialogProps = {},
-  Muiprops = {},
+  Dialog = {},
+  Props = {
+    DialogProps: { open: false },
+    ButtonProps: {},
+  },
   destructive = false,
   children,
   Notification = {},
@@ -54,6 +62,10 @@ function ActionButton({
   const [Loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<Error | null>(null);
   const { notify } = useNotification();
+
+  const handleClickAway = () => {
+    setOpen(false);
+  };
 
   async function Clicked() {
     if (error) setError(null);
@@ -86,21 +98,19 @@ function ActionButton({
     }
   }
 
-  const handleClickAway = () => {
-    setOpen(false);
-  };
+
 
   return (
     <>
       <ClickAwayListener onClickAway={handleClickAway}>
         <div>
           <Button
-            {...Muiprops}
+            {...Props.ButtonProps}
             onClick={Clicked}
             loading={Loading}
             color={destructive || error ? "error" : "primary"}
             startIcon={icon}
-            sx={Muiprops.sx}
+            sx={Props.ButtonProps.sx}
             variant="outlined"
             aria-busy={Loading}
             aria-invalid={!!error}
@@ -122,19 +132,20 @@ function ActionButton({
   function Dialogfunction() {
     return (
       <>
-        <Dialog
+        <MuiDialog
+          {...Props.DialogProps}
           open={Open}
           onClose={() => setOpen(false)}
-          sx={DialogProps.sx}
+          sx={Props.DialogProps.sx}
           aria-labelledby="dialog-title"
           aria-describedby="dialog-description"
         >
           <DialogTitle id="dialog-title">
-            {DialogProps.dialogTitle || "Confirm Action"}
+            {Dialog.dialogTitle || "Confirm Action"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="dialog-description">
-              {DialogProps.dialogContent || "Are you sure you want to do this?"}
+              {Dialog.dialogContent || "Are you sure you want to do this?"}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -145,10 +156,10 @@ function ActionButton({
               onClick={() => executeAction()}
               color={destructive ? "error" : "primary"}
             >
-              {DialogProps.confirmText || "Yes"}
+              {Dialog.confirmText || "Yes"}
             </Button>
           </DialogActions>
-        </Dialog>
+        </MuiDialog>
       </>
     );
   }

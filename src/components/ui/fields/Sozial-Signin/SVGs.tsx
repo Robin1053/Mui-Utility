@@ -1,6 +1,6 @@
 import type { SVGProps } from "react";
 
-type SocialSvgProps = {
+export type SocialSvgProps = {
     size?: number | string;
     title?: string;
     Props?: {

@@ -33,7 +33,6 @@ export type ActionButtonProps = {
     dialogTitle?: React.ReactNode;
     dialogContent?: React.ReactNode;
     confirmText?: string;
-    sx?: SxProps<Theme>;
   };
   Props?: {
     ButtonProps?: ButtonProps;

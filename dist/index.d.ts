@@ -1,8 +1,8 @@
 import * as react_jsx_runtime from 'react/jsx-runtime';
+import * as Mui from '@mui/material';
 import { ButtonProps, DialogProps, OutlinedInputProps, IconButtonProps, BadgeProps } from '@mui/material';
-import { SxProps, Theme } from '@mui/material/styles';
 import * as React$1 from 'react';
-import React__default, { SVGProps } from 'react';
+import React__default, { SVGProps, ReactNode } from 'react';
 
 type ActionButtonNotification = {
     useNotification: true;
@@ -21,7 +21,6 @@ type ActionButtonProps = {
         dialogTitle?: React$1.ReactNode;
         dialogContent?: React$1.ReactNode;
         confirmText?: string;
-        sx?: SxProps<Theme>;
     };
     Props?: {
         ButtonProps?: ButtonProps;
@@ -98,9 +97,32 @@ declare const SVGs_GoogleSVG: typeof GoogleSVG;
 declare const SVGs_LinkedInSVG: typeof LinkedInSVG;
 declare const SVGs_MicrosoftSVG: typeof MicrosoftSVG;
 declare const SVGs_SlackSVG: typeof SlackSVG;
+type SVGs_SocialSvgProps = SocialSvgProps;
 declare const SVGs_XSVG: typeof XSVG;
 declare namespace SVGs {
-  export { SVGs_AppleSVG as AppleSVG, SVGs_DiscordSVG as DiscordSVG, SVGs_FacebookSVG as FacebookSVG, SVGs_GitHubSVG as GitHubSVG, SVGs_GitLabSVG as GitLabSVG, SVGs_GoogleSVG as GoogleSVG, SVGs_LinkedInSVG as LinkedInSVG, SVGs_MicrosoftSVG as MicrosoftSVG, SVGs_SlackSVG as SlackSVG, SVGs_XSVG as XSVG };
+  export { SVGs_AppleSVG as AppleSVG, SVGs_DiscordSVG as DiscordSVG, SVGs_FacebookSVG as FacebookSVG, SVGs_GitHubSVG as GitHubSVG, SVGs_GitLabSVG as GitLabSVG, SVGs_GoogleSVG as GoogleSVG, SVGs_LinkedInSVG as LinkedInSVG, SVGs_MicrosoftSVG as MicrosoftSVG, SVGs_SlackSVG as SlackSVG, type SVGs_SocialSvgProps as SocialSvgProps, SVGs_XSVG as XSVG };
 }
 
-export { ActionButton, type ActionButtonNotification, type ActionButtonProps, AvatarUpload, type AvataruploadProps, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, SVGs, type ToastMessage, type ToastType, useNotification };
+type BuiltInProvider = "google" | "microsoft" | "apple" | "github" | "facebook" | "linkedin" | "x" | "gitlab" | "discord" | "slack";
+type CustomProvider = {
+    type: "custom";
+    name: string;
+    svg: ReactNode;
+};
+type ProviderType = BuiltInProvider | CustomProvider;
+type Variant = "large" | "circle";
+type SocialButtonProps = {
+    Props?: {
+        ButtonProps?: Mui.ButtonProps;
+        SVGProps?: SocialSvgProps;
+    };
+    Provider: ProviderType;
+    variant: Variant;
+    OnClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React.ReactNode;
+};
+declare function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children }: SocialButtonProps): react_jsx_runtime.JSX.Element;
+
+export { ActionButton, type ActionButtonNotification, type ActionButtonProps, AvatarUpload, type AvataruploadProps, type BuiltInProvider, type CustomProvider, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ProviderType, SVGs, SocialButton, type SocialButtonProps, type ToastMessage, type ToastType, useNotification };

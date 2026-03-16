@@ -10,4 +10,7 @@ export type * from "./components/ui/fields/Password/Passwordfield";
 export * from "./components/ui/fields/Avatarupload";
 export type * from "./components/ui/fields/Avatarupload";
 
+export * from "./components/ui/fields/Sozial-Signin/Sozial-Button";
+export type * from "./components/ui/fields/Sozial-Signin/Sozial-Button";
+
 export * as SVGs from "./components/ui/fields/Sozial-Signin/SVGs";

@@ -34,6 +34,7 @@ __export(index_exports, {
   NotificationProvider: () => NotificationProvider,
   Passwordfield: () => Passwordfield,
   SVGs: () => SVGs_exports,
+  SocialButton: () => SocialButton,
   useNotification: () => useNotification
 });
 module.exports = __toCommonJS(index_exports);
@@ -582,6 +583,63 @@ function SlackSVG({ size = 20, title, ...props }) {
     }
   );
 }
+
+// src/components/ui/fields/Sozial-Signin/Sozial-Button.tsx
+var Mui = __toESM(require("@mui/material"));
+var import_jsx_runtime6 = require("react/jsx-runtime");
+var BUILT_IN_PROVIDER_PRESENTATION = {
+  google: { label: "Google", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(GoogleSVG, {}) },
+  microsoft: { label: "Microsoft", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MicrosoftSVG, {}) },
+  apple: { label: "Apple", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(AppleSVG, {}) },
+  github: { label: "GitHub", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(GitHubSVG, {}) },
+  facebook: { label: "Facebook", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(FacebookSVG, {}) },
+  linkedin: { label: "LinkedIn", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(LinkedInSVG, {}) },
+  x: { label: "X", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(XSVG, {}) },
+  gitlab: { label: "GitLab", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(GitLabSVG, {}) },
+  discord: { label: "Discord", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(DiscordSVG, {}) },
+  slack: { label: "Slack", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SlackSVG, {}) }
+};
+function resolveProviderPresentation(provider) {
+  if (typeof provider === "object") {
+    return {
+      label: provider.name,
+      svg: provider.svg
+    };
+  }
+  return BUILT_IN_PROVIDER_PRESENTATION[provider];
+}
+function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children }) {
+  const providerPresentation = resolveProviderPresentation(Provider);
+  if (variant == "circle") {
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(
+      Mui.IconButton,
+      {
+        ...Props.ButtonProps,
+        loading,
+        onClick: OnClick,
+        disabled,
+        children: children ?? providerPresentation.svg
+      }
+    ) });
+  } else {
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_jsx_runtime6.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+      Mui.Button,
+      {
+        ...Props.ButtonProps,
+        loading,
+        onClick: OnClick,
+        startIcon: providerPresentation.svg,
+        sx: {
+          height: "40px"
+        },
+        children: [
+          " ",
+          children ?? `Sign in with ${providerPresentation.label}`
+        ]
+      }
+    ) });
+  }
+}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ActionButton,
@@ -589,5 +647,6 @@ function SlackSVG({ size = 20, title, ...props }) {
   NotificationProvider,
   Passwordfield,
   SVGs,
+  SocialButton,
   useNotification
 });

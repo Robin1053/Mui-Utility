@@ -568,11 +568,69 @@ function SlackSVG({ size = 20, title, ...props }) {
     }
   );
 }
+
+// src/components/ui/fields/Sozial-Signin/Sozial-Button.tsx
+import * as Mui from "@mui/material";
+import { Fragment as Fragment3, jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+var BUILT_IN_PROVIDER_PRESENTATION = {
+  google: { label: "Google", svg: /* @__PURE__ */ jsx6(GoogleSVG, {}) },
+  microsoft: { label: "Microsoft", svg: /* @__PURE__ */ jsx6(MicrosoftSVG, {}) },
+  apple: { label: "Apple", svg: /* @__PURE__ */ jsx6(AppleSVG, {}) },
+  github: { label: "GitHub", svg: /* @__PURE__ */ jsx6(GitHubSVG, {}) },
+  facebook: { label: "Facebook", svg: /* @__PURE__ */ jsx6(FacebookSVG, {}) },
+  linkedin: { label: "LinkedIn", svg: /* @__PURE__ */ jsx6(LinkedInSVG, {}) },
+  x: { label: "X", svg: /* @__PURE__ */ jsx6(XSVG, {}) },
+  gitlab: { label: "GitLab", svg: /* @__PURE__ */ jsx6(GitLabSVG, {}) },
+  discord: { label: "Discord", svg: /* @__PURE__ */ jsx6(DiscordSVG, {}) },
+  slack: { label: "Slack", svg: /* @__PURE__ */ jsx6(SlackSVG, {}) }
+};
+function resolveProviderPresentation(provider) {
+  if (typeof provider === "object") {
+    return {
+      label: provider.name,
+      svg: provider.svg
+    };
+  }
+  return BUILT_IN_PROVIDER_PRESENTATION[provider];
+}
+function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children }) {
+  const providerPresentation = resolveProviderPresentation(Provider);
+  if (variant == "circle") {
+    return /* @__PURE__ */ jsx6(Fragment3, { children: /* @__PURE__ */ jsx6(
+      Mui.IconButton,
+      {
+        ...Props.ButtonProps,
+        loading,
+        onClick: OnClick,
+        disabled,
+        children: children ?? providerPresentation.svg
+      }
+    ) });
+  } else {
+    return /* @__PURE__ */ jsx6(Fragment3, { children: /* @__PURE__ */ jsxs6(
+      Mui.Button,
+      {
+        ...Props.ButtonProps,
+        loading,
+        onClick: OnClick,
+        startIcon: providerPresentation.svg,
+        sx: {
+          height: "40px"
+        },
+        children: [
+          " ",
+          children ?? `Sign in with ${providerPresentation.label}`
+        ]
+      }
+    ) });
+  }
+}
 export {
   ActionButton,
   AvatarUpload,
   NotificationProvider,
   Passwordfield,
   SVGs_exports as SVGs,
+  SocialButton,
   useNotification
 };

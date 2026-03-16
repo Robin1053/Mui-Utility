@@ -7,8 +7,8 @@ export type * from "./components/ui/Notifications";
 export * from "./components/ui/fields/Password/Passwordfield";
 export type * from "./components/ui/fields/Password/Passwordfield";
 
-export * from "./components/ui/fields/Avatarupload";
-export type * from "./components/ui/fields/Avatarupload";
+export * from "./components/ui/fields/Avatar/Avatarupload";
+export type * from "./components/ui/fields/Avatar/Avatarupload";
 
 export * from "./components/ui/fields/Sozial-Signin/Sozial-Button";
 export type * from "./components/ui/fields/Sozial-Signin/Sozial-Button";

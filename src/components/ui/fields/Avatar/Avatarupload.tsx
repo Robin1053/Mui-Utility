@@ -27,9 +27,13 @@ function AvatarUpload({
     InputProps: {},
   },
 }: AvataruploadProps) {
+  const buttonAriaLabel =
+    Props.InputProps?.["aria-label"] || "Profilbild hochladen";
+
   return (
     <IconButton
       component="label"
+      aria-label={buttonAriaLabel}
       {...Props.IconButtonProps}
       sx={Props.IconButtonProps?.sx}
     >

@@ -41,6 +41,7 @@ export function Passwordfield({
 }: PasswordfieldProps) {
   const [showPassword, setShowPassword] = React.useState(false);
   const [internalPassword, setInternalPassword] = React.useState("");
+  const strengthDescriptionId = "password-strength-indicator";
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>,
@@ -65,6 +66,12 @@ export function Passwordfield({
           aria-label="Password field"
           {...Props.Muiprops}
           sx={Props.Muiprops?.sx}
+          inputProps={{
+            ...(Props.Muiprops?.inputProps || {}),
+            "aria-describedby": showstrength
+              ? strengthDescriptionId
+              : undefined,
+          }}
           disableUnderline
           inputComponent={"input"}
           id="Passwordfield"
@@ -98,6 +105,7 @@ export function Passwordfield({
           <Divider />
         ) : (
           <LinearProgress
+            id={strengthDescriptionId}
             variant="determinate"
             value={strength}
             sx={{ height: "2px" }}

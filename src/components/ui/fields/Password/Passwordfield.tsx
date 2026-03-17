@@ -24,7 +24,7 @@ export type PasswordfieldProps = {
   ) => void;
   value?: string;
   Props?: {
-    Muiprops?: OutlinedInputProps;
+        TextfieldProps?: OutlinedInputProps;
   };
 };
 
@@ -35,7 +35,7 @@ export function Passwordfield({
   error = false,
   onChange,
   Props = {
-    Muiprops: {},
+    TextfieldProps: {},
   },
   value,
 }: PasswordfieldProps) {
@@ -64,10 +64,10 @@ export function Passwordfield({
         <InputLabel htmlFor="Passwordfield">{children}</InputLabel>
         <Input
           aria-label="Password field"
-          {...Props.Muiprops}
-          sx={Props.Muiprops?.sx}
+          {...Props?.TextfieldProps}
+          sx={Props.TextfieldProps?.sx}
           inputProps={{
-            ...(Props.Muiprops?.inputProps || {}),
+            ...(Props.TextfieldProps?.inputProps || {}),
             "aria-describedby": showstrength
               ? strengthDescriptionId
               : undefined,

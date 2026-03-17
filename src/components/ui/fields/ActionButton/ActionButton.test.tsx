@@ -2,7 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactElement } from "react";
 import { ActionButton } from "./ActionButton";
-import { NotificationProvider } from "../Notefication/Notifications";
+import { NotificationProvider } from "../../Notefication/Notifications";
 
 function renderWithNotifications(ui: ReactElement) {
     return render(<NotificationProvider>{ui}</NotificationProvider>);

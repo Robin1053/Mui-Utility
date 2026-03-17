@@ -64,7 +64,8 @@ type SocialButtonProps = {
     OnClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
     loading?: boolean;
     disabled?: boolean;
-    children?: React.ReactNode
+    children?: React.ReactNode;
+    // action?: () => void | Promise<void>;
 }
 
 function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children }: SocialButtonProps) {
@@ -74,10 +75,18 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
         return (
             <>
                 <Mui.IconButton
+                    sx={
+                        {
+                            height: "40px",
+                            width: "40px",
+                        }
+                    }
                     {...Props?.ButtonProps}
                     onClick={OnClick}
-                    disabled={disabled}
-                >{children ?? providerPresentation.svg}</Mui.IconButton>
+                    disabled={disabled || loading}
+                >
+                    {loading ? <Mui.CircularProgress size="1.5rem" /> : providerPresentation.svg}
+                </Mui.IconButton>
             </>
         )
     } else {
@@ -85,14 +94,29 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
             <>
                 <Mui.Button
                     {...Props?.ButtonProps}
+                    sx={{
+                        height: '40px',
+                        width: '100%',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        textTransform: 'none',
+                    }}
                     onClick={OnClick}
-                    startIcon={providerPresentation.svg}
-                    sx={
-                        {
-                            height: "40px"
-                        }
-                    }
-                > {children ?? `Sign in with ${providerPresentation.label}`}
+                    disabled={disabled || loading}
+                >
+                    <Mui.Box sx={{
+                        position: 'absolute',
+                        left: '12px',
+                        right: '12px',
+                        top: '10px',
+                        bottom: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}>
+                        {loading ? <Mui.CircularProgress size="1.5rem" /> : providerPresentation.svg}
+                    </Mui.Box>
+                    {!loading && (children ?? `Sign in with ${providerPresentation.label}`)}
                 </Mui.Button>
             </>
         )

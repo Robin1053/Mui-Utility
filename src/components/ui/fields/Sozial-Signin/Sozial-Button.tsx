@@ -94,28 +94,22 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
             <>
                 <Mui.Button
                     {...Props?.ButtonProps}
+                    variant="outlined"
+                    startIcon={loading ? <Mui.CircularProgress size="1.5rem" /> : providerPresentation.svg}
                     sx={{
                         height: '40px',
                         width: '100%',
-                        justifyContent: 'center',
-                        position: 'relative',
+                        justifyContent: 'flex-start',
+                        paddingLeft: '8px',
+                        paddingRight: '8px',
                         textTransform: 'none',
+                        '& .MuiButton-startIcon': {
+                            marginRight: '24px',
+                        },
                     }}
                     onClick={OnClick}
                     disabled={disabled || loading}
                 >
-                    <Mui.Box sx={{
-                        position: 'absolute',
-                        left: '12px',
-                        right: '12px',
-                        top: '10px',
-                        bottom: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
-                        {loading ? <Mui.CircularProgress size="1.5rem" /> : providerPresentation.svg}
-                    </Mui.Box>
                     {!loading && (children ?? `Sign in with ${providerPresentation.label}`)}
                 </Mui.Button>
             </>

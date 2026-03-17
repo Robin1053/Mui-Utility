@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material/styles";
 import * as React from "react";
-import { useNotification } from "../Notifications";
+import { useNotification } from "../Notefication/Notifications";
 
 export type ActionButtonNotification =
   | {

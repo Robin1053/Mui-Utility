@@ -1,8 +1,8 @@
 export * from "./components/ui/ActionButton/ActionButton";
 export type * from "./components/ui/ActionButton/ActionButton";
 
-export * from "./components/ui/Notifications";
-export type * from "./components/ui/Notifications";
+export * from "./components/ui/Notefication/Notifications";
+export type * from "./components/ui/Notefication/Notifications";
 
 export * from "./components/ui/fields/Password/Passwordfield";
 export type * from "./components/ui/fields/Password/Passwordfield";

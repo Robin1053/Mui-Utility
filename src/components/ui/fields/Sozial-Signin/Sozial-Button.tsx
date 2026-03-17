@@ -1,75 +1,63 @@
-import * as SVG from "./SVGs";
 import * as Mui from "@mui/material";
-import type { SocialSvgProps } from "./SVGs";
-import type { ReactNode } from "react";
+import * as React from "react";
+import {
+    type BuiltInProvider,
+    type CustomProvider,
+    type ProviderType,
+    type SocialButtonProps,
+    getProviderButtonStyles,
+    resolveProviderPresentation
+} from "./Providerconfigs";
 
-type BuiltInProvider =
-    | "google"
-    | "microsoft"
-    | "apple"
-    | "github"
-    | "facebook"
-    | "linkedin"
-    | "x"
-    | "gitlab"
-    | "discord"
-    | "slack";
+const BASE_BUTTON_WIDTH = 183;
 
-type CustomProvider = {
-    type: "custom";
-    name: string;
-    svg: ReactNode;
-};
+function resolveButtonWidth(extrawidth?: number, maxWidth?: number): string {
+    let width = BASE_BUTTON_WIDTH;
 
-type ProviderType = BuiltInProvider | CustomProvider;
-
-type Variant = "large" | "circle";
-
-type ProviderPresentation = {
-    label: string;
-    svg: ReactNode;
-};
-
-const BUILT_IN_PROVIDER_PRESENTATION: Record<BuiltInProvider, ProviderPresentation> = {
-    google: { label: "Google", svg: <SVG.GoogleSVG /> },
-    microsoft: { label: "Microsoft", svg: <SVG.MicrosoftSVG /> },
-    apple: { label: "Apple", svg: <SVG.AppleSVG /> },
-    github: { label: "GitHub", svg: <SVG.GitHubSVG /> },
-    facebook: { label: "Facebook", svg: <SVG.FacebookSVG /> },
-    linkedin: { label: "LinkedIn", svg: <SVG.LinkedInSVG /> },
-    x: { label: "X", svg: <SVG.XSVG /> },
-    gitlab: { label: "GitLab", svg: <SVG.GitLabSVG /> },
-    discord: { label: "Discord", svg: <SVG.DiscordSVG /> },
-    slack: { label: "Slack", svg: <SVG.SlackSVG /> },
-};
-
-function resolveProviderPresentation(provider: ProviderType): ProviderPresentation {
-    if (typeof provider === "object") {
-        return {
-            label: provider.name,
-            svg: provider.svg,
-        };
+    if (typeof maxWidth === "number") {
+        width = maxWidth;
     }
 
-    return BUILT_IN_PROVIDER_PRESENTATION[provider];
+    if (typeof extrawidth === "number") {
+        width = BASE_BUTTON_WIDTH + extrawidth;
+    }
+
+    if (typeof maxWidth === "number") {
+        width = Math.min(width, maxWidth);
+    }
+
+    width = Math.max(BASE_BUTTON_WIDTH, width);
+    return `${width}px`;
 }
 
-type SocialButtonProps = {
-    Props?: {
-        ButtonProps?: Mui.ButtonProps
-        SVGProps?: SocialSvgProps
-    };
-    Provider: ProviderType;
-    variant?: Variant;
-    OnClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
-    loading?: boolean;
-    disabled?: boolean;
-    children?: React.ReactNode;
-    // action?: () => void | Promise<void>;
-}
-
-function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children }: SocialButtonProps) {
+function SocialButton({
+    OnClick,
+    Provider,
+    variant,
+    Props,
+    disabled,
+    loading,
+    children,
+    action,
+    extrawidth,
+    maxWidth
+}: SocialButtonProps) {
     const providerPresentation = resolveProviderPresentation(Provider);
+    const isDark = Mui.useMediaQuery('(prefers-color-scheme: dark)', { noSsr: true });
+    const providerStyles = getProviderButtonStyles(Provider, isDark);
+    const logoColor = typeof Provider === "object" ? Provider.logoColor : providerStyles.logoColor;
+    const buttonWidth = resolveButtonWidth(extrawidth, maxWidth);
+
+    const iconNode = React.isValidElement(providerPresentation.svg)
+        ? React.cloneElement(providerPresentation.svg as React.ReactElement<any>, {
+            Props: {
+                SVGProps: {
+                    ...(Props?.SVGProps?.Props?.SVGProps ?? {}),
+                    ...(logoColor ? { color: logoColor, fill: logoColor, stroke: logoColor } : {}),
+                },
+            },
+        })
+        : providerPresentation.svg;
 
     if (variant == "circle") {
         return (
@@ -85,7 +73,15 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
                     onClick={OnClick}
                     disabled={disabled || loading}
                 >
-                    {loading ? <Mui.CircularProgress size="1.5rem" /> : providerPresentation.svg}
+                    {loading ?
+                        <Mui.CircularProgress
+                            size={20}
+                            sx={
+                                {
+                                    color: providerStyles.color
+                                }
+                            } />
+                        : iconNode}
                 </Mui.IconButton>
             </>
         )
@@ -95,22 +91,49 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
                 <Mui.Button
                     {...Props?.ButtonProps}
                     variant="outlined"
-                    startIcon={loading ? <Mui.CircularProgress size="1.5rem" /> : providerPresentation.svg}
-                    sx={{
-                        height: '40px',
-                        width: '100%',
-                        justifyContent: 'flex-start',
-                        paddingLeft: '8px',
-                        paddingRight: '8px',
-                        textTransform: 'none',
-                        '& .MuiButton-startIcon': {
-                            marginRight: '24px',
-                        },
-                    }}
+                    startIcon={iconNode}
+                    sx={
+                        {
+                            border: providerStyles.border,
+                            borderRadius: '20px',
+                            backgroundColor: providerStyles.backgroundColor,
+                            height: '40px',
+                            width: buttonWidth,
+                            minWidth: '183px',
+                            justifyContent: 'flex-start',
+                            textTransform: 'none',
+                            color: providerStyles.color,
+                            '& .MuiButton-loading': {
+                                color: providerStyles.color,
+                            },
+                            fontSize: '14px',
+                            lineHeight: '20px',
+                            letterSpacing: '0.25px',
+                            padding: 0,
+                            '&:hover': {
+                                backgroundColor: providerStyles.hoverBgColor,
+                                borderColor: providerStyles.hoverBorder,
+                            },
+                            '& .MuiButton-startIcon': {
+                                marginLeft: '11px',
+                                marginRight: '11px',
+                            },
+                            '& .MuiButton-startIcon svg': {
+                                height: '20px',
+                                width: '20px',
+                            },
+                        }
+                    }
+                    loading={loading}
                     onClick={OnClick}
                     disabled={disabled || loading}
-                >
-                    {!loading && (children ?? `Sign in with ${providerPresentation.label}`)}
+                > <Mui.Box sx={
+                    {
+                        paddingRight: "12px"
+                    }
+                }>
+                        {(children ?? `Sign in with ${providerPresentation.label}`)}
+                    </Mui.Box>
                 </Mui.Button>
             </>
         )
@@ -120,7 +143,9 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
 export { SocialButton };
 export type {
     SocialButtonProps,
-    ProviderType,
     BuiltInProvider,
     CustomProvider,
+    ProviderType,
 };
+
+export { resolveButtonWidth };

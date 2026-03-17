@@ -2,7 +2,7 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import * as Mui from '@mui/material';
 import { ButtonProps, DialogProps, OutlinedInputProps, IconButtonProps, BadgeProps } from '@mui/material';
 import * as React$1 from 'react';
-import React__default, { SVGProps, ReactNode } from 'react';
+import React__default, { SVGProps } from 'react';
 
 type ActionButtonNotification = {
     useNotification: true;
@@ -53,7 +53,7 @@ type PasswordfieldProps = {
     onChange?: (event: React$1.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     value?: string;
     Props?: {
-        Muiprops?: OutlinedInputProps;
+        TextfieldProps?: OutlinedInputProps;
     };
 };
 declare function Passwordfield({ loading, children, showstrength, error, onChange, Props, value, }: PasswordfieldProps): react_jsx_runtime.JSX.Element;
@@ -79,14 +79,14 @@ type SocialSvgProps = {
 };
 declare function GoogleSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
 declare function MicrosoftSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function AppleSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function GitHubSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function FacebookSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function LinkedInSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function XSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function GitLabSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function DiscordSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
-declare function SlackSVG({ size, title, ...props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function AppleSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function GitHubSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function FacebookSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function LinkedInSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function XSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function GitLabSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function DiscordSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function SlackSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
 
 declare const SVGs_AppleSVG: typeof AppleSVG;
 declare const SVGs_DiscordSVG: typeof DiscordSVG;
@@ -107,7 +107,8 @@ type BuiltInProvider = "google" | "microsoft" | "apple" | "github" | "facebook" 
 type CustomProvider = {
     type: "custom";
     name: string;
-    svg: ReactNode;
+    svg: React$1.ReactNode;
+    logoColor?: string;
 };
 type ProviderType = BuiltInProvider | CustomProvider;
 type Variant = "large" | "circle";
@@ -117,12 +118,17 @@ type SocialButtonProps = {
         SVGProps?: SocialSvgProps;
     };
     Provider: ProviderType;
-    variant: Variant;
-    OnClick: React.MouseEventHandler<HTMLButtonElement> | undefined;
+    variant?: Variant;
+    OnClick?: React$1.MouseEventHandler<HTMLButtonElement> | undefined;
     loading?: boolean;
     disabled?: boolean;
-    children?: React.ReactNode;
+    children?: React$1.ReactNode;
+    action?: () => void | Promise<void>;
+    extrawidth?: number;
+    maxWidth?: number;
 };
-declare function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children }: SocialButtonProps): react_jsx_runtime.JSX.Element;
 
-export { ActionButton, type ActionButtonNotification, type ActionButtonProps, AvatarUpload, type AvataruploadProps, type BuiltInProvider, type CustomProvider, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ProviderType, SVGs, SocialButton, type SocialButtonProps, type ToastMessage, type ToastType, useNotification };
+declare function resolveButtonWidth(extrawidth?: number, maxWidth?: number): string;
+declare function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children, action, extrawidth, maxWidth }: SocialButtonProps): react_jsx_runtime.JSX.Element;
+
+export { ActionButton, type ActionButtonNotification, type ActionButtonProps, AvatarUpload, type AvataruploadProps, type BuiltInProvider, type CustomProvider, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ProviderType, SVGs, SocialButton, type SocialButtonProps, type ToastMessage, type ToastType, resolveButtonWidth, useNotification };

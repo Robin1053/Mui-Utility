@@ -42,6 +42,8 @@ function SocialButton({
     extrawidth,
     maxWidth
 }: SocialButtonProps) {
+    //TODO: Implement Action Handling, so that the Button handels the loading and disabled state itself. 
+
     const providerPresentation = resolveProviderPresentation(Provider);
     const isDark = Mui.useMediaQuery('(prefers-color-scheme: dark)', { noSsr: true });
     const providerStyles = getProviderButtonStyles(Provider, isDark);
@@ -60,6 +62,10 @@ function SocialButton({
         : providerPresentation.svg;
 
     if (variant == "circle") {
+        //TODO: FIX: Facebook icon in darkmode, and X, Linkedin, Github, Facebook icons in light mode. 
+        //TODO: Give the Button an Boarder in Circle Variant.
+        //TODO: Implement different Sizes.
+
         return (
             <>
                 <Mui.IconButton
@@ -86,6 +92,8 @@ function SocialButton({
             </>
         )
     } else {
+        //TODO: Cap the Button Width to a maxWidth if provided, and resolve the extrawidth accordingly.
+
         return (
             <>
                 <Mui.Button

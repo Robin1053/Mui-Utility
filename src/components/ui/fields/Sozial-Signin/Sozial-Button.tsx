@@ -74,8 +74,7 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
         return (
             <>
                 <Mui.IconButton
-                    {...Props.ButtonProps}
-                    loading={loading}
+                    {...Props?.ButtonProps}
                     onClick={OnClick}
                     disabled={disabled}
                 >{children ?? providerPresentation.svg}</Mui.IconButton>
@@ -85,8 +84,7 @@ function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, ch
         return (
             <>
                 <Mui.Button
-                    {...Props.ButtonProps}
-                    loading={loading}
+                    {...Props?.ButtonProps}
                     onClick={OnClick}
                     startIcon={providerPresentation.svg}
                     sx={

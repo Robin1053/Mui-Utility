@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { SocialButton, resolveButtonWidth } from './Sozial-Button';
-
+import * as SVG from './SVGs';
 describe('SocialButton', () => {
   it('renders a default large provider button', () => {
     render(<SocialButton Provider="google" />);
@@ -17,11 +17,28 @@ describe('SocialButton', () => {
   it('renders custom provider label fallback text', () => {
     render(
       <SocialButton
-        Provider={{
-          type: 'custom',
-          name: 'MyID',
-          svg: <svg data-testid="custom-provider-icon" viewBox="0 0 20 20" />,
-        }}
+        Props={
+          {
+            ButtonProps: {
+              id: "custom-provider-icon"
+            }
+          }
+        }
+        Provider={
+          {
+            type: "custom",
+            name: "MyID",
+            svg: <SVG.AppleSVG />,
+            color: {
+              backgroundColor: "#FFFFFF",
+              border: "#9898aa",
+              color: "#240303",
+              hoverBgColor: "#dba5a5",
+              hoverBorder: "#d8adad",
+              loadingcolor: "#252201",
+            }
+          }
+        }
       />
     );
 
@@ -39,7 +56,7 @@ describe('SocialButton', () => {
 
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeDisabled();
-    expect(screen.queryByText('Sign in with Google')).not.toBeInTheDocument();
+    expect(screen.queryByText('Sign in with Google')).not.toBeVisible();
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 

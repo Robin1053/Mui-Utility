@@ -87,6 +87,7 @@ declare function XSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime
 declare function GitLabSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
 declare function DiscordSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
 declare function SlackSVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
+declare function PasskeySVG({ size, title, Props }: SocialSvgProps): react_jsx_runtime.JSX.Element;
 
 declare const SVGs_AppleSVG: typeof AppleSVG;
 declare const SVGs_DiscordSVG: typeof DiscordSVG;
@@ -96,39 +97,78 @@ declare const SVGs_GitLabSVG: typeof GitLabSVG;
 declare const SVGs_GoogleSVG: typeof GoogleSVG;
 declare const SVGs_LinkedInSVG: typeof LinkedInSVG;
 declare const SVGs_MicrosoftSVG: typeof MicrosoftSVG;
+declare const SVGs_PasskeySVG: typeof PasskeySVG;
 declare const SVGs_SlackSVG: typeof SlackSVG;
 type SVGs_SocialSvgProps = SocialSvgProps;
 declare const SVGs_XSVG: typeof XSVG;
 declare namespace SVGs {
-  export { SVGs_AppleSVG as AppleSVG, SVGs_DiscordSVG as DiscordSVG, SVGs_FacebookSVG as FacebookSVG, SVGs_GitHubSVG as GitHubSVG, SVGs_GitLabSVG as GitLabSVG, SVGs_GoogleSVG as GoogleSVG, SVGs_LinkedInSVG as LinkedInSVG, SVGs_MicrosoftSVG as MicrosoftSVG, SVGs_SlackSVG as SlackSVG, type SVGs_SocialSvgProps as SocialSvgProps, SVGs_XSVG as XSVG };
+  export { SVGs_AppleSVG as AppleSVG, SVGs_DiscordSVG as DiscordSVG, SVGs_FacebookSVG as FacebookSVG, SVGs_GitHubSVG as GitHubSVG, SVGs_GitLabSVG as GitLabSVG, SVGs_GoogleSVG as GoogleSVG, SVGs_LinkedInSVG as LinkedInSVG, SVGs_MicrosoftSVG as MicrosoftSVG, SVGs_PasskeySVG as PasskeySVG, SVGs_SlackSVG as SlackSVG, type SVGs_SocialSvgProps as SocialSvgProps, SVGs_XSVG as XSVG };
 }
 
-type BuiltInProvider = "google" | "microsoft" | "apple" | "github" | "facebook" | "linkedin" | "x" | "gitlab" | "discord" | "slack";
+type BuiltInProvider = "google" | "microsoft" | "apple" | "github" | "facebook" | "linkedin" | "x" | "gitlab" | "discord" | "slack" | "passkey";
 type CustomProvider = {
     type: "custom";
     name: string;
     svg: React$1.ReactNode;
     logoColor?: string;
+    color: {
+        backgroundColor: string;
+        color: string;
+        border: string;
+        hoverBgColor: string;
+        hoverBorder: string;
+        logoColor?: string;
+        loadingcolor?: string;
+    };
 };
 type ProviderType = BuiltInProvider | CustomProvider;
-type Variant = "large" | "circle";
 type SocialButtonProps = {
     Props?: {
         ButtonProps?: Mui.ButtonProps;
         SVGProps?: SocialSvgProps;
     };
     Provider: ProviderType;
-    variant?: Variant;
+    OnClick?: React$1.MouseEventHandler<HTMLButtonElement> | undefined;
+    action?: () => void | Promise<void>;
+    loading?: boolean;
+    disabled?: boolean;
+    children?: React$1.ReactNode;
+    /**
+    * ONLY FOR LARGE VARIANT
+    * @maximum 217
+    * ATTENTION: Values ​​above 217 will be automatically truncated.
+    */
+    maxWidth?: number;
+    /**
+    * ONLY FOR CIRCLE VARIANT
+    */
+    size?: never;
+    variant?: "large";
+} | {
+    Props?: {
+        ButtonProps?: Mui.IconButtonProps;
+        SVGProps?: SocialSvgProps;
+    };
+    Provider: ProviderType;
+    variant?: "circle";
     OnClick?: React$1.MouseEventHandler<HTMLButtonElement> | undefined;
     loading?: boolean;
     disabled?: boolean;
     children?: React$1.ReactNode;
     action?: () => void | Promise<void>;
-    extrawidth?: number;
-    maxWidth?: number;
+    /**
+    * ONLY FOR LARGE VARIANT
+    * @maximum 217
+    * ATTENTION: Values ​​above 217 will be automatically truncated.
+    */
+    maxWidth?: never;
+    /**
+    * ONLY FOR CIRCLE VARIANT
+    */
+    size?: "large" | "small" | "medium";
 };
 
 declare function resolveButtonWidth(extrawidth?: number, maxWidth?: number): string;
-declare function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children, action, extrawidth, maxWidth }: SocialButtonProps): react_jsx_runtime.JSX.Element;
+declare function SocialButton({ OnClick, Provider, variant, Props, disabled, loading, children, action, maxWidth, size, }: SocialButtonProps): react_jsx_runtime.JSX.Element;
 
 export { ActionButton, type ActionButtonNotification, type ActionButtonProps, AvatarUpload, type AvataruploadProps, type BuiltInProvider, type CustomProvider, type NotificationContextValue, NotificationProvider, Passwordfield, type PasswordfieldProps, type ProviderType, SVGs, SocialButton, type SocialButtonProps, type ToastMessage, type ToastType, resolveButtonWidth, useNotification };

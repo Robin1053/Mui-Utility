@@ -365,6 +365,7 @@ __export(SVGs_exports, {
   GoogleSVG: () => GoogleSVG,
   LinkedInSVG: () => LinkedInSVG,
   MicrosoftSVG: () => MicrosoftSVG,
+  PasskeySVG: () => PasskeySVG,
   SlackSVG: () => SlackSVG,
   XSVG: () => XSVG
 });
@@ -421,15 +422,15 @@ function AppleSVG({ size = 20, title, Props = { SVGProps: {} } }) {
     {
       width: size,
       height: size,
-      viewBox: "-1.5 0 20 20",
-      version: "1.1",
+      viewBox: "19 15 18 21",
       xmlns: "http://www.w3.org/2000/svg",
       fill: "currentColor",
+      preserveAspectRatio: "xMidYMid meet",
       ...getA11yProps(title),
       ...Props?.SVGProps,
       children: [
         title ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("title", { children: title }) : null,
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("g", { id: "Page-1", stroke: "none", strokeWidth: "1", fill: "none", fillRule: "evenodd", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("g", { id: "Dribbble-Light-Preview", transform: "translate(-102.000000, -7439.000000)", fill: "currentColor", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("g", { id: "icons", transform: "translate(56.000000, 160.000000)", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("path", { d: "M57.5708873,7282.19296 C58.2999598,7281.34797 58.7914012,7280.17098 58.6569121,7279 C57.6062792,7279.04 56.3352055,7279.67099 55.5818643,7280.51498 C54.905374,7281.26397 54.3148354,7282.46095 54.4735932,7283.60894 C55.6455696,7283.69593 56.8418148,7283.03894 57.5708873,7282.19296 M60.1989864,7289.62485 C60.2283111,7292.65181 62.9696641,7293.65879 63,7293.67179 C62.9777537,7293.74279 62.562152,7295.10677 61.5560117,7296.51675 C60.6853718,7297.73474 59.7823735,7298.94772 58.3596204,7298.97372 C56.9621472,7298.99872 56.5121648,7298.17973 54.9134635,7298.17973 C53.3157735,7298.17973 52.8162425,7298.94772 51.4935978,7298.99872 C50.1203933,7299.04772 49.0738052,7297.68074 48.197098,7296.46676 C46.4032359,7293.98379 45.0330649,7289.44985 46.8734421,7286.3899 C47.7875635,7284.87092 49.4206455,7283.90793 51.1942837,7283.88393 C52.5422083,7283.85893 53.8153044,7284.75292 54.6394294,7284.75292 C55.4635543,7284.75292 57.0106846,7283.67793 58.6366882,7283.83593 C59.3172232,7283.86293 61.2283842,7284.09893 62.4549652,7285.8199 C62.355868,7285.8789 60.1747177,7287.09489 60.1989864,7289.62485" }) }) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("path", { d: "M28.2226562,20.3846154 C29.0546875,20.3846154 30.0976562,19.8048315 30.71875,19.0317864 C31.28125,18.3312142 31.6914062,17.352829 31.6914062,16.3744437 C31.6914062,16.2415766 31.6796875,16.1087095 31.65625,16 C30.7304687,16.0362365 29.6171875,16.640178 28.9492187,17.4494596 C28.421875,18.06548 27.9414062,19.0317864 27.9414062,20.0222505 C27.9414062,20.1671964 27.9648438,20.3121424 27.9765625,20.3604577 C28.0351562,20.3725366 28.1289062,20.3846154 28.2226562,20.3846154 Z M25.2929688,35 C26.4296875,35 26.9335938,34.214876 28.3515625,34.214876 C29.7929688,34.214876 30.109375,34.9758423 31.375,34.9758423 C32.6171875,34.9758423 33.4492188,33.792117 34.234375,32.6325493 C35.1132812,31.3038779 35.4765625,29.9993643 35.5,29.9389701 C35.4179688,29.9148125 33.0390625,28.9122695 33.0390625,26.0979021 C33.0390625,23.6579784 34.9140625,22.5588048 35.0195312,22.474253 C33.7773438,20.6382708 31.890625,20.5899555 31.375,20.5899555 C29.9804688,20.5899555 28.84375,21.4596313 28.1289062,21.4596313 C27.3554688,21.4596313 26.3359375,20.6382708 25.1289062,20.6382708 C22.8320312,20.6382708 20.5,22.5950413 20.5,26.2911634 C20.5,28.5861411 21.3671875,31.013986 22.4335938,32.5842339 C23.3476562,33.9129053 24.1445312,35 25.2929688,35 Z", fillRule: "nonzero" })
       ]
     }
   );
@@ -465,8 +466,7 @@ function FacebookSVG({ size = 20, title, Props = { SVGProps: {} } }) {
       ...Props?.SVGProps,
       children: [
         title ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("title", { children: title }) : null,
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("g", { transform: "translate(0.000000,2084.000000) scale(0.100000,-0.100000)", fill: "currentColor", stroke: "none", children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("path", { d: "M9920 20820 c-1333 -71 -2554 -361 -3730 -885 -2855 -1272 -4991\r\n-3759 -5815 -6770 -259 -946 -378 -1902 -362 -2910 8 -467 28 -753 83 -1185\r\n161 -1266 567 -2515 1180 -3638 1018 -1860 2569 -3362 4459 -4317 621 -313\r\n1278 -566 1930 -743 99 -27 192 -52 208 -56 l27 -6 0 3460 0 3460 -1072 2\r\n-1073 3 0 1590 0 1590 1071 3 1072 2 5 928 c5 900 9 1030 43 1392 170 1832\r\n900 3055 2205 3695 587 288 1283 457 2159 525 228 18 824 24 1060 11 571 -32\r\n1204 -106 1630 -191 107 -22 209 -43 225 -48 l30 -8 3 -1449 2 -1448 -62 6\r\nc-293 30 -1331 42 -1583 19 -656 -60 -1086 -223 -1390 -527 -229 -229 -378\r\n-530 -459 -928 -64 -311 -76 -528 -76 -1329 l0 -648 1700 0 c935 0 1700 -4\r\n1700 -8 0 -5 -130 -719 -290 -1587 -159 -868 -290 -1582 -290 -1587 0 -4 -634\r\n-8 -1410 -8 l-1410 0 0 -3575 c0 -2853 3 -3575 13 -3575 33 0 447 64 616 95\r\n1630 299 3167 988 4491 2014 558 432 1139 991 1596 1537 413 491 805 1062\r\n1128 1639 197 352 470 936 617 1323 706 1848 872 3861 478 5815 -457 2266\r\n-1694 4356 -3469 5858 -1445 1222 -3164 2020 -5015 2329 -313 52 -664 92\r\n-1040 120 -183 14 -987 21 -1185 10z" }) }),
-        "        "
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("path", { d: "M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" })
       ]
     }
   );
@@ -578,6 +578,24 @@ function SlackSVG({ size = 20, title, Props = { SVGProps: {} } }) {
     }
   );
 }
+function PasskeySVG({ size = 20, title, Props = { SVGProps: {} } }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+    "svg",
+    {
+      xmlns: "http://www.w3.org/2000/svg",
+      width: size,
+      height: size,
+      viewBox: "0 -960 960 960",
+      fill: "currentColor",
+      ...getA11yProps(title),
+      ...Props?.SVGProps,
+      children: [
+        title ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("title", { children: title }) : null,
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("path", { d: "M120-160v-112q0-34 17.5-62.5T184-378q62-31 126-46.5T440-440q20 0 40 1.5t40 4.5q-4 58 21 109.5t73 84.5v80H120ZM760-40l-60-60v-186q-44-13-72-49.5T600-420q0-58 41-99t99-41q58 0 99 41t41 99q0 45-25.5 80T790-290l50 50-60 60 60 60-80 80ZM440-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm328.5 68.5Q780-423 780-440t-11.5-28.5Q757-480 740-480t-28.5 11.5Q700-457 700-440t11.5 28.5Q723-400 740-400t28.5-11.5Z" })
+      ]
+    }
+  );
+}
 
 // src/components/ui/fields/Sozial-Signin/Providerconfigs.tsx
 var import_jsx_runtime6 = require("react/jsx-runtime");
@@ -591,7 +609,8 @@ var BUILT_IN_PROVIDER_PRESENTATION = {
   x: { label: "X", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(XSVG, {}) },
   gitlab: { label: "GitLab", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(GitLabSVG, {}) },
   discord: { label: "Discord", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(DiscordSVG, {}) },
-  slack: { label: "Slack", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SlackSVG, {}) }
+  slack: { label: "Slack", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(SlackSVG, {}) },
+  passkey: { label: "Passkey", svg: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(PasskeySVG, {}) }
 };
 function resolveProviderPresentation(provider) {
   if (typeof provider === "object") {
@@ -606,118 +625,349 @@ function getProviderButtonStyles(provider, isDark = false) {
   const providerName = typeof provider === "object" ? provider.name.toLowerCase() : provider.toLowerCase();
   const styles = {
     google: isDark ? {
-      backgroundColor: "#FFFFFF",
-      color: "#1F1F1F",
-      border: "1px solid #747775",
-      hoverBgColor: "#FFFFFF",
-      hoverBorder: "rgba(0, 0, 0, 0.1)"
+      button: {
+        backgroundColor: "#131314",
+        color: "#E3E3E3",
+        border: "1px solid #8E918F",
+        hoverBgColor: "#FFFFFF",
+        hoverBorder: "rgba(0, 0, 0, 0.1)"
+      },
+      circle: {
+        backgroundColor: "#131314",
+        color: "#E3E3E3",
+        border: "1px solid #8E918F",
+        hoverBgColor: "#FFFFFF",
+        hoverBorder: "rgba(0, 0, 0, 0.1)"
+      }
     } : {
-      backgroundColor: "#131314",
-      color: "#E3E3E3",
-      border: "1px solid #8E918F",
-      hoverBgColor: "#FFFFFF",
-      hoverBorder: "rgba(0, 0, 0, 0.1)"
+      button: {
+        backgroundColor: "#E3E3E3",
+        color: "#131314",
+        border: "1px solid #131314",
+        hoverBgColor: "#8E918F",
+        hoverBorder: "1px solid rgba(17, 16, 16, 0.09)"
+      },
+      circle: {
+        backgroundColor: "#E3E3E3",
+        color: "#131314",
+        border: "1px solid #E3E3E3",
+        hoverBgColor: "rgb(64, 64, 70)",
+        hoverBorder: "1px solid rgb(227, 227, 227)"
+      }
     },
     apple: isDark ? {
-      backgroundColor: "#000000",
-      color: "#FFFFFF",
-      border: "1px solid #000000",
-      hoverBgColor: "#1C1C1C",
-      hoverBorder: "#1C1C1C",
-      logoColor: "#FFFFFF"
+      button: {
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+        border: "1px solid #ffffff",
+        hoverBgColor: "#F0F0F0",
+        hoverBorder: "#F0F0F0",
+        logoColor: "#000000",
+        loadingcolor: "#000000"
+      },
+      circle: {
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+        border: "1px solid #ffffff",
+        hoverBgColor: "#F0F0F0",
+        hoverBorder: "#F0F0F0",
+        logoColor: "#000000",
+        loadingcolor: "#000000"
+      }
     } : {
-      backgroundColor: "#FFFFFF",
-      color: "#000000",
-      border: "1px solid #FFFFFF",
-      hoverBgColor: "#F0F0F0",
-      hoverBorder: "#F0F0F0",
-      logoColor: "#000000"
+      button: {
+        backgroundColor: "#000000",
+        color: "#FFFFFF",
+        border: "1px solid #000000",
+        hoverBgColor: "#1C1C1C",
+        hoverBorder: "#1C1C1C",
+        logoColor: "#FFFFFF",
+        loadingcolor: "#FFFFFF"
+      },
+      circle: {
+        backgroundColor: "#000000",
+        color: "#FFFFFF",
+        border: "1px solid #000000",
+        hoverBgColor: "#1C1C1C",
+        hoverBorder: "#1C1C1C",
+        logoColor: "#FFFFFF",
+        loadingcolor: "#FFFFFF"
+      }
     },
     github: isDark ? {
-      backgroundColor: "#F2F5F3",
-      color: "#232925",
-      border: "1px solid rgba(240, 246, 252, 0.16)",
-      hoverBgColor: "#161B22",
-      hoverBorder: "rgba(240, 246, 252, 0.24)",
-      logoColor: "#000000"
+      button: {
+        backgroundColor: "rgb(43,45,49)",
+        color: "#F2F5F3",
+        border: "1px solid rgba(35, 41, 37, 0.24)",
+        hoverBgColor: "rgb(25, 27, 25)",
+        hoverBorder: "rgba(25, 27, 25, 0.32)",
+        logoColor: "#FFFFFF"
+      },
+      circle: {
+        backgroundColor: "rgb(43,45,49)",
+        color: "#F2F5F3",
+        border: "1px solid rgba(35, 41, 37, 0.24)",
+        hoverBgColor: "rgb(25, 27, 25)",
+        hoverBorder: "rgba(25, 27, 25, 0.32)",
+        logoColor: "#FFFFFF"
+      }
     } : {
-      backgroundColor: "rgb(43,45,49)",
-      color: "#F2F5F3",
-      border: "1px solid rgba(35, 41, 37, 0.16)",
-      hoverBgColor: "#F2F5F3",
-      hoverBorder: "rgba(16, 20, 17, 0.24)",
-      logoColor: "#FFFFFF"
+      button: {
+        backgroundColor: "#F2F5F3",
+        color: "#232925",
+        border: "1px solid rgba(240, 246, 252, 0.24)",
+        hoverBgColor: "#cae4d3",
+        hoverBorder: "rgba(240, 246, 252, 0.32)",
+        logoColor: "#000000"
+      },
+      circle: {
+        backgroundColor: "#F2F5F3",
+        color: "#232925",
+        border: "1px solid rgba(240, 246, 252, 0.24)",
+        hoverBgColor: "#cae4d3",
+        hoverBorder: "rgba(240, 246, 252, 0.32)",
+        logoColor: "#000000"
+      }
     },
     microsoft: isDark ? {
-      backgroundColor: "#FFFFFF",
-      color: "#1F1F1F",
-      border: "1px solid #8c8c8c",
-      hoverBgColor: "#F5F5F5",
-      hoverBorder: "#8c8c8c"
+      button: {
+        backgroundColor: "#2f2f2f",
+        color: "#FFFFFF",
+        border: "1px solid #8c8c8c",
+        hoverBgColor: "#3B3B3B",
+        hoverBorder: "#A0A0A0"
+      },
+      circle: {
+        backgroundColor: "#2f2f2f",
+        color: "#FFFFFF",
+        border: "1px solid #8c8c8c",
+        hoverBgColor: "#3B3B3B",
+        hoverBorder: "#A0A0A0"
+      }
     } : {
-      backgroundColor: "#2f2f2f",
-      color: "#FFFFFF",
-      border: "1px solid #8c8c8c",
-      hoverBgColor: "#3B3B3B",
-      hoverBorder: "#A0A0A0"
+      button: {
+        backgroundColor: "#FFFFFF",
+        color: "#1F1F1F",
+        border: "1px solid #F5F5F5",
+        hoverBgColor: "#f7f1f1",
+        hoverBorder: "#f3e3e3"
+      },
+      circle: {
+        backgroundColor: "#FFFFFF",
+        color: "#1F1F1F",
+        border: "1px solid #F5F5F5",
+        hoverBgColor: "#f7f1f1",
+        hoverBorder: "#f3e3e3"
+      }
     },
     facebook: {
-      backgroundColor: "#1877F2",
-      color: "#FFFFFF",
-      border: "1px solid #1877F2",
-      hoverBgColor: "#166FE5",
-      hoverBorder: "#166FE5",
-      logoColor: "#5890FF"
+      button: {
+        backgroundColor: "#1877F2",
+        color: "#FFFFFF",
+        border: "1px solid #1877F2",
+        hoverBgColor: "#4287e2",
+        hoverBorder: "#4287e2",
+        logoColor: "#FFFFFF"
+      },
+      circle: {
+        backgroundColor: "#1877F2",
+        color: "#FFFFFF",
+        border: "1px solid #1877F2",
+        hoverBgColor: "#4287e2",
+        hoverBorder: "#4287e2",
+        logoColor: "#ffffff"
+      }
     },
     linkedin: {
-      backgroundColor: "#0A66C2",
-      color: "#FFFFFF",
-      border: "1px solid #0A66C2",
-      hoverBgColor: "#004182",
-      hoverBorder: "#004182",
-      logoColor: "#FFFFFF"
+      button: {
+        backgroundColor: "#0A66C2",
+        color: "#FFFFFF",
+        border: "1px solid #0A66C2",
+        hoverBgColor: "#004182",
+        hoverBorder: "#004182",
+        logoColor: "#FFFFFF",
+        loadingcolor: "#FFFFFF"
+      },
+      circle: {
+        backgroundColor: "#0A66C2",
+        color: "#FFFFFF",
+        border: "1px solid #0A66C2",
+        hoverBgColor: "#004182",
+        hoverBorder: "#004182",
+        logoColor: "#FFFFFF",
+        loadingcolor: "#FFFFFF"
+      }
     },
     x: isDark ? {
-      backgroundColor: "#FFFFFF",
-      color: "#000000",
-      border: "1px solid rgba(0, 0, 0, 0.18)",
-      hoverBgColor: "#F2F2F2",
-      hoverBorder: "rgba(0, 0, 0, 0.26)",
-      logoColor: "#000000"
+      button: {
+        backgroundColor: "#000000",
+        color: "#FFFFFF",
+        border: "1px solid rgba(255, 255, 255, 0.22)",
+        hoverBgColor: "#272727",
+        hoverBorder: "rgba(255, 255, 255, 0.3)",
+        logoColor: "#FFFFFF"
+      },
+      circle: {
+        backgroundColor: "#000000",
+        color: "#FFFFFF",
+        border: "1px solid rgba(255, 255, 255, 0.22)",
+        hoverBgColor: "#272727",
+        hoverBorder: "rgba(255, 255, 255, 0.3)",
+        logoColor: "#FFFFFF"
+      }
     } : {
-      backgroundColor: "#000000",
-      color: "#FFFFFF",
-      border: "1px solid rgba(255, 255, 255, 0.22)",
-      hoverBgColor: "#272727",
-      hoverBorder: "rgba(255, 255, 255, 0.3)",
-      logoColor: "#FFFFFF"
+      button: {
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+        border: "1px solid rgba(0, 0, 0, 0.18)",
+        hoverBgColor: "#F2F2F2",
+        hoverBorder: "rgba(0, 0, 0, 0.26)",
+        logoColor: "#000000"
+      },
+      circle: {
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+        border: "1px solid rgba(0, 0, 0, 0.18)",
+        hoverBgColor: "#F2F2F2",
+        hoverBorder: "rgba(0, 0, 0, 0.26)",
+        logoColor: "#000000"
+      }
     },
-    gitlab: {
-      backgroundColor: "#FFFFFF",
-      color: "#FC6D26",
-      border: "1px solid #FC6D26",
-      hoverBgColor: "#F5F5F5",
-      hoverBorder: "#FC6D26"
+    gitlab: isDark ? {
+      button: {
+        backgroundColor: "#171321",
+        color: "#FFFFFF",
+        border: "1px solid #FC6D26",
+        hoverBgColor: "rgb(26, 23, 23)",
+        hoverBorder: "rgba(226, 67, 41, 0.8)",
+        loadingcolor: "#FC6D26"
+      },
+      circle: {
+        backgroundColor: "#171321",
+        color: "#FFFFFF",
+        border: "1px solid #FC6D26",
+        hoverBgColor: "rgb(26, 23, 23)",
+        hoverBorder: "rgba(226, 67, 41, 0.8)",
+        loadingcolor: "#FC6D26"
+      }
+    } : {
+      button: {
+        backgroundColor: "#FFFFFF",
+        color: "#FC6D26",
+        border: "1px solid #FC6D26",
+        hoverBgColor: "#F5F5F5",
+        hoverBorder: "#FC6D26",
+        loadingcolor: "#FC6D26"
+      },
+      circle: {
+        backgroundColor: "#FFFFFF",
+        color: "#FC6D26",
+        border: "1px solid #FC6D26",
+        hoverBgColor: "#F5F5F5",
+        hoverBorder: "#FC6D26",
+        loadingcolor: "#FC6D26"
+      }
     },
     discord: isDark ? {
-      backgroundColor: "#FFFFFF",
-      color: "#000000",
-      border: "1px solid rgba(0, 0, 0, 0.08)",
-      hoverBgColor: "#F4F5F7",
-      hoverBorder: "rgba(17, 18, 19, 0.16)"
+      button: {
+        backgroundColor: "#1c1d23",
+        color: "#FFFFFF",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        hoverBgColor: "#23252e",
+        hoverBorder: "rgba(255, 255, 255, 0.16)"
+      },
+      circle: {
+        backgroundColor: "#1c1d23",
+        color: "#FFFFFF",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        hoverBgColor: "#23252e",
+        hoverBorder: "rgba(255, 255, 255, 0.16)"
+      }
     } : {
-      backgroundColor: "#1c1d23",
-      color: "#FFFFFF",
-      border: "1px solid rgba(255, 255, 255, 0.08)",
-      hoverBgColor: "#23252e",
-      hoverBorder: "rgba(255, 255, 255, 0.16)"
+      button: {
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+        border: "1px solid rgba(0, 0, 0, 0.08)",
+        hoverBgColor: "#F4F5F7",
+        hoverBorder: "rgba(17, 18, 19, 0.16)"
+      },
+      circle: {
+        backgroundColor: "#FFFFFF",
+        color: "#000000",
+        border: "1px solid rgba(0, 0, 0, 0.08)",
+        hoverBgColor: "#F4F5F7",
+        hoverBorder: "rgba(17, 18, 19, 0.16)"
+      }
     },
-    slack: {
-      backgroundColor: "#FFFFFF",
-      color: "#1F1F1F",
-      border: "1px solid rgba(0, 0, 0, 0.1)",
-      hoverBgColor: "#F8F8F8",
-      hoverBorder: "rgba(0, 0, 0, 0.18)"
+    slack: isDark ? {
+      button: {
+        backgroundColor: "#1c1d23",
+        color: "#FFFFFF",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        hoverBgColor: "#23252e",
+        hoverBorder: "rgba(255, 255, 255, 0.16)"
+      },
+      circle: {
+        backgroundColor: "#1c1d23",
+        color: "#FFFFFF",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        hoverBgColor: "#23252e",
+        hoverBorder: "rgba(255, 255, 255, 0.16)"
+      }
+    } : {
+      button: {
+        backgroundColor: "#FFFFFF",
+        color: "#1F1F1F",
+        border: "1px solid rgba(0, 0, 0, 0.1)",
+        hoverBgColor: "#F8F8F8",
+        hoverBorder: "rgba(0, 0, 0, 0.18)"
+      },
+      circle: {
+        backgroundColor: "#FFFFFF",
+        color: "#1F1F1F",
+        border: "1px solid rgba(0, 0, 0, 0.1)",
+        hoverBgColor: "#F8F8F8",
+        hoverBorder: "rgba(0, 0, 0, 0.18)"
+      }
+    },
+    passkey: isDark ? {
+      button: {
+        backgroundColor: "#1F222B",
+        color: "#F8F5F1",
+        border: "1px solid rgba(255, 255, 255, 0.14)",
+        hoverBgColor: "#2A2F3A",
+        hoverBorder: "rgba(255, 255, 255, 0.24)",
+        loadingcolor: "#F8F5F1",
+        logoColor: "#F8F5F1"
+      },
+      circle: {
+        backgroundColor: "#1F222B",
+        color: "#F8F5F1",
+        border: "1px solid rgba(255, 255, 255, 0.14)",
+        hoverBgColor: "#2A2F3A",
+        hoverBorder: "rgba(255, 255, 255, 0.24)",
+        loadingcolor: "#F8F5F1",
+        logoColor: "#F8F5F1"
+      }
+    } : {
+      button: {
+        backgroundColor: "#F4ECE4",
+        color: "#2D1C12",
+        border: "1px solid rgba(157, 112, 82, 0.32)",
+        hoverBgColor: "#EDE1D5",
+        hoverBorder: "rgba(157, 112, 82, 0.48)",
+        loadingcolor: "#2D1C12",
+        logoColor: "#2D1C12"
+      },
+      circle: {
+        backgroundColor: "#F4ECE4",
+        color: "#2D1C12",
+        border: "1px solid rgba(157, 112, 82, 0.32)",
+        hoverBgColor: "#EDE1D5",
+        hoverBorder: "rgba(157, 112, 82, 0.48)",
+        loadingcolor: "#2D1C12",
+        logoColor: "#2D1C12"
+      }
     }
   };
   return styles[providerName] || styles.google;
@@ -749,19 +999,24 @@ function SocialButton({
   loading,
   children,
   action,
-  extrawidth,
-  maxWidth
+  maxWidth,
+  size
 }) {
   const providerPresentation = resolveProviderPresentation(Provider);
-  const isDark = Mui.useMediaQuery("(prefers-color-scheme: dark)", { noSsr: true });
-  const providerStyles = getProviderButtonStyles(Provider, isDark);
-  const logoColor = typeof Provider === "object" ? Provider.logoColor : providerStyles.logoColor;
-  const buttonWidth = resolveButtonWidth(extrawidth, maxWidth);
+  const providerName = typeof Provider === "string" ? Provider : Provider;
+  const isPasskeyProvider = providerName === "passkey";
+  const theme = Mui.useTheme();
+  const isDarkMode = theme.palette.mode === "dark";
+  const providerStyles = getProviderButtonStyles(Provider, isDarkMode);
+  const variantStyles = variant === "circle" ? providerStyles.circle : providerStyles.button;
+  const logoColor = typeof Provider === "object" ? Provider.logoColor ?? Provider.color.logoColor ?? variantStyles.logoColor : variantStyles.logoColor;
+  const buttonWidth = resolveButtonWidth(maxWidth);
+  const iconSize = isPasskeyProvider ? 24 : 20;
   const iconNode = React4.isValidElement(providerPresentation.svg) ? React4.cloneElement(providerPresentation.svg, {
     Props: {
       SVGProps: {
         ...Props?.SVGProps?.Props?.SVGProps ?? {},
-        ...logoColor ? { color: logoColor, fill: logoColor, stroke: logoColor } : {}
+        ...logoColor ? { color: logoColor } : {}
       }
     }
   }) : providerPresentation.svg;
@@ -770,21 +1025,66 @@ function SocialButton({
       Mui.IconButton,
       {
         sx: {
-          height: "40px",
-          width: "40px"
+          backgroundColor: providerStyles.circle.backgroundColor,
+          border: providerStyles.circle.border,
+          color: providerStyles.circle.color,
+          "&:hover": {
+            backgroundColor: providerStyles.circle.hoverBgColor,
+            borderColor: providerStyles.circle.hoverBorder
+          },
+          "&.Mui-disabled": {
+            backgroundColor: providerStyles.circle.backgroundColor,
+            border: providerStyles.circle.border,
+            color: providerStyles.circle.color,
+            opacity: 0.75
+          },
+          padding: 0,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center"
         },
+        size,
         ...Props?.ButtonProps,
         onClick: OnClick,
         disabled: disabled || loading,
         children: loading ? /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
-          Mui.CircularProgress,
+          Mui.Box,
           {
-            size: 20,
             sx: {
-              color: providerStyles.color
-            }
+              width: `${iconSize}px`,
+              height: `${iconSize}px`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            },
+            children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+              Mui.CircularProgress,
+              {
+                size: `${iconSize}px`,
+                sx: {
+                  color: `${providerStyles.circle.loadingcolor || providerStyles.circle.color} !important`
+                }
+              }
+            )
           }
-        ) : iconNode
+        ) : /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+          Mui.Box,
+          {
+            sx: {
+              width: `${iconSize}px`,
+              height: `${iconSize}px`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              "& > svg": {
+                width: "100%",
+                height: "100%",
+                display: "block"
+              }
+            },
+            children: iconNode
+          }
+        )
       }
     ) });
   } else {
@@ -792,36 +1092,77 @@ function SocialButton({
       Mui.Button,
       {
         ...Props?.ButtonProps,
+        loadingIndicator: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+          Mui.Box,
+          {
+            sx: {
+              width: `${iconSize}px`,
+              height: `${iconSize}px`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center"
+            },
+            children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Mui.CircularProgress, { sx: { color: providerStyles.button.loadingcolor || providerStyles.button.color }, size: `${iconSize}px` })
+          }
+        ),
+        loadingPosition: "end",
         variant: "outlined",
-        startIcon: iconNode,
+        startIcon: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(
+          Mui.Box,
+          {
+            sx: {
+              width: `${iconSize}px`,
+              height: `${iconSize}px`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              "& > svg": {
+                width: "100%",
+                height: "100%",
+                display: "block"
+              }
+            },
+            children: iconNode
+          }
+        ),
         sx: {
-          border: providerStyles.border,
+          border: providerStyles.button.border,
           borderRadius: "20px",
-          backgroundColor: providerStyles.backgroundColor,
+          backgroundColor: providerStyles.button.backgroundColor,
           height: "40px",
           width: buttonWidth,
           minWidth: "183px",
+          maxWidth: "400px",
           justifyContent: "flex-start",
-          textTransform: "none",
-          color: providerStyles.color,
-          "& .MuiButton-loading": {
-            color: providerStyles.color
-          },
+          color: providerStyles.button.color,
           fontSize: "14px",
           lineHeight: "20px",
           letterSpacing: "0.25px",
           padding: 0,
           "&:hover": {
-            backgroundColor: providerStyles.hoverBgColor,
-            borderColor: providerStyles.hoverBorder
+            backgroundColor: providerStyles.button.hoverBgColor,
+            borderColor: providerStyles.button.hoverBorder
+          },
+          "&.Mui-disabled": {
+            backgroundColor: providerStyles.button.backgroundColor,
+            border: providerStyles.button.border,
+            color: providerStyles.button.color,
+            opacity: 0.75
+          },
+          "&.Mui-disabled .MuiCircularProgress-root": {
+            color: `${providerStyles.button.loadingcolor || providerStyles.button.color} !important`
           },
           "& .MuiButton-startIcon": {
             marginLeft: "11px",
-            marginRight: "11px"
+            marginRight: "11px",
+            display: "flex",
+            alignItems: "center"
           },
-          "& .MuiButton-startIcon svg": {
-            height: "20px",
-            width: "20px"
+          "& .MuiButton-endIcon": {
+            marginLeft: "11px",
+            marginRight: "11px",
+            display: "flex",
+            alignItems: "center"
           }
         },
         loading,

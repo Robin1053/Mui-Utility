@@ -39,55 +39,100 @@ function SocialButton({
     loading,
     children,
     action,
-    extrawidth,
-    maxWidth
+    maxWidth,
+    size,
 }: SocialButtonProps) {
     //TODO: Implement Action Handling, so that the Button handels the loading and disabled state itself. 
 
     const providerPresentation = resolveProviderPresentation(Provider);
-    const isDark = Mui.useMediaQuery('(prefers-color-scheme: dark)', { noSsr: true });
-    const providerStyles = getProviderButtonStyles(Provider, isDark);
-    const logoColor = typeof Provider === "object" ? Provider.logoColor : providerStyles.logoColor;
-    const buttonWidth = resolveButtonWidth(extrawidth, maxWidth);
+    const providerName = typeof Provider === "string" ? Provider : Provider;
+    const isPasskeyProvider = providerName === "passkey";
+    const theme = Mui.useTheme();
+    const isDarkMode = theme.palette.mode === 'dark';
+    const providerStyles = getProviderButtonStyles(Provider, isDarkMode);
+    const variantStyles = variant === "circle" ? providerStyles.circle : providerStyles.button;
+    const logoColor = typeof Provider === "object"
+        ? (Provider.logoColor ?? Provider.color.logoColor ?? variantStyles.logoColor)
+        : variantStyles.logoColor;
+    const buttonWidth = resolveButtonWidth(maxWidth);
+    const iconSize = isPasskeyProvider ? 24 : 20;
 
     const iconNode = React.isValidElement(providerPresentation.svg)
         ? React.cloneElement(providerPresentation.svg as React.ReactElement<any>, {
             Props: {
                 SVGProps: {
                     ...(Props?.SVGProps?.Props?.SVGProps ?? {}),
-                    ...(logoColor ? { color: logoColor, fill: logoColor, stroke: logoColor } : {}),
+                    ...(logoColor ? { color: logoColor } : {}),
                 },
             },
         })
         : providerPresentation.svg;
 
     if (variant == "circle") {
-        //TODO: FIX: Facebook icon in darkmode, and X, Linkedin, Github, Facebook icons in light mode. 
-        //TODO: Give the Button an Boarder in Circle Variant.
-        //TODO: Implement different Sizes.
+        //TODO: FIX: Facebook, LinkedIn icon in darkmode, and Facebook icons in light mode. 
 
         return (
             <>
                 <Mui.IconButton
                     sx={
                         {
-                            height: "40px",
-                            width: "40px",
+                            backgroundColor: providerStyles.circle.backgroundColor,
+                            border: providerStyles.circle.border,
+                            color: providerStyles.circle.color,
+                            '&:hover': {
+                                backgroundColor: providerStyles.circle.hoverBgColor,
+                                borderColor: providerStyles.circle.hoverBorder,
+                            },
+                            '&.Mui-disabled': {
+                                backgroundColor: providerStyles.circle.backgroundColor,
+                                border: providerStyles.circle.border,
+                                color: providerStyles.circle.color,
+                                opacity: 0.75,
+                            },
+                            padding: 0,
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                         }
                     }
+                    size={size}
                     {...Props?.ButtonProps}
                     onClick={OnClick}
-                    disabled={disabled || loading}
-                >
+                    disabled={disabled || loading}                >
                     {loading ?
-                        <Mui.CircularProgress
-                            size={20}
-                            sx={
-                                {
-                                    color: providerStyles.color
-                                }
-                            } />
-                        : iconNode}
+                        <Mui.Box
+                            sx={{
+                                width: `${iconSize}px`,
+                                height: `${iconSize}px`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Mui.CircularProgress
+                                size={`${iconSize}px`}
+                                sx={
+                                    {
+                                        color: `${providerStyles.circle.loadingcolor || providerStyles.circle.color} !important`
+                                    }
+                                } />
+                        </Mui.Box>
+                        : <Mui.Box
+                            sx={{
+                                width: `${iconSize}px`,
+                                height: `${iconSize}px`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                '& > svg': {
+                                    width: '100%',
+                                    height: '100%',
+                                    display: 'block',
+                                },
+                            }}
+                        >
+                            {iconNode}
+                        </Mui.Box>}
                 </Mui.IconButton>
             </>
         )
@@ -98,37 +143,78 @@ function SocialButton({
             <>
                 <Mui.Button
                     {...Props?.ButtonProps}
+                    loadingIndicator={
+                        <Mui.Box
+                            sx={{
+                                width: `${iconSize}px`,
+                                height: `${iconSize}px`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Mui.CircularProgress sx={{ color: providerStyles.button.loadingcolor || providerStyles.button.color }} size={`${iconSize}px`} />
+                        </Mui.Box>
+                    }
+                    loadingPosition="end"
                     variant="outlined"
-                    startIcon={iconNode}
+                    startIcon={
+                        <Mui.Box
+                            sx={{
+                                width: `${iconSize}px`,
+                                height: `${iconSize}px`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                '& > svg': {
+                                    width: '100%',
+                                    height: '100%',
+                                    display: 'block',
+                                },
+                            }}
+                        >
+                            {iconNode}
+                        </Mui.Box>
+                    }
                     sx={
                         {
-                            border: providerStyles.border,
+                            border: providerStyles.button.border,
                             borderRadius: '20px',
-                            backgroundColor: providerStyles.backgroundColor,
+                            backgroundColor: providerStyles.button.backgroundColor,
                             height: '40px',
                             width: buttonWidth,
                             minWidth: '183px',
+                            maxWidth: '400px',
                             justifyContent: 'flex-start',
-                            textTransform: 'none',
-                            color: providerStyles.color,
-                            '& .MuiButton-loading': {
-                                color: providerStyles.color,
-                            },
+                            color: providerStyles.button.color,
                             fontSize: '14px',
                             lineHeight: '20px',
                             letterSpacing: '0.25px',
                             padding: 0,
                             '&:hover': {
-                                backgroundColor: providerStyles.hoverBgColor,
-                                borderColor: providerStyles.hoverBorder,
+                                backgroundColor: providerStyles.button.hoverBgColor,
+                                borderColor: providerStyles.button.hoverBorder,
+                            },
+                            '&.Mui-disabled': {
+                                backgroundColor: providerStyles.button.backgroundColor,
+                                border: providerStyles.button.border,
+                                color: providerStyles.button.color,
+                                opacity: 0.75,
+                            },
+                            '&.Mui-disabled .MuiCircularProgress-root': {
+                                color: `${providerStyles.button.loadingcolor || providerStyles.button.color} !important`,
                             },
                             '& .MuiButton-startIcon': {
                                 marginLeft: '11px',
                                 marginRight: '11px',
+                                display: 'flex',
+                                alignItems: 'center',
                             },
-                            '& .MuiButton-startIcon svg': {
-                                height: '20px',
-                                width: '20px',
+                            '& .MuiButton-endIcon': {
+                                marginLeft: '11px',
+                                marginRight: '11px',
+                                display: 'flex',
+                                alignItems: 'center',
                             },
                         }
                     }
@@ -148,12 +234,10 @@ function SocialButton({
     }
 }
 
-export { SocialButton };
+export { SocialButton, resolveButtonWidth };
 export type {
     SocialButtonProps,
     BuiltInProvider,
     CustomProvider,
     ProviderType,
 };
-
-export { resolveButtonWidth };

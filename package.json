@@ -1,6 +1,6 @@
 {
   "name": "@robineb/mui-utility",
-  "version": "1.0.2",
+  "version": "1.2.0",
   "description": "Utility extensions for MUI",
   "keywords": [
     "mui",
@@ -24,6 +24,31 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./ActionButton": {
+      "types": "./dist/ActionButton/index.d.ts",
+      "import": "./dist/ActionButton/index.mjs",
+      "require": "./dist/ActionButton/index.js"
+    },
+    "./Avatar": {
+      "types": "./dist/Avatar/index.d.ts",
+      "import": "./dist/Avatar/index.mjs",
+      "require": "./dist/Avatar/index.js"
+    },
+    "./Passwordfield": {
+      "types": "./dist/Passwordfield/index.d.ts",
+      "import": "./dist/Passwordfield/index.mjs",
+      "require": "./dist/Passwordfield/index.js"
+    },
+    "./Notefication": {
+      "types": "./dist/Notefication/index.d.ts",
+      "import": "./dist/Notefication/index.mjs",
+      "require": "./dist/Notefication/index.js"
+    },
+    "./Sozial-Signin": {
+      "types": "./dist/Sozial-Signin/index.d.ts",
+      "import": "./dist/Sozial-Signin/index.mjs",
+      "require": "./dist/Sozial-Signin/index.js"
     }
   },
   "files": [
@@ -33,12 +58,12 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "tsup src/index.ts src/ActionButton/index.ts src/Avatar/index.ts src/Passwordfield/index.ts src/Notefication/index.ts src/Sozial-Signin/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts src/ActionButton/index.ts src/Avatar/index.ts src/Passwordfield/index.ts src/Notefication/index.ts src/Sozial-Signin/index.ts --format cjs,esm --dts --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:vite": "npm run build && npm pack && cd Test && npm i ../robineb-mui-utility-1.0.2.tgz && npm run dev"
+    "test:vite": "npm run build && npm pack && cd Test && npm i ../robineb-mui-utility-1.2.0.tgz && npm run dev"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

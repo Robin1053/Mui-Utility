@@ -1,14 +1,14 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SocialButton, resolveButtonWidth } from './Sozial-Button';
-import * as SVG from './SVGs';
-import { NotificationProvider } from '../../Notefication/Notifications';
+import * as SVG from './SVGs/SVGs';
+import { NotificationProvider } from '../Notefication/Notifications';
 
 function renderWithNotifications(ui: React.ReactElement) {
   return render(<NotificationProvider>{ui}</NotificationProvider>);
 }
 describe('SocialButton', () => {
-  it('renders a default large provider button', () => {
+  it('renders a default large Provider button', () => {
     render(<SocialButton Provider="google" />);
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeInTheDocument();
@@ -20,13 +20,13 @@ describe('SocialButton', () => {
     expect(screen.getByRole('button')).toHaveTextContent('Continue with Google');
   });
 
-  it('renders custom provider label fallback text', () => {
+  it('renders custom Provider label fallback text', () => {
     render(
       <SocialButton
         Props={
           {
             ButtonProps: {
-              id: "custom-provider-icon"
+              id: "custom-Provider-icon"
             }
           }
         }
@@ -50,7 +50,7 @@ describe('SocialButton', () => {
 
     const buttonElement = screen.getByRole('button', { name: 'Sign in with MyID' });
     expect(buttonElement).toBeInTheDocument();
-    expect(buttonElement).toHaveAttribute('id', 'custom-provider-icon');
+    expect(buttonElement).toHaveAttribute('id', 'custom-Provider-icon');
   });
 
   it('is disabled when disabled=true', () => {

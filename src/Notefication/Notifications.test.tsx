@@ -10,7 +10,7 @@ function Trigger({ type = "success" as ToastType, message = "Saved" }) {
     const { notify } = useNotification();
 
     return (
-        <button onClick={() => notify({ type, message })}>
+        <button OnClick={() => notify({ type, message })}>
             notify
         </button>
     );

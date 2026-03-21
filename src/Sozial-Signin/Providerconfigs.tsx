@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Mui from "@mui/material";
-import * as SVG from "./SVGs";
-import { SocialSvgProps } from "./SVGs";
+import * as SVG from "./SVGs/SVGs";
+import { SocialSvgProps } from "./SVGs/SVGs";
 import type { ActionButtonNotification } from "../ActionButton/ActionButton";
 
 type BuiltInProvider =
@@ -42,7 +42,7 @@ type ProviderPresentation = {
     svg: React.ReactNode;
 };
 
-const BUILT_IN_PROVIDER_PRESENTATION: Record<BuiltInProvider, ProviderPresentation> = {
+const BUILT_IN_Provider_PRESENTATION: Record<BuiltInProvider, ProviderPresentation> = {
     google: { label: "Google", svg: <SVG.GoogleSVG /> },
     microsoft: { label: "Microsoft", svg: <SVG.MicrosoftSVG /> },
     apple: { label: "Apple", svg: <SVG.AppleSVG /> },
@@ -56,15 +56,15 @@ const BUILT_IN_PROVIDER_PRESENTATION: Record<BuiltInProvider, ProviderPresentati
     passkey: { label: "Passkey", svg: <SVG.PasskeySVG /> },
 };
 
-function resolveProviderPresentation(provider: ProviderType): ProviderPresentation {
-    if (typeof provider === "object") {
+function resolveProviderPresentation(Provider: ProviderType): ProviderPresentation {
+    if (typeof Provider === "object") {
         return {
-            label: provider.name,
-            svg: provider.svg,
+            label: Provider.name,
+            svg: Provider.svg,
         };
     }
 
-    return BUILT_IN_PROVIDER_PRESENTATION[provider];
+    return BUILT_IN_Provider_PRESENTATION[Provider];
 }
 
 type ProviderButtonStyle = {
@@ -142,8 +142,8 @@ type SocialButtonProps =
 
 
 
-function getProviderButtonStyles(provider: ProviderType, isDark: boolean = false): ProviderButtonStyle {
-    const providerName = typeof provider === "object" ? provider.name.toLowerCase() : provider.toLowerCase();
+function getProviderButtonStyles(Provider: ProviderType, isDark: boolean = false): ProviderButtonStyle {
+    const ProviderName = typeof Provider === "object" ? Provider.name.toLowerCase() : Provider.toLowerCase();
 
     const styles: Record<string, ProviderButtonStyle> = {
 
@@ -516,7 +516,7 @@ function getProviderButtonStyles(provider: ProviderType, isDark: boolean = false
             }
         }
     }
-    return styles[providerName] || styles.google;
+    return styles[ProviderName] || styles.google;
 
 }
 export type {

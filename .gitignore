@@ -40,7 +40,7 @@ next-env.d.ts
 *.tgz
 
 # exports 
-/dist/*
+dist/*
 
 # Test files
 Test/*

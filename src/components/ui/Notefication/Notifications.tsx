@@ -52,3 +52,6 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     </NotificationContext.Provider>
   );
 };
+
+
+//TODO: Props in NotificationProvider einbauen

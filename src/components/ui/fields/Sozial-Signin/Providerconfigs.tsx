@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Mui from "@mui/material";
 import * as SVG from "./SVGs";
 import { SocialSvgProps } from "./SVGs";
+import type { ActionButtonNotification } from "../ActionButton/ActionButton";
 
 type BuiltInProvider =
     | "google"
@@ -97,6 +98,7 @@ type SocialButtonProps =
         Provider: ProviderType;
         OnClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
         action?: () => void | Promise<void>;
+        Notification?: ActionButtonNotification;
         loading?: boolean;
         disabled?: boolean;
         children?: React.ReactNode;
@@ -124,6 +126,7 @@ type SocialButtonProps =
         disabled?: boolean;
         children?: React.ReactNode;
         action?: () => void | Promise<void>;
+        Notification?: ActionButtonNotification;
         /** 
         * ONLY FOR LARGE VARIANT
         * @maximum 217 

@@ -1,5 +1,6 @@
 import * as Mui from "@mui/material";
 import * as React from "react";
+import { useNotification } from "../../Notefication/Notifications";
 import {
     type BuiltInProvider,
     type CustomProvider,
@@ -39,10 +40,13 @@ function SocialButton({
     loading,
     children,
     action,
+    Notification = {},
     maxWidth,
     size,
 }: SocialButtonProps) {
-    //TODO: Implement Action Handling, so that the Button handels the loading and disabled state itself. 
+    const [internalLoading, setInternalLoading] = React.useState(false);
+    const [error, setError] = React.useState<Error | null>(null);
+    const { notify } = useNotification();
 
     const providerPresentation = resolveProviderPresentation(Provider);
     const providerName = typeof Provider === "string" ? Provider : Provider;
@@ -56,6 +60,40 @@ function SocialButton({
         : variantStyles.logoColor;
     const buttonWidth = resolveButtonWidth(maxWidth);
     const iconSize = isPasskeyProvider ? 24 : 20;
+    const isLoading = loading || internalLoading;
+    const isDisabled = disabled || isLoading;
+
+    const handleClick: React.MouseEventHandler<HTMLButtonElement> = async (event) => {
+        if (isDisabled) return;
+
+        if (!action) {
+            OnClick?.(event);
+            return;
+        }
+
+        if (error) {
+            setError(null);
+        }
+
+        setInternalLoading(true);
+        try {
+            await action();
+            if (Notification.useNotification === true) {
+                notify({ message: Notification.successmessage, type: "success" });
+            }
+        } catch (caught) {
+            const caughtError =
+                caught instanceof Error ? caught : new Error("An unknown error has occurred.");
+            setError(caughtError);
+
+            if (Notification.useNotification === true) {
+                const errorMessage = caughtError.message || Notification.errormessage;
+                notify({ message: errorMessage, type: "error" });
+            }
+        } finally {
+            setInternalLoading(false);
+        }
+    };
 
     const iconNode = React.isValidElement(providerPresentation.svg)
         ? React.cloneElement(providerPresentation.svg as React.ReactElement<any>, {
@@ -97,9 +135,12 @@ function SocialButton({
                     }
                     size={size}
                     {...Props?.ButtonProps}
-                    onClick={OnClick}
-                    disabled={disabled || loading}                >
-                    {loading ?
+                    onClick={handleClick}
+                    disabled={isDisabled}
+                    aria-busy={isLoading}
+                    aria-invalid={!!error}
+                >
+                    {isLoading ?
                         <Mui.Box
                             sx={{
                                 width: `${iconSize}px`,
@@ -218,9 +259,11 @@ function SocialButton({
                             },
                         }
                     }
-                    loading={loading}
-                    onClick={OnClick}
-                    disabled={disabled || loading}
+                    loading={isLoading}
+                    onClick={handleClick}
+                    disabled={isDisabled}
+                    aria-busy={isLoading}
+                    aria-invalid={!!error}
                 > <Mui.Box sx={
                     {
                         paddingRight: "12px"

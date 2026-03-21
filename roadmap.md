@@ -1,119 +1,92 @@
 # Mui-Utility Roadmap
 
+Stand: 2026-03-21
+
 ## Vision
-Eine leichtgewichtige MUI-Utility-Bibliothek mit sofort nutzbaren UI-Bausteinen:
-- schnell integrierbar
-- konsistente API
-- wenig Boilerplate
+Leichtgewichtige MUI Utility-Bibliothek mit sofort nutzbaren, sauber typisierten UI-Bausteinen.
 
----
+## Aktueller Stand
 
-## Phase 1 – MVP (kurzfristig)
+### Done
 
-### 1) Social Sign-In Button
-**Ziel:** Ein einheitlicher Login-Button für verschiedene Anbieter mit minimalem Setup.
+1. ActionButton
+- Async action handling
+- Optionaler Confirm-Dialog
+- Optionales Notification-Feedback
+- Basis-Accessibility (aria-busy, aria-invalid)
 
-**Features:**
-- Unterstützte Anbieter: Google, GitHub, Microsoft, Apple, Facebook (erweiterbar)
-- Einheitliche Props: `provider`, `onClick`, `loading`, `disabled`, `variant`, `size`
-- Vordefinierte Icons und Farben im MUI-Stil
-- Optional: nur Icon / Icon + Label
+2. NotificationProvider + useNotification
+- Globales Snackbar/Alert Handling
+- Einheitliche Toast Types: success, error, info, warning
 
-**Abnahmekriterien:**
-- Import + Nutzung in < 5 Zeilen
-- Konsistentes Verhalten über alle Anbieter
-- Vollständig typisiert (TypeScript)
+3. Passwordfield
+- Show/Hide Passwort Toggle
+- Optionale Strength-Anzeige ueber Progressbar
 
-### 2) Dialog Button
-**Ziel:** Ein Button, der direkt einen Standard-Dialog öffnet (Confirm, Alert, Custom).
+4. AvatarUpload
+- Bildauswahl ueber File Input
+- Callback mit ausgewaehlter Datei
 
-**Features:**
-- Modi: `confirm`, `alert`, `custom`
-- Props für Titel, Content, Confirm/Cancel Labels
-- Callbacks: `onConfirm`, `onCancel`, `onClose`
+5. SocialButton
+- Varianten: large, circle
+- Built-in Provider: google, microsoft, apple, github, facebook, linkedin, x, gitlab, discord, slack, passkey
+- Custom Provider Konfiguration moeglich
 
-**Abnahmekriterien:**
-- Kein manuelles State-Handling im Consumer nötig
-- Accessibility via MUI Dialog-Standards
-- Klarer API-Vertrag für einfache und erweiterte Nutzung
+6. Testbasis vorhanden
+- Unit/Interaction Tests fuer alle Kernkomponenten
+- Aktueller Stand: 23/25 Tests gruen
 
-### 3) Schnelle Notification (ohne Objekt-Konfiguration)
-**Ziel:** Notification per einfachem Funktionsaufruf, z. B. `notify.success("Gespeichert")`.
+### In Progress / Offen
 
-**Features:**
-- Globaler Provider + Hook/Utility (`notify`)
-- Methoden: `success`, `error`, `warning`, `info`
-- Optionale Defaults (Dauer, Position) zentral konfigurierbar
-- Keine Pflicht für komplexe Options-Objekte
+1. SocialButton Theme Edge Cases
+- Offene TODOs bei Circle-Icon Farben fuer einzelne Provider in Dark/Light.
 
-**Abnahmekriterien:**
-- Nutzung per Import + Einzeiler
-- Saubere Queue für mehrere Meldungen
-- Einheitliches Styling über die Library
+2. NotificationProvider Erweiterbarkeit
+- Offenes TODO fuer konfigurierbare Provider-Defaults.
 
----
 
-## Phase 2 – Sinnvolle Erweiterungen (mittelfristig)
 
-### 4) CopyButton
-Button mit integriertem Copy-to-Clipboard + optionaler Success-Notification.
+## Next Milestones
 
-### 5) AsyncActionButton
-**Ausbau vom bestehenden `ActionButton` (kein neuer separater Kern nötig).**
+### Milestone 1: API Konsolidierung (kurzfristig)
 
-**Ziel:** Deinen vorhandenen `ActionButton` gezielt erweitern, damit Async-Flows sauber und wiederverwendbar abgedeckt sind.
+1. Prop-Namen vereinheitlichen
+- `OnClick` vs. `onClick`
+- `Provider` vs. `provider`
+- `Props` Wrapper ggf. aufbrechen oder klar dokumentieren
 
-**Geplante Erweiterungen:**
-- Statusmodell vereinheitlichen: `idle`, `loading`, `success`, `error`
-- Optionales `onSuccess` / `onError` Callback für Side-Effects
-- Konfigurierbares Verhalten nach Erfolg (`autoReset`, `closeOnSuccess`)
-- Fehlerdarstellung optional inline + optional via Notification
-- Bestehende API kompatibel halten (keine Breaking Changes im MVP)
+2. Action handling in SocialButton finalisieren
+- Interner Loading/Disabled Flow ueber `action`
+- Eindeutige Prioritaet zwischen externem und internem Loading
 
-**Abnahmekriterien:**
-- Bestehende `ActionButton`-Verwendungen laufen unverändert weiter
-- Async-Use-Case ohne zusätzlichen Boilerplate im Consumer
-- Loading/Disabled/Aria-Verhalten konsistent dokumentiert
+3. Notification API verbessern
+- Optional sugar helpers wie `notify.success("...")`
+- Queue/Stack Verhalten festlegen und dokumentieren
 
-### 6) ConfirmIconButton
-IconButton, der vor der Aktion optional eine Bestätigung verlangt.
+### Milestone 2: Komponenten-Ausbau (mittelfristig)
 
-### 7) Form Utilities
-- `DebouncedTextField`
-- `SearchField` (mit Clear-Button)
-- Einheitliche Validierungs- und Fehlerdarstellung für häufige Form-Patterns
+1. CopyButton
+2. ConfirmIconButton
+3. DebouncedTextField
+4. SearchField mit Clear Action
 
----
+### Milestone 3: DX und Release-Qualitaet
 
-## Phase 3 – Developer Experience (DX)
+1. Dokumentation pro Komponente
+- Props, Beispiele, Edge Cases
 
-### 8) Dokumentation & Beispiele
-- Kompakte README pro Komponente
-- Copy-Paste-Beispiele für Standardfälle
-- Prop-Tabellen und Best Practices
+2. Testing
+- Fehlerhafte Tests reparieren
+- Coverage fuer offene Zweige erweitern
 
-### 9) Theming & Konsistenz
-- Volle Theme-Kompatibilität mit MUI (`palette`, `shape`, `typography`)
-- Einheitliche Größen, Spacing, States
+3. Theming
+- Light/Dark Konsistenz ueber alle Provider und Varianten
 
-### 10) Testabdeckung
-- Unit-Tests für Kernlogik
-- Interaktions-Tests für Dialog/Notification Flows
+## Definition of Done (pro Komponente)
 
----
-
-## Vorschlag für Reihenfolge (konkret)
-1. Schnelle Notification
-2. Dialog Button
-3. Social Sign-In Button
-4. AsyncActionButton
-5. CopyButton + ConfirmIconButton
-6. Form Utilities
-7. Doku + Test-Finalisierung
-
-## Definition of Done (für jede Komponente)
-- TypeScript-Typen vollständig
-- MUI-konforme Accessibility
-- Mindestens 1 Nutzungsbeispiel in der Doku
-- Export über zentralen Einstiegspunkt
+1. Vollstaendige TypeScript Typisierung
+2. MUI-konforme Accessibility
+3. Mindestens ein getesteter Happy Path und ein Error Path
+4. Dokumentiertes Beispiel in der README
+5. Export ueber zentralen Einstiegspunkt
 

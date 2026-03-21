@@ -1,13 +1,32 @@
 # @robineb/mui-utility
 
-Utility components for MUI projects.
+Utility-Komponenten fuer MUI-Projekte.
 
-`@robineb/mui-utility` provides lightweight building blocks you can reuse across apps:
+## Projektstatus (Stand: 2026-03-21)
 
-- `ActionButton` — Button with async action handling, optional confirmation dialog, error state, and optional toast notifications.
-- `NotificationProvider` + `useNotification` — Global snackbar/alert notification context based on MUI.
-- `Passwordfield` — MUI `TextField` wrapper with a show/hide password toggle.
-- `AvatarUpload` — Circular avatar with a camera-icon badge that opens a file picker.
+Version: `1.0.2`
+
+Aktuell implementiert und exportiert:
+
+- `ActionButton`
+- `NotificationProvider` + `useNotification`
+- `Passwordfield`
+- `AvatarUpload`
+- `SocialButton` (+ Provider-Typen)
+- `SVGs` Namespace-Export fuer Social Icons
+
+Teststatus (Jest):
+
+- 5 Test-Suites gesamt
+- 4 bestanden
+- 1 fehlgeschlagen (`Social-Button.test.tsx`)
+- 25 Tests gesamt, 23 bestanden, 2 fehlgeschlagen
+
+Bekannte offene Punkte im Code:
+
+- `SocialButton`: `action` Prop ist vorgesehen, aber noch nicht umgesetzt.
+- `SocialButton`: TODO fuer bestimmte Circle-Icon Farbfaelle (Facebook/LinkedIn in Dark/Light).
+- `NotificationProvider`: TODO fuer erweiterte Provider-Props.
 
 ## Installation
 
@@ -15,7 +34,7 @@ Utility components for MUI projects.
 npm install @robineb/mui-utility
 ```
 
-Peer dependencies:
+Peer Dependencies:
 
 - `react` `^18 || ^19`
 - `react-dom` `^18 || ^19`
@@ -32,190 +51,113 @@ import {
   useNotification,
   Passwordfield,
   AvatarUpload,
+  SocialButton,
+  SVGs,
 } from "@robineb/mui-utility";
 ```
 
 ## Quick Start
 
-Wrap your app once with `NotificationProvider`:
-
 ```tsx
 import React from "react";
-import { NotificationProvider } from "@robineb/mui-utility";
+import { NotificationProvider, ActionButton } from "@robineb/mui-utility";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
   return <NotificationProvider>{children}</NotificationProvider>;
 }
-```
 
-Use `ActionButton` in your UI:
-
-```tsx
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { ActionButton } from "@robineb/mui-utility";
-
-function DeleteUserButton() {
+export function ExampleAction() {
   return (
-    <ActionButton
-      action={async () => {
-        // your API call
-        await new Promise((resolve) => setTimeout(resolve, 800));
-      }}
-      requireAreYouSure
-      destructive
-      icon={<DeleteOutlineIcon />}
-      DialogProps={{
-        dialogTitle: "Delete user?",
-        dialogContent: "This action cannot be undone.",
-        sx: { "& .MuiPaper-root": { borderRadius: 3 } },
-      }}
-      ButtonProps={{
-        sx: { minWidth: 180 },
-      }}
-      Notification={{
-        useNotification: true,
-        successmessage: "User deleted",
-        errormessage: "Delete failed",
-      }}
-    >
-      Delete
+    <ActionButton action={async () => {}}>
+      Run Action
     </ActionButton>
   );
 }
 ```
 
-## ActionButton
+## Komponenten
 
-A button that wraps an async action with loading state, optional confirmation dialog, error colour, and optional toast notifications.
+### ActionButton
 
-### Props
+Button fuer Async-Aktionen mit optionalem Confirm-Dialog und optionalen Notifications.
 
-| Prop | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| `action` | `() => void \| Promise<void>` | **Yes** | — | The async function to execute |
-| `children` | `React.ReactNode` | **Yes** | — | Button label |
-| `requireAreYouSure` | `boolean` | No | `false` | Show a confirmation dialog before executing |
-| `destructive` | `boolean` | No | `false` | Colours the button and confirm button red |
-| `icon` | `React.ReactNode` | No | — | Icon rendered as `startIcon` |
-| `DialogProps` | `object` | No | `{}` | Customise the confirmation dialog (see below) |
-| `ButtonProps` | `MuiButtonProps` | No | `{}` | Passed directly to the underlying MUI `Button` |
-| `Notification` | `object` | No | `{}` | Configure success/error toast notifications (see below) |
+Wichtige Props:
 
-#### `DialogProps`
+- `action: () => void | Promise<void>` (required)
+- `children: React.ReactNode` (required)
+- `requireAreYouSure?: boolean`
+- `destructive?: boolean`
+- `icon?: React.ReactNode`
+- `Dialog?: { dialogTitle?: React.ReactNode; dialogContent?: React.ReactNode; confirmText?: string }`
+- `Props?: { ButtonProps?: ButtonProps; DialogProps?: DialogProps }`
+- `Notification?: { useNotification: true; successmessage: string; errormessage: string } | { useNotification?: false }`
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `dialogTitle` | `React.ReactNode` | Dialog heading (default: `"Confirm Action"`) |
-| `dialogContent` | `React.ReactNode` | Dialog body text (default: `"Are you sure you want to do this?"`) |
-| `confirmText` | `string` | Confirm button label (default: `"Yes"`) |
-| `sx` | `SxProps<Theme>` | Styles applied to the `Dialog` root |
+Hinweis: Die API nutzt aktuell `Dialog` und `Props` (nicht `DialogProps`/`ButtonProps` auf Top-Level).
 
-#### `Notification`
+### NotificationProvider + useNotification
 
-Two mutually exclusive shapes:
+Globales Snackbar/Alert-Handling ueber Context.
+
+`notify` Signatur:
 
 ```ts
-// Notifications enabled
-{ useNotification: true; successmessage: string; errormessage: string }
-
-// Notifications disabled (default)
-{ useNotification?: false }
+notify({ message: string, type: "success" | "error" | "info" | "warning" });
 ```
 
-## NotificationProvider & useNotification
+### Passwordfield
 
-Wrap your app once with `NotificationProvider` (renders an MUI `Snackbar`/`Alert` at the bottom-left).
-Anywhere inside the tree, call `useNotification()` to trigger a toast.
+Password-Input mit Show/Hide-Toggle und optionaler Strength-Bar.
 
-### `notify` signature
+Wichtige Props:
 
-```ts
-notify({ message: string, type: "success" | "error" | "info" | "warning" }): void
-```
+- `children: React.ReactNode` (Label)
+- `showstrength?: boolean`
+- `loading?: boolean`
+- `error?: boolean`
+- `value?: string`
+- `onChange?: (...) => void`
+- `Props?: { TextfieldProps?: OutlinedInputProps }`
 
-### Example
+### AvatarUpload
 
-```tsx
-import { useNotification } from "@robineb/mui-utility";
+Avatar mit Upload-Trigger und optional anpassbarem Badge/Icon.
 
-function SaveButton() {
-  const { notify } = useNotification();
+Wichtige Props:
 
-  return (
-    <button onClick={() => notify({ message: "Saved!", type: "success" })}>
-      Save
-    </button>
-  );
-}
-```
+- `onUpload: (file: File) => void` (required)
+- `image?: string`
+- `icon?: React.ReactNode`
+- `Props?: { IconButtonProps?: IconButtonProps; BadgeProps?: BadgeProps; InputProps?: React.InputHTMLAttributes<HTMLInputElement> }`
 
----
+### SocialButton
 
-## Passwordfield
+Social Sign-In Button mit `large` und `circle` Varianten.
 
-A thin wrapper around MUI `TextField` that adds a show/hide password toggle. Accepts all standard `TextFieldProps` (except `type`, which is managed internally).
+Built-in Provider:
 
-### Props
+- `google`
+- `microsoft`
+- `apple`
+- `github`
+- `facebook`
+- `linkedin`
+- `x`
+- `gitlab`
+- `discord`
+- `slack`
+- `passkey`
 
-| Prop | Type | Required | Default | Description |
-|------|------|----------|---------|-------------|
-| `loading` | `boolean` | No | `false` | Disables the field while true |
-| `...TextFieldProps` | — | No | — | All other MUI `TextField` props are forwarded |
+Zusatz:
 
-### Example
+- Custom Provider ueber Objekt-Config moeglich.
+- `loading`/`disabled` werden unterstuetzt.
+- `maxWidth` fuer `large`, `size` fuer `circle`.
 
-```tsx
-import React from "react";
-import { Passwordfield } from "@robineb/mui-utility";
-
-function LoginForm() {
-  const [password, setPassword] = React.useState("");
-
-  return (
-    <Passwordfield
-      label="Password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
-  );
-}
-```
-
-## AvatarUpload
-
-A circular avatar with a camera-icon badge that opens a file picker on click.
-
-### Props
-
-| Prop | Type | Required | Description |
-|------|------|----------|-------------|
-| `image` | `string` | No | URL of the currently displayed avatar |
-| `onUpload` | `(file: File) => void` | **Yes** | Called with the selected `File` when the user picks an image |
-| `icon` | `React.ReactNode` | No | Custom badge icon (defaults to `PhotoCameraIcon`) |
-
-### Example
-
-```tsx
-import React from "react";
-import { AvatarUpload } from "@robineb/mui-utility";
-
-function ProfileAvatar() {
-  const [imageUrl, setImageUrl] = React.useState<string | undefined>(undefined);
-
-  const handleUpload = (file: File) => {
-    // e.g. upload to your server, then set the returned URL:
-    const objectUrl = URL.createObjectURL(file);
-    setImageUrl(objectUrl);
-  };
-
-  return <AvatarUpload image={imageUrl} onUpload={handleUpload} />;
-}
-```
-
-## Build (for contributors)
+## Entwicklung
 
 ```bash
 npm run build
+npm test
 ```
 
 ## License

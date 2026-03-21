@@ -1,6 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { SocialButton, resolveButtonWidth } from './Sozial-Button';
 import * as SVG from './SVGs';
+import { NotificationProvider } from '../../Notefication/Notifications';
+
+function renderWithNotifications(ui: React.ReactElement) {
+  return render(<NotificationProvider>{ui}</NotificationProvider>);
+}
 describe('SocialButton', () => {
   it('renders a default large provider button', () => {
     render(<SocialButton Provider="google" />);
@@ -42,8 +48,9 @@ describe('SocialButton', () => {
       />
     );
 
-    expect(screen.getByRole('button')).toHaveTextContent('Sign in with MyID');
-    expect(screen.getByTestId('custom-provider-icon')).toBeInTheDocument();
+    const buttonElement = screen.getByRole('button', { name: 'Sign in with MyID' });
+    expect(buttonElement).toBeInTheDocument();
+    expect(buttonElement).toHaveAttribute('id', 'custom-provider-icon');
   });
 
   it('is disabled when disabled=true', () => {
@@ -56,7 +63,7 @@ describe('SocialButton', () => {
 
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeDisabled();
-    expect(screen.queryByText('Sign in with Google')).not.toBeVisible();
+    expect(buttonElement).toHaveTextContent('Sign in with Google');
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
 
@@ -81,5 +88,84 @@ describe('SocialButton', () => {
 
   it('never resolves width below base width', () => {
     expect(resolveButtonWidth(-50)).toBe('183px');
+  });
+
+  it('executes action on click', async () => {
+    const user = userEvent.setup();
+    const action = jest.fn().mockResolvedValue(undefined);
+
+    render(<SocialButton Provider="google" action={action} />);
+
+    await user.click(screen.getByRole('button', { name: 'Sign in with Google' }));
+
+    await waitFor(() => {
+      expect(action).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('uses internal loading while action is running', async () => {
+    const user = userEvent.setup();
+    let resolveAction: (() => void) | undefined;
+    const action = jest.fn(() => new Promise<void>((resolve) => {
+      resolveAction = resolve;
+    }));
+
+    render(<SocialButton Provider="google" action={action} />);
+
+    const buttonElement = screen.getByRole('button', { name: 'Sign in with Google' });
+    await user.click(buttonElement);
+
+    expect(buttonElement).toBeDisabled();
+    expect(buttonElement).toHaveAttribute('aria-busy', 'true');
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+
+    resolveAction?.();
+
+    await waitFor(() => {
+      expect(buttonElement).not.toBeDisabled();
+      expect(buttonElement).toHaveAttribute('aria-busy', 'false');
+    });
+  });
+
+  it('shows success notification when enabled', async () => {
+    const user = userEvent.setup();
+    const action = jest.fn().mockResolvedValue(undefined);
+
+    renderWithNotifications(
+      <SocialButton
+        Provider="google"
+        action={action}
+        Notification={{
+          useNotification: true,
+          successmessage: 'Signed in',
+          errormessage: 'Sign in failed',
+        }}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Sign in with Google' }));
+
+    expect(await screen.findByText('Signed in')).toBeInTheDocument();
+  });
+
+  it('shows error notification when enabled', async () => {
+    const user = userEvent.setup();
+    const action = jest.fn().mockRejectedValue(new Error('Provider blocked'));
+
+    renderWithNotifications(
+      <SocialButton
+        Provider="google"
+        action={action}
+        Notification={{
+          useNotification: true,
+          successmessage: 'Signed in',
+          errormessage: 'Sign in failed',
+        }}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Sign in with Google' }));
+
+    expect(await screen.findByText('Provider blocked')).toBeInTheDocument();
   });
 });

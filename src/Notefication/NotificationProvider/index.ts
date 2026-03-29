@@ -1,2 +1,2 @@
-import { NotificationProvider } from "../Notifications";
-export default NotificationProvider
+export { NotificationProvider as default } from "../Notifications";
+export type * from "../Notifications";

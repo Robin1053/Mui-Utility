@@ -1,3 +1,2 @@
-import { ActionButton } from "./ActionButton";
-export default ActionButton;
+export { ActionButton as default } from "./ActionButton";
 export type * from "./ActionButton";

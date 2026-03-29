@@ -1,2 +1,2 @@
-import { useNotification } from "../Notifications";
-export default useNotification
+export { useNotification as default} from "../Notifications";
+export type * from "../Notifications";

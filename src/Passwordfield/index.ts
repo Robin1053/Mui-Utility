@@ -1,3 +1,2 @@
-import { Passwordfield } from "./Passwordfield";
-export default Passwordfield;
+export { Passwordfield as default } from "./Passwordfield";
 export type * from "./Passwordfield";

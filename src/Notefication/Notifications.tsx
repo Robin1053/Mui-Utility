@@ -20,7 +20,7 @@ const NotificationContext = createContext<NotificationContextValue>({
 
 export const useNotification = () => useContext(NotificationContext);
 
-export const NotificationProvider = ({ children }: { children: React.ReactNode }) => {
+export function NotificationProvider ({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState<ToastMessage>({
     message: "",

@@ -45,6 +45,16 @@
       "import": "./dist/Notefication/index.mjs",
       "require": "./dist/Notefication/index.js"
     },
+    "./Notefication/NotificationProvider": {
+      "types": "./dist/Notefication/NotificationProvider/index.d.ts",
+      "import": "./dist/Notefication/NotificationProvider/index.mjs",
+      "require": "./dist/Notefication/NotificationProvider/index.js"
+    },
+    "./Notefication/useNotification": {
+      "types": "./dist/Notefication/useNotification/index.d.ts",
+      "import": "./dist/Notefication/useNotification/index.mjs",
+      "require": "./dist/Notefication/useNotification/index.js"
+    },
     "./Sozial-Signin": {
       "types": "./dist/Sozial-Signin/index.d.ts",
       "import": "./dist/Sozial-Signin/index.mjs",
@@ -58,7 +68,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup src/index.ts src/ActionButton/index.ts src/Avatar/index.ts src/Passwordfield/index.ts src/Notefication/index.ts src/Sozial-Signin/index.ts --format cjs,esm --dts --clean",
+    "build": "tsup src/index.ts src/ActionButton/index.ts src/Avatar/index.ts src/Passwordfield/index.ts src/Notefication/index.ts src/Notefication/NotificationProvider/index.ts src/Notefication/useNotification/index.ts src/Sozial-Signin/index.ts --format cjs,esm --dts --clean",
     "dev": "tsup src/index.ts src/ActionButton/index.ts src/Avatar/index.ts src/Passwordfield/index.ts src/Notefication/index.ts src/Sozial-Signin/index.ts --format cjs,esm --dts --watch",
     "test": "jest",
     "test:watch": "jest --watch",

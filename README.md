@@ -59,11 +59,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 }
 
 export function ExampleAction() {
-  return (
-    <ActionButton action={async () => {}}>
-      Aktion ausführen
-    </ActionButton>
-  );
+  return <ActionButton action={async () => {}}>Aktion ausführen</ActionButton>;
 }
 ```
 
@@ -101,9 +97,22 @@ Wichtige Eigenschaften (Props):
 - requireAreYouSure?: boolean
 - destructive?: boolean
 - icon?: React.ReactNode
-- Dialog?: { dialogTitle?: React.ReactNode; dialogContent?: React.ReactNode; confirmText?: string }
-- Props?: { ButtonProps?: ButtonProps; DialogProps?: DialogProps }
-- Notification?: { useNotification: true; successmessage: string; errormessage: string } | { useNotification?: false }
+- Dialog?: {
+    dialogTitle?: React.ReactNode;
+    dialogContent?: React.ReactNode;
+    confirmText?: string
+  }
+- Props?: {
+    ButtonProps?: ButtonProps;
+    DialogProps?: DialogProps
+  }
+- Notification?: {
+    useNotification: true;
+    successmessage: string;
+    errormessage: string
+  } | {
+    useNotification?: false
+  }
 
 ### NotificationProvider + useNotification
 
@@ -127,7 +136,9 @@ Wichtige Eigenschaften (Props):
 - error?: boolean
 - value?: string
 - onChange?: (...) => void
-- Props?: { TextfieldProps?: OutlinedInputProps }
+- Props?: {
+    TextfieldProps?: OutlinedInputProps
+  }
 
 ### AvatarUpload
 
@@ -138,7 +149,11 @@ Wichtige Eigenschaften (Props):
 - onUpload: (file: File) => void
 - image?: string
 - icon?: React.ReactNode
-- Props?: { IconButtonProps?: IconButtonProps; BadgeProps?: BadgeProps; InputProps?: React.InputHTMLAttributes<HTMLInputElement> }
+- Props?: {
+    IconButtonProps?: IconButtonProps;
+    BadgeProps?: BadgeProps;
+    InputProps?: React.InputHTMLAttributes<HTMLInputElement>
+  }
 
 ### SocialSigninButton
 

@@ -7,12 +7,12 @@ import {
   DialogActions,
   ClickAwayListener,
   DialogProps,
-  ButtonProps
+  ButtonProps,
 } from "@mui/material";
 import * as React from "react";
-import { useNotification } from "../../Notefication/Notifications";
+import { useNotification } from "@/index";
 
-export type ActionButtonNotification =
+type ActionButtonNotification =
   | {
     useNotification: true;
     errormessage: string;
@@ -24,7 +24,7 @@ export type ActionButtonNotification =
     successmessage?: never;
   };
 
-export type ActionButtonProps = {
+type ActionButtonProps = {
   action: () => void | Promise<void>;
   requireAreYouSure?: boolean;
   icon?: React.ReactNode;
@@ -40,7 +40,6 @@ export type ActionButtonProps = {
   destructive?: boolean;
   children: React.ReactNode;
   Notification?: ActionButtonNotification;
-
 };
 
 function ActionButton({
@@ -95,8 +94,6 @@ function ActionButton({
       setLoading(false);
     }
   }
-
-
 
   return (
     <>
@@ -163,4 +160,5 @@ function ActionButton({
   }
 }
 
-export { ActionButton };
+export default ActionButton;
+export type { ActionButtonProps, ActionButtonNotification };

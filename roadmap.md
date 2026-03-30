@@ -51,8 +51,8 @@ Leichtgewichtige MUI Utility-Bibliothek mit sofort nutzbaren, sauber typisierten
 ### Milestone 1: API Konsolidierung (kurzfristig)
 
 1. Prop-Namen vereinheitlichen
-- `OnClick` vs. `onClick`
-- `Provider` vs. `provider`
+- `OnClick` vs. `OnClick`
+- `Provider` vs. `Provider`
 - `Props` Wrapper ggf. aufbrechen oder klar dokumentieren
 
 2. Action handling in SocialButton finalisieren

@@ -1,6 +1,6 @@
 {
   "name": "@robineb/mui-utility",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Utility extensions for MUI",
   "keywords": [
     "mui",
@@ -24,6 +24,16 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*/index.d.ts",
+      "import": "./dist/*/index.mjs",
+      "require": "./dist/*/index.js"
+    },
+    "./*/*": {
+      "types": "./dist/*/*/index.d.ts",
+      "import": "./dist/*/*/index.mjs",
+      "require": "./dist/*/*/index.js"
     }
   },
   "files": [
@@ -33,12 +43,12 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "tsup \"src/**/index.ts\" --format cjs,esm --dts --clean",
+    "dev": "tsup \"src/**/index.ts\" --format cjs,esm --dts --watch",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:vite": "npm run build && npm pack && cd Test && npm i ../robineb-mui-utility-1.0.2.tgz && npm run dev"
+    "test:vite": "node scripts/test-vite.mjs"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

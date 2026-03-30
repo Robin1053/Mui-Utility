@@ -66,5 +66,5 @@ function AvatarUpload({
     </IconButton>
   );
 }
-
-export { type AvataruploadProps, AvatarUpload };
+export default AvatarUpload
+export { type AvataruploadProps };

@@ -1,32 +1,30 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SocialButton, resolveButtonWidth } from './Sozial-Button';
-import * as SVG from './SVGs';
-import { NotificationProvider } from '../../Notefication/Notifications';
+import { NotificationProvider, SocialSigninButton, resolveButtonWidth, SVGs } from '@/index';
 
 function renderWithNotifications(ui: React.ReactElement) {
   return render(<NotificationProvider>{ui}</NotificationProvider>);
 }
 describe('SocialButton', () => {
-  it('renders a default large provider button', () => {
-    render(<SocialButton Provider="google" />);
+  it('renders a default large Provider button', () => {
+    render(<SocialSigninButton Provider="google" />);
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeInTheDocument();
     expect(buttonElement).toHaveTextContent('Sign in with Google');
   });
 
   it('renders custom children text when provided', () => {
-    render(<SocialButton Provider="google">Continue with Google</SocialButton>);
+    render(<SocialSigninButton Provider="google">Continue with Google</SocialSigninButton>);
     expect(screen.getByRole('button')).toHaveTextContent('Continue with Google');
   });
 
-  it('renders custom provider label fallback text', () => {
+  it('renders custom Provider label fallback text', () => {
     render(
-      <SocialButton
+      <SocialSigninButton
         Props={
           {
             ButtonProps: {
-              id: "custom-provider-icon"
+              id: "custom-Provider-icon"
             }
           }
         }
@@ -34,7 +32,7 @@ describe('SocialButton', () => {
           {
             type: "custom",
             name: "MyID",
-            svg: <SVG.AppleSVG />,
+            svg: <SVGs.AppleSVG />,
             color: {
               backgroundColor: "#FFFFFF",
               border: "#9898aa",
@@ -50,16 +48,16 @@ describe('SocialButton', () => {
 
     const buttonElement = screen.getByRole('button', { name: 'Sign in with MyID' });
     expect(buttonElement).toBeInTheDocument();
-    expect(buttonElement).toHaveAttribute('id', 'custom-provider-icon');
+    expect(buttonElement).toHaveAttribute('id', 'custom-Provider-icon');
   });
 
   it('is disabled when disabled=true', () => {
-    render(<SocialButton Provider="google" disabled />);
+    render(<SocialSigninButton Provider="google" disabled />);
     expect(screen.getByRole('button')).toBeDisabled();
   });
 
   it('is disabled and hides text while loading', () => {
-    render(<SocialButton Provider="google" loading />);
+    render(<SocialSigninButton Provider="google" loading />);
 
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeDisabled();
@@ -68,7 +66,7 @@ describe('SocialButton', () => {
   });
 
   it('renders circle variant as icon button', () => {
-    render(<SocialButton Provider="google" variant="circle" />);
+    render(<SocialSigninButton Provider="google" variant="circle" />);
     const buttonElement = screen.getByRole('button');
     expect(buttonElement).toBeInTheDocument();
     expect(buttonElement).not.toHaveTextContent('Sign in with Google');
@@ -94,7 +92,7 @@ describe('SocialButton', () => {
     const user = userEvent.setup();
     const action = jest.fn().mockResolvedValue(undefined);
 
-    render(<SocialButton Provider="google" action={action} />);
+    render(<SocialSigninButton Provider="google" action={action} />);
 
     await user.click(screen.getByRole('button', { name: 'Sign in with Google' }));
 
@@ -110,7 +108,7 @@ describe('SocialButton', () => {
       resolveAction = resolve;
     }));
 
-    render(<SocialButton Provider="google" action={action} />);
+    render(<SocialSigninButton Provider="google" action={action} />);
 
     const buttonElement = screen.getByRole('button', { name: 'Sign in with Google' });
     await user.click(buttonElement);
@@ -132,7 +130,7 @@ describe('SocialButton', () => {
     const action = jest.fn().mockResolvedValue(undefined);
 
     renderWithNotifications(
-      <SocialButton
+      <SocialSigninButton
         Provider="google"
         action={action}
         Notification={{
@@ -153,7 +151,7 @@ describe('SocialButton', () => {
     const action = jest.fn().mockRejectedValue(new Error('Provider blocked'));
 
     renderWithNotifications(
-      <SocialButton
+      <SocialSigninButton
         Provider="google"
         action={action}
         Notification={{

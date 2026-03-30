@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Passwordfield } from "./Passwordfield";
+import { Passwordfield } from "@/index";
 
 describe("Passwordfield", () => {
     it("rendert das Label korrekt", () => {

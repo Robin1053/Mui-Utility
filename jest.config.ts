@@ -5,6 +5,8 @@ const config: Config = {
     testEnvironment: "jsdom",
     setupFilesAfterEnv: ["<rootDir>/src/jest.setup.ts"],
     moduleNameMapper: {
+        // Path aliases
+        "^@/(.*)$": "<rootDir>/src/$1",
         // CSS/Asset imports ignorieren
         "\\.(css|less|scss)$": "identity-obj-proxy",
     },

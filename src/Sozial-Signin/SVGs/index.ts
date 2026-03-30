@@ -1,2 +1,1 @@
-import * as SVGs from "./SVGs";
-export default SVGs;
+export * as SVGs from "@/Sozial-Signin/SVGs/SVGs";

@@ -1,4 +1,4 @@
-export function getPasswordStrength(password: string): number {
+function getPasswordStrength(password: string): number {
   if (!password) return 0;
 
   let score = 0;
@@ -35,3 +35,5 @@ export function getPasswordStrength(password: string): number {
   // Ensure the final result is strictly between 0 and 100
   return Math.max(0, Math.min(100, score));
 }
+
+export { getPasswordStrength };

@@ -1,19 +1,19 @@
-export * from "./ActionButton";
-export type * from "./ActionButton";
+export { default as ActionButton } from "@/ActionButton";
+export type * from "@/ActionButton";
 
-export * from "./Notefication";
-export * from "./Notefication/NotificationProvider";
-export * from "./Notefication/useNotification";
-export type * from "./Notefication";
+export * from "@/Notefication";
+export { default as NotificationProvider } from "@/Notefication/NotificationProvider";
+export { default as useNotification } from "@/Notefication/useNotification";
+export type * from "@/Notefication";
 
-export * from "./Passwordfield/Passwordfield";
-export type * from "./Passwordfield/Passwordfield";
+export { default as Passwordfield } from "@/Passwordfield/";
+export type * from "./Passwordfield/";
 
-export * from "./Avatar";
-export type * from "./Avatar";
+export { default as AvatarUpload } from "@/Avatar";
+export type * from "@/Avatar";
 
-export * from "./Sozial-Signin";
-export type * from "./Sozial-Signin";
+export { default as SocialSigninButton, resolveButtonWidth } from "@/Sozial-Signin";
+export type * from "@/Sozial-Signin";
 
-export * as SVGs from "./Sozial-Signin/SVGs";
-export type * from "./Sozial-Signin/SVGs";
+export * from "@/Sozial-Signin/SVGs";
+export type * from "@/Sozial-Signin/SVGs";

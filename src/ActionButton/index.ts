@@ -1,2 +1,2 @@
-export { ActionButton as default } from "./ActionButton";
-export type * from "./ActionButton";
+export { default } from "@/ActionButton/ActionButton";
+export type * from "@/ActionButton/ActionButton";

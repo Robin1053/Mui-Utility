@@ -2,7 +2,7 @@ import * as React from "react";
 import * as Mui from "@mui/material";
 import * as SVG from "./SVGs/SVGs";
 import { SocialSvgProps } from "./SVGs/SVGs";
-import type { ActionButtonNotification } from "../ActionButton/ActionButton";
+import type { ActionButtonNotification } from "@/ActionButton";
 
 type BuiltInProvider =
     | "google"

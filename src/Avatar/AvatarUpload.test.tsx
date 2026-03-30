@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { AvatarUpload } from "./Avatarupload";
+import { AvatarUpload } from "@/index";
 
 describe("AvatarUpload", () => {
     it("hat standard aria-label auf dem Button", () => {
-        render(<AvatarUpload onUpload={() => {}} />);
+        render(<AvatarUpload onUpload={() => { }} />);
         expect(
             screen.getByRole("button", { name: /profilbild hochladen/i }),
         ).toBeInTheDocument();
@@ -13,7 +13,7 @@ describe("AvatarUpload", () => {
     it("übernimmt custom aria-label vom InputProps für den Button", () => {
         render(
             <AvatarUpload
-                onUpload={() => {}}
+                onUpload={() => { }}
                 Props={{ InputProps: { "aria-label": "Neues Profilbild wählen" } }}
             />,
         );

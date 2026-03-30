@@ -3,24 +3,24 @@
 import React, { createContext, useContext, useState } from "react";
 import { Snackbar, Alert } from "@mui/material";
 
-export type ToastType = "success" | "error" | "info" | "warning";
+type ToastType = "success" | "error" | "info" | "warning";
 
-export interface ToastMessage {
+interface ToastMessage {
   message: string;
   type: ToastType;
 }
 
-export interface NotificationContextValue {
+interface NotificationContextValue {
   notify: (toast: ToastMessage) => void;
 }
 
 const NotificationContext = createContext<NotificationContextValue>({
-  notify: () => {}
+  notify: () => { }
 });
 
-export const useNotification = () => useContext(NotificationContext);
+const useNotification = () => useContext(NotificationContext);
 
-export function NotificationProvider ({ children }: { children: React.ReactNode }) {
+function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const [toast, setToast] = useState<ToastMessage>({
     message: "",
@@ -53,5 +53,7 @@ export function NotificationProvider ({ children }: { children: React.ReactNode 
   );
 };
 
+export { useNotification, NotificationProvider };
+export type { ToastMessage, ToastType, NotificationContextValue };
 
 //TODO: Props in NotificationProvider einbauen

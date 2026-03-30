@@ -1,2 +1,2 @@
-export { useNotification as default} from "../Notifications";
-export type * from "../Notifications";
+export { useNotification as default } from "@/Notefication/Notifications";
+export type * from "@/Notefication/Notifications";

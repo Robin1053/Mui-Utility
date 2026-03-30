@@ -10,21 +10,21 @@ import {
   ButtonProps,
 } from "@mui/material";
 import * as React from "react";
-import { useNotification } from "../Notefication/Notifications";
+import { useNotification } from "@/index";
 
-export type ActionButtonNotification =
+type ActionButtonNotification =
   | {
-      useNotification: true;
-      errormessage: string;
-      successmessage: string;
-    }
+    useNotification: true;
+    errormessage: string;
+    successmessage: string;
+  }
   | {
-      useNotification?: false;
-      errormessage?: never;
-      successmessage?: never;
-    };
+    useNotification?: false;
+    errormessage?: never;
+    successmessage?: never;
+  };
 
-export type ActionButtonProps = {
+type ActionButtonProps = {
   action: () => void | Promise<void>;
   requireAreYouSure?: boolean;
   icon?: React.ReactNode;
@@ -42,7 +42,7 @@ export type ActionButtonProps = {
   Notification?: ActionButtonNotification;
 };
 
-export function ActionButton({
+function ActionButton({
   action,
   requireAreYouSure = false,
   icon,
@@ -159,3 +159,6 @@ export function ActionButton({
     );
   }
 }
+
+export default ActionButton;
+export type { ActionButtonProps, ActionButtonNotification };

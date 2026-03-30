@@ -12,9 +12,9 @@ import {
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import * as React from "react";
-import { getPasswordStrength } from "./Passwordstrenght";
+import { getPasswordStrength } from "@/Passwordfield/Passwordstrength";
 
-export type PasswordfieldProps = {
+type PasswordfieldProps = {
   loading?: boolean;
   showstrength?: boolean;
   children: React.ReactNode;
@@ -24,11 +24,11 @@ export type PasswordfieldProps = {
   ) => void;
   value?: string;
   Props?: {
-        TextfieldProps?: OutlinedInputProps;
+    TextfieldProps?: OutlinedInputProps;
   };
 };
 
-export function Passwordfield({
+function Passwordfield({
   loading = false,
   children,
   showstrength = false,
@@ -115,3 +115,6 @@ export function Passwordfield({
     </>
   );
 }
+
+export default Passwordfield
+export type { PasswordfieldProps }

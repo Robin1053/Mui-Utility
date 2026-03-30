@@ -1,2 +1,2 @@
-export { AvatarUpload as default } from "./Avatarupload";
-export type * from "./Avatarupload";
+export { default } from "@/Avatar/Avatarupload";
+export type * from "@/Avatar/Avatarupload";

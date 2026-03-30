@@ -1,3 +1,3 @@
-export { SocialButton as default } from "./Sozial-Button";
-export type * from "./Sozial-Button";
-export type * from "./Providerconfigs";
+export { default, resolveButtonWidth } from "@/Sozial-Signin/Social-Signin-Button";
+export type * from "@/Sozial-Signin/Social-Signin-Button";
+export type * from "@/Sozial-Signin/Providerconfigs";

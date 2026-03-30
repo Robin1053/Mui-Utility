@@ -37,7 +37,7 @@ function resolveButtonWidth(extrawidth?: number, maxWidth?: number): string {
   return `${width}px`;
 }
 
-function SocialButton({
+function SocialSigninButton({
   OnClick,
   Provider,
   variant,
@@ -111,17 +111,16 @@ function SocialButton({
 
   const iconNode = isValidElement(ProviderPresentation.svg)
     ? cloneElement(ProviderPresentation.svg as React.ReactElement<any>, {
-        Props: {
-          SVGProps: {
-            ...(Props?.SVGProps?.Props?.SVGProps ?? {}),
-            ...(logoColor ? { color: logoColor } : {}),
-          },
+      Props: {
+        SVGProps: {
+          ...(Props?.SVGProps?.Props?.SVGProps ?? {}),
+          ...(logoColor ? { color: logoColor } : {}),
         },
-      })
+      },
+    })
     : ProviderPresentation.svg;
 
   if (variant == "circle") {
-    //TODO: FIX: Facebook, LinkedIn icon in darkmode, and Facebook icons in light mode.
 
     return (
       <>
@@ -191,8 +190,6 @@ function SocialButton({
       </>
     );
   } else {
-    //TODO: Cap the Button Width to a maxWidth if provided, and resolve the extrawidth accordingly.
-
     return (
       <>
         <Button
@@ -296,8 +293,8 @@ function SocialButton({
     );
   }
 }
-
-export { SocialButton, resolveButtonWidth };
+export default SocialSigninButton
+export { resolveButtonWidth };
 export type {
   SocialButtonProps,
   BuiltInProvider,

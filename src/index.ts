@@ -1,10 +1,10 @@
 export { default as ActionButton } from "@/ActionButton";
 export type * from "@/ActionButton";
 
-export * from "@/Notefication";
-export { default as NotificationProvider } from "@/Notefication/NotificationProvider";
-export { default as useNotification } from "@/Notefication/useNotification";
-export type * from "@/Notefication";
+export * from "@/Notification";
+export { default as NotificationProvider } from "@/Notification/NotificationProvider";
+export { default as useNotification } from "@/Notification/useNotification";
+export type * from "@/Notification";
 
 export { default as Passwordfield } from "@/Passwordfield/";
 export type * from "./Passwordfield/";

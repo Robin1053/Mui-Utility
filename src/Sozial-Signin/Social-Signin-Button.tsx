@@ -6,7 +6,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { cloneElement, isValidElement, useState } from "react";
-import { useNotification } from "../Notefication/Notifications";
+import { useNotification } from "../Notification/Notifications";
 import {
   type BuiltInProvider,
   type CustomProvider,

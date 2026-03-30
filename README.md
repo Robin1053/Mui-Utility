@@ -1,32 +1,10 @@
 # @robineb/mui-utility
 
-Utility-Komponenten fuer MUI-Projekte.
+Utility-Komponenten für MUI-Projekte.
 
-## Projektstatus (Stand: 2026-03-21)
+## Status
 
-Version: `1.0.2`
-
-Aktuell implementiert und exportiert:
-
-- `ActionButton`
-- `NotificationProvider` + `useNotification`
-- `Passwordfield`
-- `AvatarUpload`
-- `SocialButton` (+ Provider-Typen)
-- `SVGs` Namespace-Export fuer Social Icons
-
-Teststatus (Jest):
-
-- 5 Test-Suites gesamt
-- 4 bestanden
-- 1 fehlgeschlagen (`Social-Button.test.tsx`)
-- 25 Tests gesamt, 23 bestanden, 2 fehlgeschlagen
-
-Bekannte offene Punkte im Code:
-
-- `SocialButton`: `action` Prop ist vorgesehen, aber noch nicht umgesetzt.
-- `SocialButton`: TODO fuer bestimmte Circle-Icon Farbfaelle (Facebook/LinkedIn in Dark/Light).
-- `NotificationProvider`: TODO fuer erweiterte Provider-Props.
+- Version: 1.1.0
 
 ## Installation
 
@@ -34,15 +12,17 @@ Bekannte offene Punkte im Code:
 npm install @robineb/mui-utility
 ```
 
-Peer Dependencies:
+Abhängigkeiten:
 
-- `react` `^18 || ^19`
-- `react-dom` `^18 || ^19`
-- `@mui/material` `^5 || ^6 || ^7`
-- `@emotion/react` `^11`
-- `@emotion/styled` `^11`
+- react ^18 || ^19
+- react-dom ^18 || ^19
+- @mui/material ^5 || ^6 || ^7
+- @emotion/react ^11
+- @emotion/styled ^11
 
-## Exports
+## Import-Anleitung
+
+Der Root-Import ist für benannte Importe gedacht:
 
 ```ts
 import {
@@ -51,12 +31,24 @@ import {
   useNotification,
   Passwordfield,
   AvatarUpload,
-  SocialButton,
+  SocialSigninButton,
+  resolveButtonWidth,
   SVGs,
 } from "@robineb/mui-utility";
 ```
 
-## Quick Start
+Subpath-Importe sind ebenfalls verfügbar:
+
+```ts
+import NotificationProvider from "@robineb/mui-utility/Notification/NotificationProvider";
+import useNotification from "@robineb/mui-utility/Notification/useNotification";
+import ActionButton from "@robineb/mui-utility/ActionButton";
+import Passwordfield from "@robineb/mui-utility/Passwordfield";
+```
+
+Hinweis: Der Pfad lautet jetzt `Notification` (wie im Paket exportiert).
+
+## Schnellstart
 
 ```tsx
 import React from "react";
@@ -69,36 +61,55 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
 export function ExampleAction() {
   return (
     <ActionButton action={async () => {}}>
-      Run Action
+      Aktion ausführen
     </ActionButton>
   );
 }
 ```
 
+## Exporte
+
+Root-Exporte:
+
+- ActionButton
+- NotificationProvider
+- useNotification
+- Passwordfield
+- AvatarUpload
+- SocialSigninButton
+- resolveButtonWidth
+- SVGs
+
+Wichtige Typ-Exporte:
+
+- ToastType, ToastMessage, NotificationContextValue
+- ActionButtonProps
+- PasswordfieldProps
+- AvataruploadProps
+- Social-Signin- und Provider-Typ-Exporte
+
 ## Komponenten
 
 ### ActionButton
 
-Button fuer Async-Aktionen mit optionalem Confirm-Dialog und optionalen Notifications.
+Button für Async-Aktionen mit optionalem Bestätigungsdialog und optionalen Benachrichtigungen.
 
-Wichtige Props:
+Wichtige Eigenschaften (Props):
 
-- `action: () => void | Promise<void>` (required)
-- `children: React.ReactNode` (required)
-- `requireAreYouSure?: boolean`
-- `destructive?: boolean`
-- `icon?: React.ReactNode`
-- `Dialog?: { dialogTitle?: React.ReactNode; dialogContent?: React.ReactNode; confirmText?: string }`
-- `Props?: { ButtonProps?: ButtonProps; DialogProps?: DialogProps }`
-- `Notification?: { useNotification: true; successmessage: string; errormessage: string } | { useNotification?: false }`
-
-Hinweis: Die API nutzt aktuell `Dialog` und `Props` (nicht `DialogProps`/`ButtonProps` auf Top-Level).
+- action: () => void | Promise<void>
+- children: React.ReactNode
+- requireAreYouSure?: boolean
+- destructive?: boolean
+- icon?: React.ReactNode
+- Dialog?: { dialogTitle?: React.ReactNode; dialogContent?: React.ReactNode; confirmText?: string }
+- Props?: { ButtonProps?: ButtonProps; DialogProps?: DialogProps }
+- Notification?: { useNotification: true; successmessage: string; errormessage: string } | { useNotification?: false }
 
 ### NotificationProvider + useNotification
 
-Globales Snackbar/Alert-Handling ueber Context.
+Globales Snackbar/Alert-Handling über Kontext.
 
-`notify` Signatur:
+notify-Signatur:
 
 ```ts
 notify({ message: string, type: "success" | "error" | "info" | "warning" });
@@ -106,52 +117,46 @@ notify({ message: string, type: "success" | "error" | "info" | "warning" });
 
 ### Passwordfield
 
-Password-Input mit Show/Hide-Toggle und optionaler Strength-Bar.
+Passwort-Eingabefeld mit Anzeigen/Verbergen-Umschalter und optionaler Stärkeanzeige.
 
-Wichtige Props:
+Wichtige Eigenschaften (Props):
 
-- `children: React.ReactNode` (Label)
-- `showstrength?: boolean`
-- `loading?: boolean`
-- `error?: boolean`
-- `value?: string`
-- `onChange?: (...) => void`
-- `Props?: { TextfieldProps?: OutlinedInputProps }`
+- children: React.ReactNode
+- showstrength?: boolean
+- loading?: boolean
+- error?: boolean
+- value?: string
+- onChange?: (...) => void
+- Props?: { TextfieldProps?: OutlinedInputProps }
 
 ### AvatarUpload
 
 Avatar mit Upload-Trigger und optional anpassbarem Badge/Icon.
 
-Wichtige Props:
+Wichtige Eigenschaften (Props):
 
-- `onUpload: (file: File) => void` (required)
-- `image?: string`
-- `icon?: React.ReactNode`
-- `Props?: { IconButtonProps?: IconButtonProps; BadgeProps?: BadgeProps; InputProps?: React.InputHTMLAttributes<HTMLInputElement> }`
+- onUpload: (file: File) => void
+- image?: string
+- icon?: React.ReactNode
+- Props?: { IconButtonProps?: IconButtonProps; BadgeProps?: BadgeProps; InputProps?: React.InputHTMLAttributes<HTMLInputElement> }
 
-### SocialButton
+### SocialSigninButton
 
-Social Sign-In Button mit `large` und `circle` Varianten.
+Social-Sign-In-Button mit `large`- und `circle`-Varianten.
 
-Built-in Provider:
+Integrierte Provider:
 
-- `google`
-- `microsoft`
-- `apple`
-- `github`
-- `facebook`
-- `linkedin`
-- `x`
-- `gitlab`
-- `discord`
-- `slack`
-- `passkey`
-
-Zusatz:
-
-- Custom Provider ueber Objekt-Config moeglich.
-- `loading`/`disabled` werden unterstuetzt.
-- `maxWidth` fuer `large`, `size` fuer `circle`.
+- google
+- microsoft
+- apple
+- github
+- facebook
+- linkedin
+- x
+- gitlab
+- discord
+- slack
+- passkey
 
 ## Entwicklung
 
@@ -160,6 +165,6 @@ npm run build
 npm test
 ```
 
-## License
+## Lizenz
 
 MIT

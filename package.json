@@ -1,6 +1,6 @@
 {
   "name": "@robineb/mui-utility",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Utility extensions for MUI",
   "keywords": [
     "mui",
@@ -8,7 +8,8 @@
   ],
   "homepage": "https://github.com/Robin1053/Mui-Utility#readme",
   "bugs": {
-    "url": "https://github.com/Robin1053/Mui-Utility/issues"
+    "url": "https://github.com/Robin1053/Mui-Utility/issues",
+    "email": "robineb174@gmx.de"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,8 @@
     "dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "git+https://github.com/Robin1053/Mui-Utility.git"
   },
   "scripts": {
     "build": "tsup \"src/**/index.ts\" --format cjs,esm --dts --clean",
@@ -61,7 +63,8 @@
     "ts-jest": "^29.4.6",
     "tsup": "^8.0.0",
     "typescript": "^5.9.3",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "yaml": "^2.8.3"
   },
   "dependencies": {
     "@emotion/react": "^11",

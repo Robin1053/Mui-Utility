@@ -40,6 +40,7 @@ type ActionButtonProps = {
   destructive?: boolean;
   children: React.ReactNode;
   Notification?: ActionButtonNotification;
+  fullWidth?: boolean;
 };
 
 function ActionButton({
@@ -54,6 +55,7 @@ function ActionButton({
   destructive = false,
   children,
   Notification = {},
+  fullWidth= false,
 }: ActionButtonProps) {
   const [Open, setOpen] = React.useState(false);
   const [Loading, setLoading] = React.useState(false);
@@ -101,11 +103,11 @@ function ActionButton({
         <div>
           <Button
             {...Props.ButtonProps}
+            fullWidth={fullWidth}
             onClick={Clicked}
             loading={Loading}
             color={destructive || error ? "error" : "primary"}
             startIcon={icon}
-            sx={Props.ButtonProps.sx}
             variant="outlined"
             aria-busy={Loading}
             aria-invalid={!!error}
@@ -131,7 +133,6 @@ function ActionButton({
           {...Props.DialogProps}
           open={Open}
           onClose={() => setOpen(false)}
-          sx={Props.DialogProps.sx}
           aria-labelledby="dialog-title"
           aria-describedby="dialog-description"
         >

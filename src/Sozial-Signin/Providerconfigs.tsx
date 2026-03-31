@@ -152,14 +152,14 @@ function getProviderButtonStyles(Provider: ProviderType, isDark: boolean = false
                 backgroundColor: '#131314',
                 color: '#E3E3E3',
                 border: '1px solid #8E918F',
-                hoverBgColor: '#FFFFFF',
+                hoverBgColor: '#111014',
                 hoverBorder: 'rgba(0, 0, 0, 0.1)',
             },
             circle: {
                 backgroundColor: '#131314',
                 color: '#E3E3E3',
                 border: '1px solid #8E918F',
-                hoverBgColor: '#FFFFFF',
+                hoverBgColor: '#111014',
                 hoverBorder: 'rgba(0, 0, 0, 0.1)',
             }
         } : {

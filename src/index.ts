@@ -9,8 +9,8 @@ export type * from "@/Notification";
 export { default as Passwordfield } from "@/Passwordfield/";
 export type * from "./Passwordfield/";
 
-export { default as AvatarUpload } from "@/Avatar";
-export type * from "@/Avatar";
+export { default as AvatarUpload } from "@/AvatarUpload";
+export type * from "@/AvatarUpload";
 
 export { default as SocialSigninButton, resolveButtonWidth } from "@/Sozial-Signin";
 export type * from "@/Sozial-Signin";

@@ -1,1 +1,1 @@
-export * as SVGs from "@/Sozial-Signin/SVGs/SVGs";
+export * as SVGs from "./SVGs";

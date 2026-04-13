@@ -4,7 +4,7 @@ import {
     NotificationProvider,
     useNotification,
     type ToastType,
-} from "@/index";
+} from "@robineb/mui-utility";
 
 function Trigger({ type = "success" as ToastType, message = "Saved" }) {
     const { notify } = useNotification();

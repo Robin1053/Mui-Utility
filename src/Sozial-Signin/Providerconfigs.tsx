@@ -1,5 +1,5 @@
 import * as SVG from "./SVGs/SVGs";
-import type { ProviderType, BuiltInProvider, ProviderPresentation, ProviderButtonStyle } from "@/index";
+import type { ProviderType, BuiltInProvider, ProviderPresentation, ProviderButtonStyle } from "@robineb/mui-utility";
 
 
 

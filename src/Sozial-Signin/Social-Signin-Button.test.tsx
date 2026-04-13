@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { NotificationProvider, SocialSigninButton, resolveButtonWidth, SVGs } from '@/index';
+import { NotificationProvider, SocialSigninButton, resolveButtonWidth, SVGs } from '@robineb/mui-utility';
 
 function renderWithNotifications(ui: React.ReactElement) {
   return render(<NotificationProvider>{ui}</NotificationProvider>);

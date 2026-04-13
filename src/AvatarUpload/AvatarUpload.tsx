@@ -4,7 +4,7 @@ import {
   IconButton,
 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import { AvataruploadProps } from "@/@types/";
+import { AvataruploadProps } from "@robineb/mui-utility";
 
 
 function AvatarUpload({

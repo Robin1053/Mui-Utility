@@ -1,5 +1,5 @@
-import { SocialSvgProps } from "@/index";
-import { ActionButtonNotification } from "@/index";
+import { SocialSvgProps } from "@robineb/mui-utility";
+import { ActionButtonNotification } from "@robineb/mui-utility";
 import { ButtonProps } from "@mui/material/Button";
 import { IconButtonProps } from "@mui/material/IconButton";
 

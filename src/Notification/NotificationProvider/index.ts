@@ -1,2 +1,2 @@
-export { NotificationProvider as default } from "@/Notification/Notifications";
-export type * from "@/Notification/Notifications";
+export { NotificationProvider as default } from "../Notifications";
+export type * from "../Notifications";

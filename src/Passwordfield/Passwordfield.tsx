@@ -5,15 +5,14 @@ import {
   IconButton,
   FormControl,
   InputLabel,
-  OutlinedInputProps,
   Input,
   Divider,
   LinearProgress,
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import * as React from "react";
-import { getPasswordStrength } from "@/Passwordfield/Passwordstrength";
-import { PasswordfieldProps } from "@/@types";
+import { getPasswordStrength } from "@robineb/mui-utility/Passwordfield/Passwordstrength";
+import { PasswordfieldProps } from "@robineb/mui-utility";
 
 
 

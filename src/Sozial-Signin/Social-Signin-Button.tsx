@@ -18,7 +18,7 @@ import type {
   CustomProvider,
   ProviderType,
   SocialButtonProps,
-} from "@/index";
+} from "@robineb/mui-utility";
 
 const BASE_BUTTON_WIDTH = 183;
 

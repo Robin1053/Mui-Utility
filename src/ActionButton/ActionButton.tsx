@@ -8,8 +8,7 @@ import {
   ClickAwayListener,
 } from "@mui/material";
 import * as React from "react";
-import { useNotification } from "@/index";
-import { ActionButtonProps } from "@/@types/ActionButton.type"
+import { useNotification, ActionButtonProps } from "@robineb/mui-utility";
 
 
 function ActionButton({
@@ -51,18 +50,13 @@ function ActionButton({
       if (Notification.useNotification === true) {
         notify({ message: Notification.successmessage, type: "success" });
       }
-    } catch (e) {
-      const caughtError =
-        e instanceof Error ? e : new Error("An unknown error has occurred.");
-      setError(caughtError);
-
+    } catch (error) {
+      setError(error);
       if (Notification.useNotification === true) {
-        const errorMessage = caughtError.message || Notification.errormessage;
+        const errorMessage = error.message || Notification.errormessage;
         notify({ type: "error", message: errorMessage });
       }
     } finally {
-      setOpen(false);
-      setLoading(false);
     }
   }
 

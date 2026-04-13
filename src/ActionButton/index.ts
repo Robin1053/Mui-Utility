@@ -1,1 +1,1 @@
-export { default } from "@/ActionButton/ActionButton";
+export { default } from "./ActionButton";

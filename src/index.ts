@@ -1,15 +1,15 @@
-export { default as ActionButton } from "@/ActionButton";
+export { default as ActionButton } from "@robineb/mui-utility/ActionButton";
 
-export * from "@/Notification";
-export { default as NotificationProvider } from "@/Notification/NotificationProvider";
-export { default as useNotification } from "@/Notification/useNotification";
+export * from "@robineb/mui-utility/Notification";
+export { default as NotificationProvider } from "@robineb/mui-utility/Notification/NotificationProvider";
+export { default as useNotification } from "@robineb/mui-utility/Notification/useNotification";
 
-export { default as Passwordfield } from "@/Passwordfield/";
+export { default as Passwordfield } from "@robineb/mui-utility/Passwordfield";
 
-export { default as AvatarUpload } from "@/AvatarUpload";
+export { default as AvatarUpload } from "@robineb/mui-utility/AvatarUpload";
 
-export { default as SocialSigninButton, resolveButtonWidth } from "@/Sozial-Signin";
+export { default as SocialSigninButton, resolveButtonWidth } from "@robineb/mui-utility/Sozial-Signin";
 
-export * from "@/Sozial-Signin/SVGs";
+export * from "@robineb/mui-utility/Sozial-Signin/SVGs";
 
-export * from "@/@types";
+export * from "@robineb/mui-utility/@types";

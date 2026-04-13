@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState } from "react";
 import { Snackbar, Alert } from "@mui/material";
-import { NotificationContextValue, ToastMessage } from "@/@types";
+import { NotificationContextValue, ToastMessage } from "@robineb/mui-utility";
 
 
 

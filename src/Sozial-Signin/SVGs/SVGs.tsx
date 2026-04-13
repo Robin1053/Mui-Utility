@@ -1,4 +1,4 @@
-import { SocialSvgProps } from "@/index";
+import { SocialSvgProps } from "@robineb/mui-utility";
 
 function getA11yProps(title?: string) {
   return title ? { role: "img", "aria-label": title } : { "aria-hidden": true };

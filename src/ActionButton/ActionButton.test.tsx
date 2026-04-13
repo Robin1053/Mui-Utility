@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import type { ReactElement } from "react";
-import { NotificationProvider, ActionButton } from "@/index";
+import { NotificationProvider, ActionButton } from "@robineb/mui-utility";
 
 function renderWithNotifications(ui: ReactElement) {
     return render(<NotificationProvider>{ui}</NotificationProvider>);

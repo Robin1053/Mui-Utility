@@ -1,2 +1,2 @@
-export { default } from "@/Passwordfield/Passwordfield";
-export type * from "@/Passwordfield/Passwordfield";
+export { default } from "./Passwordfield";
+export type * from "./Passwordfield";

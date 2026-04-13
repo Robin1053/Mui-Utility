@@ -8,11 +8,15 @@ import {
   ClickAwayListener,
 } from "@mui/material";
 import * as React from "react";
-import { useNotification, ActionButtonProps } from "@robineb/mui-utility";
+import type { ActionButtonProps, ActionButtonResult } from "@robineb/mui-utility";
+import { useNotification } from "../Notification/Notifications";
 
 
 function ActionButton({
   action,
+  onSuccess,
+  onError,
+  onSettled,
   requireAreYouSure = false,
   icon,
   Dialog = {},
@@ -26,7 +30,7 @@ function ActionButton({
   fullWidth = false,
 }: ActionButtonProps) {
   const [Open, setOpen] = React.useState(false);
-  const [Loading, setLoading] = React.useState(false);
+  const [Loading, startTransition] = React.useTransition();
   const [error, setError] = React.useState<Error | null>(null);
   const { notify } = useNotification();
 
@@ -44,20 +48,56 @@ function ActionButton({
   }
 
   async function executeAction() {
-    setLoading(true);
-    try {
-      await action();
-      if (Notification.useNotification === true) {
-        notify({ message: Notification.successmessage, type: "success" });
+    if (error) setError(null);
+
+    startTransition(
+      async () => {
+        try {
+          const actionResult = await action();
+
+          if (typeof actionResult !== "undefined" && actionResult.error) {
+            const actionError = new Error(
+              actionResult.message || Notification.errormessage || "Action failed"
+            );
+            setError(actionError);
+            onError?.(actionError, actionResult);
+
+            if (Notification.useNotification) {
+              notify({
+                message: actionResult.message || Notification.errormessage,
+                type: "error"
+              });
+            }
+            return;
+          }
+
+          onSuccess?.(actionResult);
+
+          if (Notification.useNotification) {
+            notify(
+              {
+                type: "success",
+                message: Notification.successmessage
+              }
+            );
+          }
+        } catch (caught) {
+          const actionError =
+            caught instanceof Error ? caught : new Error("Action failed");
+          setError(actionError);
+          onError?.(actionError);
+
+          if (Notification.useNotification) {
+            notify({
+              message: Notification.errormessage || actionError.message,
+              type: "error"
+            });
+          }
+        } finally {
+          onSettled?.();
+        }
       }
-    } catch (error) {
-      setError(error);
-      if (Notification.useNotification === true) {
-        const errorMessage = error.message || Notification.errormessage;
-        notify({ type: "error", message: errorMessage });
-      }
-    } finally {
-    }
+    );
   }
 
   return (
@@ -112,7 +152,10 @@ function ActionButton({
               Cancel
             </Button>
             <Button
-              onClick={() => executeAction()}
+              onClick={() => {
+                setOpen(false);
+                void executeAction();
+              }}
               color={destructive ? "error" : "primary"}
             >
               {Dialog.confirmText || "Yes"}

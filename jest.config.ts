@@ -6,7 +6,8 @@ const config: Config = {
     setupFilesAfterEnv: ["<rootDir>/src/jest.setup.ts"],
     moduleNameMapper: {
         // Path aliases
-        "^@/(.*)$": "<rootDir>/src/$1",
+        "^@robineb/mui-utility$": "<rootDir>/src/index.ts",
+        "^@robineb/mui-utility/(.*)$": "<rootDir>/src/$1",
         // CSS/Asset imports ignorieren
         "\\.(css|less|scss)$": "identity-obj-proxy",
     },

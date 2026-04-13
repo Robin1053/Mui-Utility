@@ -1,5 +1,10 @@
 import { ButtonProps, DialogProps } from '@mui/material';
 
+type ActionButtonResult = {
+    error: boolean;
+    message?: string;
+};
+
 type ActionButtonNotification =
     | {
         useNotification: true;
@@ -13,7 +18,10 @@ type ActionButtonNotification =
     };
 
 type ActionButtonProps = {
-    action: () => void | Promise<void>;
+    action: () => ActionButtonResult | void | Promise<ActionButtonResult | void>
+    onSuccess?: (result: ActionButtonResult | void) => void;
+    onError?: (error: Error, result?: ActionButtonResult) => void;
+    onSettled?: () => void;
     requireAreYouSure?: boolean;
     icon?: React.ReactNode;
     Dialog?: {
@@ -31,4 +39,4 @@ type ActionButtonProps = {
     fullWidth?: boolean;
 };
 
-export type { ActionButtonProps, ActionButtonNotification };
+export type { ActionButtonProps, ActionButtonNotification, ActionButtonResult };

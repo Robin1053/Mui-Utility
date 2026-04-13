@@ -1,46 +1,7 @@
-import * as React from "react";
-import * as Mui from "@mui/material";
 import * as SVG from "./SVGs/SVGs";
-import { SocialSvgProps } from "./SVGs/SVGs";
-import type { ActionButtonNotification } from "@/index";
+import type { ProviderType, BuiltInProvider, ProviderPresentation, ProviderButtonStyle } from "@/index";
 
-type BuiltInProvider =
-    | "google"
-    | "microsoft"
-    | "apple"
-    | "github"
-    | "facebook"
-    | "linkedin"
-    | "x"
-    | "gitlab"
-    | "discord"
-    | "slack"
-    | "passkey";
 
-type CustomProvider = {
-    type: "custom";
-    name: string;
-    svg: React.ReactNode;
-    logoColor?: string;
-    color: {
-        backgroundColor: string;
-        color: string;
-        border: string;
-        hoverBgColor: string;
-        hoverBorder: string;
-        logoColor?: string;
-        loadingcolor?: string;
-    }
-};
-
-type ProviderType = BuiltInProvider | CustomProvider;
-
-type Variant = "large" | "circle";
-
-type ProviderPresentation = {
-    label: string;
-    svg: React.ReactNode;
-};
 
 const BUILT_IN_Provider_PRESENTATION: Record<BuiltInProvider, ProviderPresentation> = {
     google: { label: "Google", svg: <SVG.GoogleSVG /> },
@@ -66,80 +27,6 @@ function resolveProviderPresentation(Provider: ProviderType): ProviderPresentati
 
     return BUILT_IN_Provider_PRESENTATION[Provider];
 }
-
-type ProviderButtonStyle = {
-    button: {
-        backgroundColor: string;
-        color: string;
-        border: string;
-        hoverBgColor: string;
-        hoverBorder: string;
-        logoColor?: string;
-        loadingcolor?: string;
-    };
-    circle: {
-        backgroundColor: string;
-        color: string;
-        border: string;
-        hoverBgColor: string;
-        hoverBorder: string;
-        logoColor?: string;
-        loadingcolor?: string;
-    }
-};
-
-
-type SocialButtonProps =
-    | {
-        Props?: {
-            ButtonProps?: Mui.ButtonProps
-            SVGProps?: SocialSvgProps
-        };
-        Provider: ProviderType;
-        OnClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
-        action?: () => void | Promise<void>;
-        Notification?: ActionButtonNotification;
-        loading?: boolean;
-        disabled?: boolean;
-        children?: React.ReactNode;
-        /** 
-        * ONLY FOR LARGE VARIANT
-        * @maximum 217 
-        * ATTENTION: Values ​​above 217 will be automatically truncated.
-        */
-        maxWidth?: number;
-        /** 
-        * ONLY FOR CIRCLE VARIANT
-        */
-        size?: never;
-        variant?: "large";
-    }
-    | {
-        Props?: {
-            ButtonProps?: Mui.IconButtonProps
-            SVGProps?: SocialSvgProps
-        };
-        Provider: ProviderType;
-        variant?: "circle";
-        OnClick?: React.MouseEventHandler<HTMLButtonElement> | undefined
-        loading?: boolean;
-        disabled?: boolean;
-        children?: React.ReactNode;
-        action?: () => void | Promise<void>;
-        Notification?: ActionButtonNotification;
-        /** 
-        * ONLY FOR LARGE VARIANT
-        * @maximum 217 
-        * ATTENTION: Values ​​above 217 will be automatically truncated.
-        */
-        maxWidth?: never;
-        /** 
-        * ONLY FOR CIRCLE VARIANT
-        */
-        size?: "large" | "small" | "medium";
-    }
-
-
 
 
 function getProviderButtonStyles(Provider: ProviderType, isDark: boolean = false): ProviderButtonStyle {
@@ -519,16 +406,6 @@ function getProviderButtonStyles(Provider: ProviderType, isDark: boolean = false
     return styles[ProviderName] || styles.google;
 
 }
-export type {
-    BuiltInProvider,
-    CustomProvider,
-    ProviderType,
-    Variant,
-    ProviderPresentation,
-    ProviderButtonStyle,
-    SocialButtonProps,
-};
-
 export {
     resolveProviderPresentation,
     getProviderButtonStyles,

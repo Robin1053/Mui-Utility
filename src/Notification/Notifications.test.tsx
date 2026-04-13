@@ -4,7 +4,7 @@ import {
     NotificationProvider,
     useNotification,
     type ToastType,
-} from "@/Notification/Notifications";
+} from "@/index";
 
 function Trigger({ type = "success" as ToastType, message = "Saved" }) {
     const { notify } = useNotification();

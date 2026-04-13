@@ -6,42 +6,11 @@ import {
   DialogContentText,
   DialogActions,
   ClickAwayListener,
-  DialogProps,
-  ButtonProps,
 } from "@mui/material";
 import * as React from "react";
 import { useNotification } from "@/index";
+import { ActionButtonProps } from "@/@types/ActionButton.type"
 
-type ActionButtonNotification =
-  | {
-    useNotification: true;
-    errormessage: string;
-    successmessage: string;
-  }
-  | {
-    useNotification?: false;
-    errormessage?: never;
-    successmessage?: never;
-  };
-
-type ActionButtonProps = {
-  action: () => void | Promise<void>;
-  requireAreYouSure?: boolean;
-  icon?: React.ReactNode;
-  Dialog?: {
-    dialogTitle?: React.ReactNode;
-    dialogContent?: React.ReactNode;
-    confirmText?: string;
-  };
-  Props?: {
-    ButtonProps?: ButtonProps;
-    DialogProps?: DialogProps;
-  };
-  destructive?: boolean;
-  children: React.ReactNode;
-  Notification?: ActionButtonNotification;
-  fullWidth?: boolean;
-};
 
 function ActionButton({
   action,
@@ -55,7 +24,7 @@ function ActionButton({
   destructive = false,
   children,
   Notification = {},
-  fullWidth= false,
+  fullWidth = false,
 }: ActionButtonProps) {
   const [Open, setOpen] = React.useState(false);
   const [Loading, setLoading] = React.useState(false);
@@ -162,4 +131,3 @@ function ActionButton({
 }
 
 export default ActionButton;
-export type { ActionButtonProps, ActionButtonNotification };

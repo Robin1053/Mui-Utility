@@ -12,4 +12,9 @@ export { default as SocialSigninButton, resolveButtonWidth } from "@robineb/mui-
 
 export * from "@robineb/mui-utility/Sozial-Signin/SVGs";
 
+export { default as OtpInput } from "@robineb/mui-utility/OtpInput";
+
+
 export * from "@robineb/mui-utility/@types";
+
+export * from "@robineb/mui-utility/helpers";

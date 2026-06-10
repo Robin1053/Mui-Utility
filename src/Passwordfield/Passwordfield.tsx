@@ -16,7 +16,7 @@ import { PasswordfieldProps } from "@robineb/mui-utility";
 
 
 
-function Passwordfield({
+function MUIPasswordfield({
   loading = false,
   children,
   showstrength = false,
@@ -104,4 +104,4 @@ function Passwordfield({
   );
 }
 
-export default Passwordfield
+export default MUIPasswordfield

@@ -12,7 +12,7 @@ import type { ActionButtonProps, ActionButtonResult } from "@robineb/mui-utility
 import { useNotification } from "../Notification/Notifications";
 
 
-function ActionButton({
+function MUIActionButton({
   action,
   onSuccess,
   onError,
@@ -167,4 +167,4 @@ function ActionButton({
   }
 }
 
-export default ActionButton;
+export default MUIActionButton;

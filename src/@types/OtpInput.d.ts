@@ -7,11 +7,13 @@ type MUIOTPInputProps = {
     loading?: boolean;
     error?: boolean;
     value?: string;
-    onChange?: (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) => void;
+    groups?: number;
+    separator?: { [string] };
+    onChange?: (value: string) => void;
     validateChar?: (character: string, index: number) => boolean
     onComplete?: (value: string) => void
+    onBlur?: (value: string, isCompleted: boolean) => void;
+    TextFieldsProps?: TextFieldProps | ((index: number) => TextFieldProps);
     Props?: {
         TextfieldProps?: TextFieldProps;
     };

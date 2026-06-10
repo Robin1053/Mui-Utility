@@ -1,54 +1,55 @@
-# Notification
+# OtpInput
 
-Die Notification-Komponente stellt einen globalen Toast-Mechanismus bereit.
-Verfuegbar sind `NotificationProvider` und der Hook `useNotification`.
+Die OtpInput-Komponente rendert mehrere MUI-Textfelder fuer One-Time-Passwords.
+Sie arbeitet als kontrollierte Komponente ueber `value` und `onChange`.
 
 ## Import
 
 ```tsx
-import { NotificationProvider, useNotification } from "@robineb/mui-utility";
+import { OtpInput } from "@robineb/mui-utility";
 ```
 
 ## Beispiel
 
 ```tsx
-function SaveButton() {
-	const { notify } = useNotification();
+import * as React from "react";
+import { OtpInput } from "@robineb/mui-utility";
 
-	return (
-		<button
-			onClick={() =>
-				notify({
-					type: "success",
-					message: "Aenderungen gespeichert",
-				})
-			}
-		>
-			Save
-		</button>
-	);
-}
+function Example() {
+  const [otp, setOtp] = React.useState("");
 
-function App() {
-	return (
-		<NotificationProvider>
-			<SaveButton />
-		</NotificationProvider>
-	);
+  return (
+    <OtpInput
+      value={otp}
+      length={6}
+      autoFocus
+      onChange={setOtp}
+      onComplete={(finalValue) => {
+        console.log("OTP complete:", finalValue);
+      }}
+      validateChar={(character) => {
+        return /[0-9]/.test(character);
+      }}
+    />
+  );
 }
 ```
 
 ## API
 
-- `NotificationProvider`: Wrapper fuer den React-Baum
-- `useNotification`: Hook mit Rueckgabe `{ notify }`
-- `notify(toast)` akzeptiert:
-	- `message: string`
-	- `type: "success" | "error" | "info" | "warning"`
+- `value?: string` Aktueller OTP-Wert
+- `onChange?: (value: string) => void` Wird bei jeder Aenderung aufgerufen
+- `length?: number` Anzahl der OTP-Felder (Default `4`)
+- `onComplete?: (value: string) => void` Wird bei vollstaendigem OTP aufgerufen
+- `validateChar?: (character: string, index: number) => boolean` Zeichengueltigkeit pro Position
+- `autoFocus?: boolean` Fokus auf erstes Feld beim Mount
+- `loading?: boolean` Deaktiviert alle Felder
+- `error?: boolean` Setzt Fehlerzustand auf allen Feldern
+- `TextFieldsProps?: TextFieldProps | ((index: number) => TextFieldProps)` Props je Textfeld
 
 ## Verhalten
 
-- Anzeige als MUI `Snackbar` + `Alert`
-- `autoHideDuration` ist aktuell auf `4000ms` gesetzt
-- Position ist unten links (`bottom-left`)
+- Unterstuetzt Tasten-Navigation mit Pfeilen, `Home`, `End` und `Backspace`
+- Unterstuetzt Paste ueber mehrere Felder
+- Selektiert den Inhalt beim Fokus, um Eingabe zu beschleunigen
 

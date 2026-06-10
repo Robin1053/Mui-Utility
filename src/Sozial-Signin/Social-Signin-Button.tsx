@@ -41,7 +41,7 @@ function resolveButtonWidth(extrawidth?: number, maxWidth?: number): string {
   return `${width}px`;
 }
 
-function SocialSigninButton({
+function MUISocialSigninButton({
   OnClick,
   Provider,
   variant,
@@ -304,7 +304,7 @@ function SocialSigninButton({
     );
   }
 }
-export default SocialSigninButton
+export default MUISocialSigninButton
 export { resolveButtonWidth };
 export type {
   SocialButtonProps,

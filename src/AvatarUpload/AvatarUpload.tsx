@@ -7,7 +7,7 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { AvataruploadProps } from "@robineb/mui-utility";
 
 
-function AvatarUpload({
+function MUIAvatarUpload({
   image,
   onUpload,
   icon,
@@ -54,4 +54,4 @@ function AvatarUpload({
     </IconButton>
   );
 }
-export default AvatarUpload
+export default MUIAvatarUpload

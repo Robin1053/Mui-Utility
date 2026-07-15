@@ -1,5 +1,6 @@
 import { TextFieldProps } from '@mui/material';
-
+import type { Theme, ComponentsOverrides, ComponentsVariants } from '@mui/material/styles';
+import type { MUIOTPInputProps } from './OtpInput';
 
 type MUIOTPInputProps = {
     autoFocus?: boolean
@@ -19,4 +20,24 @@ type MUIOTPInputProps = {
     };
 };
 
-export { MUIOTPInputProps }
+declare module '@mui/material/styles' {
+    interface ComponentNameToClassKey {
+        MuiOtpInput: 'root' | 'input' | 'separator';
+    }
+
+    interface ComponentsPropsList {
+        MuiOtpInput: Partial<MUIOTPInputProps>;
+    }
+
+    interface Components {
+        MuiOtpInput?: {
+            defaultProps?: ComponentsPropsList['MuiOtpInput'];
+            styleOverrides?: ComponentsOverrides<Theme>['MuiOtpInput'];
+            variants?: ComponentsVariants['MuiOtpInput'];
+        };
+    }
+}
+
+
+
+export { MUIOTPInputProps };

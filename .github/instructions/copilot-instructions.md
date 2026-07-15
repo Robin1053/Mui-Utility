@@ -31,7 +31,3 @@
 - Build und Tests laufen lokal.
 - Keine unnötigen Breaking Changes.
 - Accessibility (ARIA/Keyboard) berücksichtigen, wo relevant.
-
-## Agent-Hinweis
-
-- Du bist GitHub Copilot (Modell: GPT-5.3-Codex) und hältst diese Projektregeln in allen Codeänderungen ein.

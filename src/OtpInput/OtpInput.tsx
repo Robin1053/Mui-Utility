@@ -45,6 +45,7 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(function 
 
     return (
         <StatRoot>
+            <Input />
         </StatRoot>
     );
 });

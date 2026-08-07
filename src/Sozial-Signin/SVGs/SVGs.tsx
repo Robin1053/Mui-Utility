@@ -1,12 +1,4 @@
-import type { SVGProps } from "react";
-
-type SocialSvgProps = {
-  size?: number | string;
-  title?: string;
-  Props?: {
-    SVGProps?: SVGProps<SVGSVGElement>;
-  };
-};
+import { SocialSvgProps } from "@robineb/mui-utility";
 
 function getA11yProps(title?: string) {
   return title ? { role: "img", "aria-label": title } : { "aria-hidden": true };

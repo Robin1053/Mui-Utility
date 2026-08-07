@@ -5,30 +5,18 @@ import {
   IconButton,
   FormControl,
   InputLabel,
-  OutlinedInputProps,
   Input,
   Divider,
   LinearProgress,
 } from "@mui/material";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import * as React from "react";
-import { getPasswordStrength } from "@/Passwordfield/Passwordstrength";
+import { getPasswordStrength } from "@robineb/mui-utility/Passwordfield/Passwordstrength";
+import { PasswordfieldProps } from "@robineb/mui-utility";
 
-type PasswordfieldProps = {
-  loading?: boolean;
-  showstrength?: boolean;
-  children: React.ReactNode;
-  error?: boolean;
-  onChange?: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => void;
-  value?: string;
-  Props?: {
-    TextfieldProps?: OutlinedInputProps;
-  };
-};
 
-function Passwordfield({
+
+function MUIPasswordfield({
   loading = false,
   children,
   showstrength = false,
@@ -116,5 +104,4 @@ function Passwordfield({
   );
 }
 
-export default Passwordfield
-export type { PasswordfieldProps }
+export default MUIPasswordfield

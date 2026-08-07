@@ -1,2 +1,1 @@
-export { default } from "@/ActionButton/ActionButton";
-export type * from "@/ActionButton/ActionButton";
+export { default } from "./ActionButton";

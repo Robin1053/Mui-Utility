@@ -5,16 +5,20 @@ import {
   IconButton,
   useTheme,
 } from "@mui/material";
+import type { ButtonProps as MuiButtonProps } from "@mui/material/Button";
+import type { IconButtonProps as MuiIconButtonProps } from "@mui/material/IconButton";
 import { cloneElement, isValidElement, useState } from "react";
 import { useNotification } from "../Notification/Notifications";
 import {
-  type BuiltInProvider,
-  type CustomProvider,
-  type ProviderType,
-  type SocialButtonProps,
   getProviderButtonStyles,
   resolveProviderPresentation,
 } from "./Providerconfigs";
+import type {
+  BuiltInProvider,
+  CustomProvider,
+  ProviderType,
+  SocialButtonProps,
+} from "@robineb/mui-utility";
 
 const BASE_BUTTON_WIDTH = 183;
 
@@ -37,7 +41,7 @@ function resolveButtonWidth(extrawidth?: number, maxWidth?: number): string {
   return `${width}px`;
 }
 
-function SocialSigninButton({
+function MUISocialSigninButton({
   OnClick,
   Provider,
   variant,
@@ -72,8 +76,15 @@ function SocialSigninButton({
   const iconSize = isPasskeyProvider ? 24 : 20;
   const isLoading = loading || internalLoading;
   const isDisabled = disabled || isLoading;
+  const isCircle = variant === "circle";
+  const iconButtonProps = isCircle
+    ? (Props?.ButtonProps as MuiIconButtonProps | undefined)
+    : undefined;
+  const buttonProps = isCircle
+    ? undefined
+    : (Props?.ButtonProps as MuiButtonProps | undefined);
 
-  const handleClick: React.MouseEventHandler<HTMLButtonElement> = async (
+  const handleClick: React.MouseEventHandler<HTMLElement> = async (
     event,
   ) => {
     if (isDisabled) return;
@@ -120,7 +131,7 @@ function SocialSigninButton({
     })
     : ProviderPresentation.svg;
 
-  if (variant == "circle") {
+  if (isCircle) {
 
     return (
       <>
@@ -145,7 +156,7 @@ function SocialSigninButton({
             justifyContent: "center",
           }}
           size={size}
-          {...Props?.ButtonProps}
+          {...iconButtonProps}
           onClick={handleClick}
           disabled={isDisabled}
           aria-busy={isLoading}
@@ -193,7 +204,7 @@ function SocialSigninButton({
     return (
       <>
         <Button
-          {...Props?.ButtonProps}
+          {...buttonProps}
           loadingIndicator={
             <Box
               sx={{
@@ -293,7 +304,7 @@ function SocialSigninButton({
     );
   }
 }
-export default SocialSigninButton
+export default MUISocialSigninButton
 export { resolveButtonWidth };
 export type {
   SocialButtonProps,

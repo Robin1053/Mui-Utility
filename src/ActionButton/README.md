@@ -16,6 +16,13 @@ import { ActionButton } from "@robineb/mui-utility";
 <ActionButton
 	action={async () => {
 		await saveUser();
+		return { error: false };
+	}}
+	onSuccess={() => {
+		console.log("saved");
+	}}
+	onError={(error) => {
+		console.error(error);
 	}}
 	requireAreYouSure
 	Dialog={{
@@ -35,7 +42,10 @@ import { ActionButton } from "@robineb/mui-utility";
 
 ## Props
 
-- `action`: `() => void | Promise<void>`
+- `action`: `() => ActionButtonResult | void | Promise<ActionButtonResult | void>`
+- `onSuccess?`: `(result: ActionButtonResult | void) => void`
+- `onError?`: `(error: Error, result?: ActionButtonResult) => void`
+- `onSettled?`: `() => void`
 - `children`: `React.ReactNode`
 - `requireAreYouSure?`: `boolean`
 - `icon?`: `React.ReactNode`
@@ -46,6 +56,9 @@ import { ActionButton } from "@robineb/mui-utility";
 - `Notification?`:
 	- `{ useNotification: true; successmessage: string; errormessage: string }`
 	- oder `{ useNotification?: false }`
+
+`ActionButtonResult`:
+- `{ error: boolean; message?: string }`
 
 ## Hinweise
 

@@ -6,45 +6,17 @@ import {
   DialogContentText,
   DialogActions,
   ClickAwayListener,
-  DialogProps,
-  ButtonProps,
 } from "@mui/material";
 import * as React from "react";
-import { useNotification } from "@/index";
+import type { ActionButtonProps, ActionButtonResult } from "@robineb/mui-utility";
+import { useNotification } from "../Notification/Notifications";
 
-type ActionButtonNotification =
-  | {
-    useNotification: true;
-    errormessage: string;
-    successmessage: string;
-  }
-  | {
-    useNotification?: false;
-    errormessage?: never;
-    successmessage?: never;
-  };
 
-type ActionButtonProps = {
-  action: () => void | Promise<void>;
-  requireAreYouSure?: boolean;
-  icon?: React.ReactNode;
-  Dialog?: {
-    dialogTitle?: React.ReactNode;
-    dialogContent?: React.ReactNode;
-    confirmText?: string;
-  };
-  Props?: {
-    ButtonProps?: ButtonProps;
-    DialogProps?: DialogProps;
-  };
-  destructive?: boolean;
-  children: React.ReactNode;
-  Notification?: ActionButtonNotification;
-  fullWidth?: boolean;
-};
-
-function ActionButton({
+function MUIActionButton({
   action,
+  onSuccess,
+  onError,
+  onSettled,
   requireAreYouSure = false,
   icon,
   Dialog = {},
@@ -55,10 +27,10 @@ function ActionButton({
   destructive = false,
   children,
   Notification = {},
-  fullWidth= false,
+  fullWidth = false,
 }: ActionButtonProps) {
   const [Open, setOpen] = React.useState(false);
-  const [Loading, setLoading] = React.useState(false);
+  const [Loading, startTransition] = React.useTransition();
   const [error, setError] = React.useState<Error | null>(null);
   const { notify } = useNotification();
 
@@ -76,25 +48,56 @@ function ActionButton({
   }
 
   async function executeAction() {
-    setLoading(true);
-    try {
-      await action();
-      if (Notification.useNotification === true) {
-        notify({ message: Notification.successmessage, type: "success" });
-      }
-    } catch (e) {
-      const caughtError =
-        e instanceof Error ? e : new Error("An unknown error has occurred.");
-      setError(caughtError);
+    if (error) setError(null);
 
-      if (Notification.useNotification === true) {
-        const errorMessage = caughtError.message || Notification.errormessage;
-        notify({ type: "error", message: errorMessage });
+    startTransition(
+      async () => {
+        try {
+          const actionResult = await action();
+
+          if (typeof actionResult !== "undefined" && actionResult.error) {
+            const actionError = new Error(
+              actionResult.message || Notification.errormessage || "Action failed"
+            );
+            setError(actionError);
+            onError?.(actionError, actionResult);
+
+            if (Notification.useNotification) {
+              notify({
+                message: actionResult.message || Notification.errormessage,
+                type: "error"
+              });
+            }
+            return;
+          }
+
+          onSuccess?.(actionResult);
+
+          if (Notification.useNotification) {
+            notify(
+              {
+                type: "success",
+                message: Notification.successmessage
+              }
+            );
+          }
+        } catch (caught) {
+          const actionError =
+            caught instanceof Error ? caught : new Error("Action failed");
+          setError(actionError);
+          onError?.(actionError);
+
+          if (Notification.useNotification) {
+            notify({
+              message: Notification.errormessage || actionError.message,
+              type: "error"
+            });
+          }
+        } finally {
+          onSettled?.();
+        }
       }
-    } finally {
-      setOpen(false);
-      setLoading(false);
-    }
+    );
   }
 
   return (
@@ -149,7 +152,10 @@ function ActionButton({
               Cancel
             </Button>
             <Button
-              onClick={() => executeAction()}
+              onClick={() => {
+                setOpen(false);
+                void executeAction();
+              }}
               color={destructive ? "error" : "primary"}
             >
               {Dialog.confirmText || "Yes"}
@@ -161,5 +167,4 @@ function ActionButton({
   }
 }
 
-export default ActionButton;
-export type { ActionButtonProps, ActionButtonNotification };
+export default MUIActionButton;

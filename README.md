@@ -11,7 +11,7 @@ Utility-Komponenten für MUI-Projekte.
 
 ## Status
 
-- Version: 1.1.0
+- Version: 1.1.3
 
 ## Installation
 
@@ -23,7 +23,8 @@ Abhängigkeiten:
 
 - react ^18 || ^19
 - react-dom ^18 || ^19
-- @mui/material ^5 || ^6 || ^7
+- @mui/material ^7 || ^8 || ^9
+- @mui/icons-material ^7 || ^8 || ^9
 - @emotion/react ^11
 - @emotion/styled ^11
 
@@ -80,6 +81,7 @@ Root-Exporte:
 - Passwordfield
 - AvatarUpload
 - SocialSigninButton
+- OtpInput
 - resolveButtonWidth
 - SVGs
 
@@ -182,10 +184,27 @@ Integrierte Provider:
 
 ## Entwicklung
 
+Häufige Developer-Befehle:
+
 ```bash
+# build (produziert dist und Typdefinitionen)
 npm run build
+
+# unit tests (Jest)
 npm test
+
+# integration/dev flow: baut, packt das Paket, installiert es in Test/ und startet Vite
+npm run test:vite
+
+# lokalen watch-build (aktualisiert nur dist, installiert NICHT in Test automatisch)
+npm run dev
 ```
+
+Hinweis:
+
+- Die Tests (Jest) laufen gegen den Quellcode via ts-jest; ein vorheriger Build ist nicht nötig (siehe jest.config.ts).
+- Die Test-App (Test/) verwendet das Skript scripts/test-vite.mjs; dieses macht build -> npm pack -> npm i ../<tarball> (inside Test) -> npm run dev.
+- package.json.files = ["dist"] — nur dist wird gepackt/veröffentlicht. Vor npm pack oder publish immer `npm run build` ausführen.
 
 ## Lizenz
 

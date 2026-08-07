@@ -10,9 +10,9 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@robineb/mui-utility": ["./src/index.ts"],
+      "@robineb/mui-utility/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"]

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { AvatarUpload } from "@/index";
+import { AvatarUpload } from "@robineb/mui-utility";
 
 describe("AvatarUpload", () => {
     it("hat standard aria-label auf dem Button", () => {

@@ -1,23 +1,13 @@
 import {
   Avatar,
   Badge,
-  BadgeProps,
   IconButton,
-  IconButtonProps,
 } from "@mui/material";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
+import { AvataruploadProps } from "@robineb/mui-utility";
 
-type AvataruploadProps = {
-  image?: string;
-  onUpload: (file: File) => void;
-  icon?: React.ReactNode;
-  Props?: {
-    IconButtonProps?: IconButtonProps;
-    BadgeProps?: BadgeProps;
-    InputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-  };
-};
-function AvatarUpload({
+
+function MUIAvatarUpload({
   image,
   onUpload,
   icon,
@@ -35,7 +25,6 @@ function AvatarUpload({
       component="label"
       aria-label={buttonAriaLabel}
       {...Props.IconButtonProps}
-      sx={Props.IconButtonProps?.sx}
     >
       <input
         {...Props.InputProps}
@@ -52,7 +41,6 @@ function AvatarUpload({
       />
       <Badge
         {...Props.BadgeProps}
-        sx={Props.BadgeProps?.sx}
         overlap="circular"
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         badgeContent={icon || <PhotoCameraIcon sx={{ fontSize: 18 }} />}
@@ -66,5 +54,4 @@ function AvatarUpload({
     </IconButton>
   );
 }
-export default AvatarUpload
-export { type AvataruploadProps };
+export default MUIAvatarUpload

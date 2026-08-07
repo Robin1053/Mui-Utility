@@ -1,23 +1,19 @@
-import { TextFieldProps } from '@mui/material';
+import type { TextFieldProps } from '@mui/material';
 import type { Theme, ComponentsOverrides, ComponentsVariants } from '@mui/material/styles';
-import type { MUIOTPInputProps } from './OtpInput';
 
 type MUIOTPInputProps = {
-    autoFocus?: boolean
-    length?: number
+    autoFocus?: boolean;
+    length?: number;
     loading?: boolean;
     error?: boolean;
     value?: string;
     groups?: number;
-    separator?: { [string] };
+    separator?: React.ReactNode;
     onChange?: (value: string) => void;
-    validateChar?: (character: string, index: number) => boolean
-    onComplete?: (value: string) => void
+    validateChar?: (character: string, index: number) => boolean;
+    onComplete?: (value: string) => void;
     onBlur?: (value: string, isCompleted: boolean) => void;
     TextFieldsProps?: TextFieldProps | ((index: number) => TextFieldProps);
-    Props?: {
-        TextfieldProps?: TextFieldProps;
-    };
 };
 
 declare module '@mui/material/styles' {
@@ -38,6 +34,4 @@ declare module '@mui/material/styles' {
     }
 }
 
-
-
-export { MUIOTPInputProps };
+export type { MUIOTPInputProps };

@@ -18,5 +18,3 @@ export { default as OtpInput } from "@robineb/mui-utility/OtpInput";
 export * from "@robineb/mui-utility/@types";
 
 export * from "@robineb/mui-utility/helpers";
-
-export * from "@robineb/mui-utility/themes";

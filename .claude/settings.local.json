@@ -5,7 +5,9 @@
       "Bash(node -e ' *)",
       "Bash(node -p \"require\\('react/package.json'\\).version\")",
       "Bash(npx jest *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npm view *)",
+      "Bash(gh pr *)"
     ]
   }
 }

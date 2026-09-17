@@ -11,7 +11,7 @@ Utility-Komponenten für MUI-Projekte.
 
 ## Status
 
-- Version: 1.1.3
+- Version: 1.1.4
 
 ## Installation
 
@@ -42,6 +42,7 @@ import {
   SocialSigninButton,
   resolveButtonWidth,
   SVGs,
+  OtpInput,
 } from "@robineb/mui-utility";
 ```
 
@@ -92,6 +93,7 @@ Wichtige Typ-Exporte:
 - PasswordfieldProps
 - AvataruploadProps
 - Social-Signin- und Provider-Typ-Exporte
+- MUIOTPInputProps
 
 ## Komponenten
 
@@ -163,6 +165,25 @@ Wichtige Eigenschaften (Props):
     BadgeProps?: BadgeProps;
     InputProps?: React.InputHTMLAttributes<HTMLInputElement>
   }
+
+### OtpInput
+
+Mehrere MUI-Textfelder fuer One-Time-Passwords, als kontrollierte Komponente ueber `value`/`onChange`. Vollstaendige Doku inkl. Theming-Beispiel: [src/OtpInput/README.md](src/OtpInput/README.md).
+
+Wichtige Eigenschaften (Props):
+
+- length?: number (Default 4)
+- value?: string
+- onChange?: (value: string) => void
+- onComplete?: (value: string) => void
+- onBlur?: (value: string, isCompleted: boolean) => void
+- validateChar?: (character: string, index: number) => boolean
+- groups?: number
+- separator?: React.ReactNode
+- autoFocus?: boolean
+- loading?: boolean
+- error?: boolean
+- TextFieldsProps?: TextFieldProps | ((index: number) => TextFieldProps)
 
 ### SocialSigninButton
 

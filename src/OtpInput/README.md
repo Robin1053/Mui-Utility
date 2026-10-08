@@ -45,7 +45,18 @@ function Example() {
 - `autoFocus?: boolean` Fokus auf erstes Feld beim Mount
 - `loading?: boolean` Deaktiviert alle Felder
 - `error?: boolean` Setzt Fehlerzustand auf allen Feldern
-- `TextFieldsProps?: TextFieldProps | ((index: number) => TextFieldProps)` Props je Textfeld
+- `TextFieldsProps?: TextFieldProps | ((index: number) => TextFieldProps)` Props je Textfeld.
+  Attribute fuer das `<input>` selbst gehoeren in `slotProps.htmlInput` (MUI 9 kennt `inputProps` nicht mehr;
+  unter MUI 7/8 uebergebene `inputProps` werden weiterhin uebernommen):
+
+  ```tsx
+  <OtpInput
+    length={6}
+    TextFieldsProps={(index) => ({
+      slotProps: { htmlInput: { "data-testid": `otp-${index}` } },
+    })}
+  />
+  ```
 - `groups?: number` Teilt die Felder in n gleich grosse Gruppen auf (z.B. `length={6} groups={2}` -> `XXX-XXX`)
 - `separator?: React.ReactNode` Trennzeichen zwischen den Gruppen (Default `-`)
 - `onBlur?: (value: string, isCompleted: boolean) => void` Wird aufgerufen, wenn der Fokus die gesamte Komponente verlaesst

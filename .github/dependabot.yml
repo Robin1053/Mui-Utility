@@ -7,6 +7,10 @@ updates:
     groups:
       all-deps:
         patterns: ["*"] # alles in einem PR statt einem PR pro Paket
+    ignore:
+      # ts-jest unterstuetzt TypeScript 7 noch nicht (peer: typescript <7)
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"

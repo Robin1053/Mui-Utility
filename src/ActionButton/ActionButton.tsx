@@ -53,9 +53,10 @@ function MUIActionButton({
     startTransition(
       async () => {
         try {
-          const actionResult = await action();
+          // `void` explizit auf `undefined` abbilden, sonst scheitert die Flussanalyse unter strict (TS2454)
+          const actionResult = (await action()) as ActionButtonResult | undefined;
 
-          if (typeof actionResult !== "undefined" && actionResult.error) {
+          if (actionResult?.error) {
             const actionError = new Error(
               actionResult.message || Notification.errormessage || "Action failed"
             );

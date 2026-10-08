@@ -53,7 +53,7 @@
     "test:vite": "node scripts/test-vite.mjs"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
@@ -63,7 +63,7 @@
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "yaml": "^2.8.3"
   },
   "dependencies": {

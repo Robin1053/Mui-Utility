@@ -3,6 +3,7 @@ import {
     styled,
     useThemeProps,
 } from '@mui/material/styles';
+import type { TextFieldProps } from '@mui/material';
 import type { MUIOTPInputProps } from '@robineb/mui-utility';
 import {
     KEYBOARD_KEY,
@@ -184,8 +185,18 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
             for (let i = 0; i < size; i += 1) {
                 const index = fieldIndex;
                 fieldIndex += 1;
-                const extraProps =
+                const resolvedProps =
                     typeof TextFieldsProps === 'function' ? TextFieldsProps(index) : TextFieldsProps;
+                // MUI 9 kennt `inputProps` nicht mehr; Altwerte aus MUI 7/8 in `slotProps.htmlInput` uebernehmen
+                const { inputProps: legacyInputProps, ...extraProps } = (resolvedProps ?? {}) as TextFieldProps & {
+                    inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+                };
+                const extraHtmlInput = extraProps.slotProps?.htmlInput;
+                const htmlInputDefaults = {
+                    inputMode: 'text' as const,
+                    'aria-label': `OTP Zeichen ${index + 1} von ${length}`,
+                    ...legacyInputProps,
+                };
 
                 content.push(
                     <OtpInputField
@@ -199,14 +210,19 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
                         disabled={loading}
                         onFocus={(event) => {
                             event.target.select();
-                            extraProps?.onFocus?.(event);
+                            extraProps.onFocus?.(event);
                         }}
                         onChange={(event) => handleFieldChange(index, event.target.value)}
                         onKeyDown={(event) => handleKeyDown(event, index)}
-                        inputProps={{
-                            inputMode: 'text',
-                            'aria-label': `OTP Zeichen ${index + 1} von ${length}`,
-                            ...extraProps?.inputProps,
+                        slotProps={{
+                            ...extraProps.slotProps,
+                            htmlInput:
+                                typeof extraHtmlInput === 'function'
+                                    ? (ownerState: Parameters<typeof extraHtmlInput>[0]) => ({
+                                          ...htmlInputDefaults,
+                                          ...extraHtmlInput(ownerState),
+                                      })
+                                    : { ...htmlInputDefaults, ...extraHtmlInput },
                         }}
                     />,
                 );

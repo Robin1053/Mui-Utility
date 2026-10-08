@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import type { TextFieldProps } from "@mui/material";
 import { OtpInput } from "@robineb/mui-utility";
 
 describe("OtpInput", () => {
@@ -154,5 +155,31 @@ describe("OtpInput", () => {
 
         expect(screen.getByPlaceholderText("Feld-0")).toBeInTheDocument();
         expect(screen.getByPlaceholderText("Feld-1")).toBeInTheDocument();
+    });
+
+    it("setzt aria-label und inputMode am input-Element (MUI 9: slotProps.htmlInput)", () => {
+        render(<OtpInput length={2} />);
+        const first = screen.getByLabelText("OTP Zeichen 1 von 2");
+        expect(first.tagName).toBe("INPUT");
+        expect(first).toHaveAttribute("inputmode", "text");
+    });
+
+    it("uebernimmt slotProps.htmlInput aus TextFieldsProps", () => {
+        render(
+            <OtpInput
+                length={2}
+                TextFieldsProps={(index) => ({
+                    slotProps: { htmlInput: { "data-testid": `otp-${index}` } },
+                })}
+            />,
+        );
+        expect(screen.getByTestId("otp-1")).toHaveAttribute("aria-label", "OTP Zeichen 2 von 2");
+    });
+
+    it("uebernimmt weiterhin das alte inputProps aus TextFieldsProps", () => {
+        // simuliert einen Aufrufer mit MUI 7/8, dessen TextFieldProps noch `inputProps` kennen
+        const legacyProps = { inputProps: { "aria-label": "Code" } } as unknown as TextFieldProps;
+        render(<OtpInput length={1} TextFieldsProps={legacyProps} />);
+        expect(screen.getByLabelText("Code").tagName).toBe("INPUT");
     });
 });

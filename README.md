@@ -11,7 +11,7 @@ Utility-Komponenten für MUI-Projekte.
 
 ## Status
 
-- Version: 1.1.4
+- Version: 1.1.6
 
 ## Installation
 
@@ -27,6 +27,8 @@ Abhängigkeiten:
 - @mui/icons-material ^7 || ^8 || ^9
 - @emotion/react ^11
 - @emotion/styled ^11
+
+Getestet mit React 19.3, @mui/material und @mui/icons-material 9.4, @emotion/react 11.14, @emotion/styled 11.14 und TypeScript 6.0.
 
 ## Import-Anleitung
 

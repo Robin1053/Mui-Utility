@@ -3,7 +3,7 @@ Roadmap — kurz und konkret
 Ziel: kleines, wartbares UI-Utility-Paket für MUI-Projekte mit Fokus auf Wiederverwendbarkeit und Typ-Sicherheit.
 
 Aktueller Stand (bestätigt):
-- Version: 1.1.3 (siehe package.json)
+- Version: 1.1.6 (siehe package.json)
 - Komponenten: ActionButton, NotificationProvider/useNotification, Passwordfield, AvatarUpload, SocialSigninButton, OtpInput, Hilfsfunktionen, Typen
 - Tests: Jest (ts-jest), laufen gegen src ohne vorherigen Build
 - Paketlayout: tsup baut src/**/index.ts in dist/* — package.json export map erwartet dist/*/index.*

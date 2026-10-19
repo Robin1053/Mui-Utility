@@ -2,9 +2,14 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
-  pull_request:
-    branches: ["**"]
+    branches: [main, dev] # Branches ohne PR trotzdem prüfen
+  pull_request:           # jede PR, egal welcher Branch
+  workflow_dispatch:      # manuell startbar
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest

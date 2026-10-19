@@ -1,0 +1,132 @@
+name: Bump version from PR label
+description: >
+  Liest das Release-Label der aktuellen PR (major / minor / patch / no-release),
+  berechnet daraus die naechste Version ausgehend vom letzten Release-Tag und
+  schreibt sie in package.json, package-lock.json und die Zeile "Version: x.y.z"
+  der Markdown-Dateien aus version-files. Committet NICHT selbst.
+  Setzt voraus, dass der Aufrufer mit fetch-depth 0 und fetch-tags ausgecheckt hat.
+
+  Weil immer vom letzten Tag aus gerechnet wird (nicht von package.json), ist
+  die Action idempotent: Label-Wechsel (minor -> major) oder erneute Laeufe
+  bumpen nie doppelt. "no-release" setzt die Version auf den letzten Tag zurueck.
+
+inputs:
+  tag-prefix:
+    description: Prefix der Release-Tags
+    default: V
+  major-label:
+    description: Label fuer einen Major-Bump
+    default: major
+  minor-label:
+    description: Label fuer einen Minor-Bump
+    default: minor
+  patch-label:
+    description: Label fuer einen Patch-Bump
+    default: patch
+  skip-label:
+    description: Label, mit dem die PR kein Release ausloest
+    default: no-release
+  version-files:
+    description: >
+      Leerzeichen-getrennte Liste von Dateien, in denen "Version: x.y.z"
+      ersetzt wird
+    default: README.md roadmap.md
+
+outputs:
+  part:
+    description: "major | minor | patch | none"
+    value: ${{ steps.label.outputs.part }}
+  previous:
+    description: Version des letzten Release-Tags
+    value: ${{ steps.target.outputs.previous }}
+  version:
+    description: Neue Version (bei "none" = letzter Tag)
+    value: ${{ steps.target.outputs.version }}
+  tag:
+    description: Tag-Name der neuen Version
+    value: ${{ inputs.tag-prefix }}${{ steps.target.outputs.version }}
+  changed:
+    description: "true, wenn package.json oder eine der version-files geaendert wurde"
+    value: ${{ steps.write.outputs.changed }}
+
+runs:
+  using: composite
+  steps:
+    - name: Release-Label lesen
+      id: label
+      shell: bash
+      env:
+        MAJOR: ${{ inputs.major-label }}
+        MINOR: ${{ inputs.minor-label }}
+        PATCH: ${{ inputs.patch-label }}
+        SKIP: ${{ inputs.skip-label }}
+      run: |
+        if [ "$(jq -r '.pull_request // empty | .number' "$GITHUB_EVENT_PATH")" = "" ]; then
+          echo "::error::Diese Action laeuft nur bei pull_request-Events."
+          exit 1
+        fi
+
+        FOUND=()
+        while IFS= read -r LABEL; do
+          case "$LABEL" in
+            "$MAJOR") FOUND+=("major") ;;
+            "$MINOR") FOUND+=("minor") ;;
+            "$PATCH") FOUND+=("patch") ;;
+            "$SKIP")  FOUND+=("none") ;;
+          esac
+        done < <(jq -r '.pull_request.labels[].name' "$GITHUB_EVENT_PATH")
+
+        if [ "${#FOUND[@]}" -eq 0 ]; then
+          echo "::error::Kein Release-Label gesetzt. Bitte genau eines vergeben: '$MAJOR', '$MINOR', '$PATCH' oder '$SKIP'."
+          exit 1
+        fi
+        if [ "${#FOUND[@]}" -gt 1 ]; then
+          echo "::error::Mehrere Release-Labels gesetzt (${FOUND[*]}). Bitte nur eines vergeben."
+          exit 1
+        fi
+
+        echo "part=${FOUND[0]}" >> "$GITHUB_OUTPUT"
+
+    - name: Neue Version berechnen
+      id: target
+      shell: bash
+      env:
+        PART: ${{ steps.label.outputs.part }}
+        PREFIX: ${{ inputs.tag-prefix }}
+        SEMVER: ${{ github.workspace }}/.github/scripts/semver.mjs
+      run: |
+        PREVIOUS=$(node "$SEMVER" latest "$PREFIX")
+        if [ "$PART" = "none" ]; then
+          VERSION="$PREVIOUS"
+        else
+          VERSION=$(node "$SEMVER" bump "$PREVIOUS" "$PART")
+        fi
+        echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
+        echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+        echo "Letzter Tag: $PREFIX$PREVIOUS -> Bump: $PART -> neue Version: $VERSION"
+
+    - name: Version in package.json und Doku schreiben
+      id: write
+      shell: bash
+      env:
+        VERSION: ${{ steps.target.outputs.version }}
+        FILES: ${{ inputs.version-files }}
+        SEMVER: ${{ github.workspace }}/.github/scripts/semver.mjs
+      run: |
+        CURRENT=$(node -p "require('./package.json').version")
+        if [ "$CURRENT" != "$VERSION" ]; then
+          # Aktualisiert package.json und package-lock.json, ohne Commit/Tag.
+          npm version "$VERSION" --no-git-tag-version --allow-same-version --ignore-scripts
+        fi
+
+        # Absichtlich ungequotet: FILES ist eine Leerzeichen-getrennte Liste.
+        # shellcheck disable=SC2086
+        node "$SEMVER" stamp "$VERSION" $FILES
+
+        if git diff --quiet; then
+          echo "Alles steht schon auf $VERSION, nichts zu tun."
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+        else
+          git diff --stat
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+        fi

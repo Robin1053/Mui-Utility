@@ -18,7 +18,7 @@ npm run dev                                 # tsup watch; updates dist only, doe
 npm run test:vite                           # build -> npm pack -> npm i ../<tarball> in Test/ -> vite dev
 ```
 
-There is no lint or typecheck script at the root. CI (`.github/workflows/ci.yml`) runs `npm ci && npm run build && npm test`.
+There is no lint or typecheck script at the root. CI (`.github/workflows/ci.yaml`) runs `npm ci && npm run build && npm test`.
 
 `npm run test:vite` installs the tarball into `Test/` exactly once — it does not watch. Re-run it after source changes you want reflected there.
 
@@ -35,7 +35,10 @@ There is no lint or typecheck script at the root. CI (`.github/workflows/ci.yml`
 
 **`Notification/` is the one nested case.** `Notifications.tsx` holds both the provider and the hook; `Notification/NotificationProvider/index.ts` and `Notification/useNotification/index.ts` are thin re-export folders that exist purely to create the deep subpath exports. `ActionButton` consumes `useNotification` directly, so any component using notifications must be rendered inside a `NotificationProvider` (tests wrap with a `renderWithNotifications` helper).
 
-**Publishing.** `files: ["dist"]` — only `dist` is packed. Always `npm run build` before `npm pack` or `npm publish`. Publishing is triggered by a GitHub release (`.github/workflows/npm-publish.yml`).
+**Publishing.** `files: ["dist"]` — only `dist` is packed. Always `npm run build` before `npm pack` or `npm publish`. Releases are label-driven, do not bump `version` by hand:
+- Every PR to `main` needs exactly one label: `major`, `minor`, `patch` or `no-release`. `.github/workflows/version-bump.yaml` (via `.github/actions/label-bump`) computes the next version from the latest `V*` tag and pushes a bump commit for `package.json`/`package-lock.json` and the `Version: x.y.z` line in `README.md`/`roadmap.md` into the PR branch. No label = failing check.
+- After merge, `.github/workflows/release-on-merge.yaml` creates tag `V<version>` + GitHub release and calls `.github/workflows/publish.yaml` (npm trusted publishing via OIDC).
+- Tags use an uppercase `V` prefix. Shared SemVer logic lives in `.github/scripts/semver.mjs`.
 
 Note: MUI/React/emotion are declared under `dependencies`, not `peerDependencies`.
 

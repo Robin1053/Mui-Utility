@@ -4,7 +4,7 @@ import {
     useThemeProps,
 } from '@mui/material/styles';
 import type { TextFieldProps } from '@mui/material';
-import type { MUIOTPInputProps } from '@robineb/mui-utility';
+import type { MUIOTPInputProps, OtpInputOwnerState } from '@robineb/mui-utility';
 import {
     KEYBOARD_KEY,
     mergeRefs,
@@ -12,16 +12,19 @@ import {
     updateIndex,
     joinArrayStrings,
     split,
+    shouldForwardSlotProp,
 } from '@robineb/mui-utility';
 import {
     TextField,
     outlinedInputClasses,
 } from '@mui/material';
 
+type OwnerStateProps = { ownerState: OtpInputOwnerState };
+
 const OtpInputRoot = styled('div', {
     name: 'MuiOtpInput',
     slot: 'root',
-})(({ theme }) => ({
+})<OwnerStateProps>(({ theme }) => ({
     display: 'inline-flex',
     alignItems: 'center',
     gap: theme.spacing(1),
@@ -30,7 +33,8 @@ const OtpInputRoot = styled('div', {
 const OtpInputField = styled(TextField, {
     name: 'MuiOtpInput',
     slot: 'input',
-})(({ theme }) => ({
+    shouldForwardProp: shouldForwardSlotProp,
+})<OwnerStateProps>(({ theme }) => ({
     width: 48,
     [`& .${outlinedInputClasses.input}`]: {
         padding: theme.spacing(1, 0),
@@ -41,12 +45,13 @@ const OtpInputField = styled(TextField, {
 const OtpInputSeparator = styled('div', {
     name: 'MuiOtpInput',
     slot: 'separator',
-})(({ theme }) => ({
+})<OwnerStateProps>(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
 const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
     function MuiOtpInput(inProps, ref) {
+        const props = useThemeProps({ props: inProps, name: 'MuiOtpInput' });
         const {
             autoFocus = false,
             length = 4,
@@ -60,7 +65,8 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
             onComplete,
             onBlur,
             TextFieldsProps,
-        } = useThemeProps({ props: inProps, name: 'MuiOtpInput' });
+        } = props;
+        const ownerState: OtpInputOwnerState = { ...props, length, loading, error };
 
         const [internalValue, setInternalValue] = React.useState(() =>
             typeof value === 'string' ? value : '',
@@ -210,6 +216,7 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
                 content.push(
                     <OtpInputField
                         key={index}
+                        ownerState={{ ...ownerState, index, filled: chars[index] !== '' }}
                         inputRef={(el: HTMLInputElement | null) => {
                             inputRefs.current[index] = el;
                         }}
@@ -242,7 +249,7 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
             if (groupIndex < groupSizes.length - 1) {
                 content.push(
                     // rein optisch; die Felder tragen bereits "Zeichen x von n"
-                    <OtpInputSeparator key={`separator-${groupIndex}`} aria-hidden="true">
+                    <OtpInputSeparator key={`separator-${groupIndex}`} ownerState={ownerState} aria-hidden="true">
                         {separator}
                     </OtpInputSeparator>,
                 );
@@ -252,6 +259,7 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
         return (
             <OtpInputRoot
                 ref={rootRef}
+                ownerState={ownerState}
                 role="group"
                 aria-label="OTP Eingabe"
                 aria-busy={loading}

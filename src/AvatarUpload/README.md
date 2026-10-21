@@ -35,3 +35,23 @@ import { AvatarUpload } from "@robineb/mui-utility";
 - Standardmaesse des Avatars sind `128x128`.
 - Ohne eigenes `icon` wird ein Kamera-Icon als Badge angezeigt.
 
+
+## Theming
+
+Themebar ueber `theme.components.MuiAvatarUpload` mit den Slots `root` (`IconButton` als `<label>`), `badge`
+und `avatar` (Default 128x128). `ownerState` enthaelt alle Props plus `hasImage`:
+
+```tsx
+const theme = createTheme({
+  components: {
+    MuiAvatarUpload: {
+      styleOverrides: {
+        avatar: { width: 96, height: 96 },
+      },
+      variants: [{ props: { hasImage: false }, style: { opacity: 0.8 } }],
+    },
+  },
+});
+```
+
+`ref` zeigt auf das `<label>`.

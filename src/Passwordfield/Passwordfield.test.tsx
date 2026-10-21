@@ -23,8 +23,10 @@ describe("Passwordfield", () => {
     it("ARIA: hat aria-describedby wenn showstrength aktiv", () => {
         render(<Passwordfield showstrength>Passwort</Passwordfield>);
         const input = screen.getByLabelText("Passwort");
-        expect(input).toHaveAttribute("aria-describedby", "password-strength-indicator");
-        expect(screen.getByRole("progressbar")).toBeInTheDocument();
+        const progressbar = screen.getByRole("progressbar");
+        // IDs werden per useId erzeugt; entscheidend ist, dass die Beschreibung auf die Staerkeanzeige zeigt
+        expect(progressbar.id).not.toBe("");
+        expect(input).toHaveAttribute("aria-describedby", progressbar.id);
     });
 
     it("ARIA: hat kein aria-describedby wenn showstrength inaktiv", () => {

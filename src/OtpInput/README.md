@@ -71,7 +71,9 @@ function Example() {
 ## Theming
 
 `OtpInput` ist eine vollwertige MUI-Komponente mit den Slots `root`, `input` und `separator`
-und liest `defaultProps`/`styleOverrides` ueber `theme.components.MuiOtpInput`:
+und liest `defaultProps`/`styleOverrides`/`variants` ueber `theme.components.MuiOtpInput`.
+`ownerState` enthaelt alle Props (mit aufgeloesten Defaults fuer `length`, `loading`, `error`); im
+`input`-Slot zusaetzlich `index` und `filled`:
 
 ```tsx
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -81,9 +83,15 @@ const theme = createTheme({
     MuiOtpInput: {
       defaultProps: { length: 6 },
       styleOverrides: {
-        input: { width: 40 },
-        separator: { color: "primary.main" },
+        input: ({ ownerState, theme }) => ({
+          width: 40,
+          "& input": { fontWeight: ownerState.filled ? 700 : 400 },
+          ...(ownerState.index === 0 && { marginLeft: theme.spacing(1) }),
+        }),
+        // Palette-Kurzschreibweisen wie "primary.main" funktionieren nur in `sx`, nicht hier
+        separator: ({ theme }) => ({ color: theme.palette.primary.main }),
       },
+      variants: [{ props: { error: true }, style: { animation: "shake 0.3s" } }],
     },
   },
 });

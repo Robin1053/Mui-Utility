@@ -39,3 +39,32 @@ const [password, setPassword] = useState("");
 - Mit `value` + `onChange` controlled nutzen.
 - Die Staerkeanzeige basiert auf `getPasswordStrength`.
 
+- IDs werden per `useId` erzeugt, mehrere Instanzen auf einer Seite kollidieren nicht. Eine eigene id
+  kann ueber `Props.TextfieldProps.id` gesetzt werden.
+
+## Theming
+
+Themebar ueber `theme.components.MuiPasswordfield` mit den Slots `root` (`FormControl`, Default
+`margin: 1`, `width: 25ch`), `label`, `input`, `strength` (Staerkeanzeige) und `divider`.
+`ownerState` enthaelt alle Props plus `strength` (0-100) und `showPassword`:
+
+```tsx
+const theme = createTheme({
+  components: {
+    MuiPasswordfield: {
+      defaultProps: { showstrength: true },
+      styleOverrides: {
+        root: { width: "100%" },
+        strength: ({ ownerState, theme }) => ({
+          height: 4,
+          "& .MuiLinearProgress-bar": {
+            backgroundColor: ownerState.strength < 50 ? theme.palette.error.main : theme.palette.success.main,
+          },
+        }),
+      },
+    },
+  },
+});
+```
+
+`ref` zeigt auf das `FormControl`.

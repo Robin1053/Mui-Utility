@@ -62,3 +62,27 @@ import { SocialSigninButton } from "@robineb/mui-utility";
 - Fuer Notification-Ausgaben muss `NotificationProvider` gesetzt sein.
 - Mit `resolveButtonWidth` kann die Breitenlogik separat genutzt werden.
 
+- `sx` aus `Props.ButtonProps` wird mit den Standard-Styles gemergt und gewinnt bei Konflikten.
+
+## Theming
+
+Themebar ueber `theme.components.MuiSocialSigninButton` mit den Slots `root` (`Button` bzw. `IconButton`
+bei `variant="circle"`), `icon`, `label` und `progress`. `ownerState` enthaelt alle Props plus
+`variant` (`"large"`/`"circle"`), `providerStyles`, `iconSize`, `buttonWidth`, `isLoading` und `hasError`:
+
+```tsx
+const theme = createTheme({
+  components: {
+    MuiSocialSigninButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          borderRadius: ownerState.variant === "circle" ? "50%" : 8,
+        }),
+      },
+      variants: [{ props: { Provider: "github" }, style: { fontWeight: 600 } }],
+    },
+  },
+});
+```
+
+`ref` zeigt auf den Button.

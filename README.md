@@ -129,7 +129,8 @@ Wichtige Eigenschaften (Props):
 
 ### NotificationProvider + useNotification
 
-Globales Snackbar/Alert-Handling über Kontext.
+Globales Snackbar/Alert-Handling über Kontext. Optional konfigurierbar über `autoHideDuration`, `anchorOrigin`
+und `Props.SnackbarProps`/`Props.AlertProps`. Vollstaendige Doku: [src/Notification/README.md](src/Notification/README.md).
 
 notify-Signatur:
 
@@ -204,6 +205,41 @@ Integrierte Provider:
 - discord
 - slack
 - passkey
+
+## Theming
+
+Alle Komponenten folgen dem MUI-Leitfaden [Creating themed components](https://mui.com/material-ui/customization/creating-themed-components/)
+und lassen sich wie MUI-eigene Komponenten ueber `theme.components` anpassen: `defaultProps`, `styleOverrides` je Slot
+(auch als Funktion mit `ownerState` und `theme`) und `variants`. Alle Komponenten ausser `NotificationProvider`
+leiten ausserdem `ref` an ihr Root-Element weiter.
+
+| Komponente | Theme-Key | Slots | `ownerState` zusaetzlich zu den Props |
+|---|---|---|---|
+| ActionButton | `MuiActionButton` | `root`, `button`, `dialog` | `loading`, `hasError`, `dialogOpen` |
+| AvatarUpload | `MuiAvatarUpload` | `root`, `badge`, `avatar` | `hasImage` |
+| NotificationProvider | `MuiNotificationProvider` | `root`, `alert` | `open`, `type` |
+| OtpInput | `MuiOtpInput` | `root`, `input`, `separator` | `index`, `filled` (nur `input`) |
+| Passwordfield | `MuiPasswordfield` | `root`, `label`, `input`, `strength`, `divider` | `strength`, `showPassword` |
+| SocialSigninButton | `MuiSocialSigninButton` | `root`, `icon`, `label`, `progress` | `variant`, `providerStyles`, `iconSize`, `buttonWidth`, `isLoading`, `hasError` |
+
+```tsx
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+  components: {
+    MuiPasswordfield: {
+      defaultProps: { showstrength: true },
+      styleOverrides: { root: { width: "100%" } },
+    },
+    MuiActionButton: {
+      variants: [{ props: { destructive: true }, style: { fontWeight: 700 } }],
+    },
+  },
+});
+```
+
+Die Typen fuer `theme.components` werden automatisch ergaenzt, sobald das Paket importiert wird. Die
+`ownerState`-Typen (`ActionButtonOwnerState`, `PasswordfieldOwnerState`, ...) sind exportiert.
 
 ## Entwicklung
 

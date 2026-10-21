@@ -65,3 +65,24 @@ import { ActionButton } from "@robineb/mui-utility";
 - Fuer `Notification` muss `NotificationProvider` im React-Tree vorhanden sein.
 - Bei `destructive={true}` wird eine Error-Farbwelt fuer Button/Dialog-Action genutzt.
 
+
+## Theming
+
+Themebar ueber `theme.components.MuiActionButton` mit den Slots `root` (Wrapper-`div`), `button` und `dialog`.
+`ownerState` enthaelt alle Props plus `loading`, `hasError` und `dialogOpen`:
+
+```tsx
+const theme = createTheme({
+  components: {
+    MuiActionButton: {
+      defaultProps: { requireAreYouSure: true },
+      styleOverrides: {
+        button: ({ ownerState }) => ({ borderStyle: ownerState.loading ? "dashed" : "solid" }),
+      },
+      variants: [{ props: { destructive: true }, style: { fontWeight: 700 } }],
+    },
+  },
+});
+```
+
+`ref` zeigt auf den Wrapper-`div`.

@@ -29,382 +29,206 @@ function resolveProviderPresentation(Provider: ProviderType): ProviderPresentati
 }
 
 
+type ProviderColors = ProviderButtonStyle["button"];
+
+// grosser und runder Button teilen sich die Farben
+function bothVariants(colors: ProviderColors): ProviderButtonStyle {
+    return { button: colors, circle: colors };
+}
+
+/**
+ * Farben nach den offiziellen Vorgaben der Anbieter, soweit vorhanden:
+ * - Google: https://developers.google.com/identity/branding-guidelines (Hover = State-Layer 8%)
+ * - Microsoft: offizielle "Sign in with Microsoft"-SVGs (learn.microsoft.com, howto-add-branding-in-apps)
+ * - Slack: https://docs.slack.dev/authentication/sign-in-with-slack/
+ * - Facebook: Brand-Blau #1877F2, Discord: Blurple #5865F2, LinkedIn: #0A66C2
+ * - GitHub hat keine Sign-in-Vorgaben; Werte aus dem GitHub-Designsystem Primer (Default-Button)
+ * - GitLab: Markenfarben #FC6D26/#171321, Text dunkel statt orange wegen Kontrast (WCAG AA)
+ */
 function getProviderButtonStyles(Provider: ProviderType, isDark: boolean = false): ProviderButtonStyle {
-    const ProviderName = typeof Provider === "object" ? Provider.name.toLowerCase() : Provider.toLowerCase();
-
-    const styles: Record<string, ProviderButtonStyle> = {
-
-        google: isDark ? {
-            button: {
-                backgroundColor: '#131314',
-                color: '#E3E3E3',
-                border: '1px solid #8E918F',
-                hoverBgColor: '#111014',
-                hoverBorder: 'rgba(0, 0, 0, 0.1)',
-            },
-            circle: {
-                backgroundColor: '#131314',
-                color: '#E3E3E3',
-                border: '1px solid #8E918F',
-                hoverBgColor: '#111014',
-                hoverBorder: 'rgba(0, 0, 0, 0.1)',
-            }
-        } : {
-            button: {
-                backgroundColor: '#E3E3E3',
-                color: '#131314',
-                border: '1px solid #131314',
-                hoverBgColor: '#8E918F',
-                hoverBorder: '1px solid rgba(17, 16, 16, 0.09)'
-            },
-            circle: {
-                backgroundColor: '#E3E3E3',
-                color: '#131314',
-                border: '1px solid #E3E3E3',
-                hoverBgColor: 'rgb(64, 64, 70)',
-                hoverBorder: '1px solid rgb(227, 227, 227)'
-            }
-        },
-
-
-        apple: isDark ? {
-            button: {
-                backgroundColor: '#FFFFFF',
-                color: '#000000',
-                border: '1px solid #ffffff',
-                hoverBgColor: '#F0F0F0',
-                hoverBorder: '#F0F0F0',
-                logoColor: '#000000',
-                loadingcolor: '#000000'
-            },
-            circle: {
-                backgroundColor: '#FFFFFF',
-                color: '#000000',
-                border: '1px solid #ffffff',
-                hoverBgColor: '#F0F0F0',
-                hoverBorder: '#F0F0F0',
-                logoColor: '#000000',
-                loadingcolor: '#000000'
-            }
-        } : {
-            button: {
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                border: '1px solid #000000',
-                hoverBgColor: '#1C1C1C',
-                hoverBorder: '#1C1C1C',
-                logoColor: '#FFFFFF',
-                loadingcolor: '#FFFFFF'
-
-            },
-            circle: {
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                border: '1px solid #000000',
-                hoverBgColor: '#1C1C1C',
-                hoverBorder: '#1C1C1C',
-                logoColor: '#FFFFFF',
-                loadingcolor: '#FFFFFF'
-            }
-        },
-
-
-        github: isDark ? {
-            button: {
-                backgroundColor: 'rgb(43,45,49)',
-                color: '#F2F5F3',
-                border: '1px solid rgba(35, 41, 37, 0.24)',
-                hoverBgColor: 'rgb(25, 27, 25)',
-                hoverBorder: 'rgba(25, 27, 25, 0.32)',
-                logoColor: '#FFFFFF',
-            },
-            circle: {
-                backgroundColor: 'rgb(43,45,49)',
-                color: '#F2F5F3',
-                border: '1px solid rgba(35, 41, 37, 0.24)',
-                hoverBgColor: 'rgb(25, 27, 25)',
-                hoverBorder: 'rgba(25, 27, 25, 0.32)',
-                logoColor: '#FFFFFF',
-            }
-        } : {
-            button: {
-                backgroundColor: '#F2F5F3',
-                color: '#232925',
-                border: '1px solid rgba(240, 246, 252, 0.24)',
-                hoverBgColor: '#cae4d3',
-                hoverBorder: 'rgba(240, 246, 252, 0.32)',
-                logoColor: '#000000',
-            },
-            circle: {
-                backgroundColor: '#F2F5F3',
-                color: '#232925',
-                border: '1px solid rgba(240, 246, 252, 0.24)',
-                hoverBgColor: '#cae4d3',
-                hoverBorder: 'rgba(240, 246, 252, 0.32)',
-                logoColor: '#000000',
-            }
-        },
-
-
-        microsoft: isDark ? {
-            button: {
-                backgroundColor: '#2f2f2f',
-                color: '#FFFFFF',
-                border: '1px solid #8c8c8c',
-                hoverBgColor: '#3B3B3B',
-                hoverBorder: '#A0A0A0'
-            },
-            circle: {
-                backgroundColor: '#2f2f2f',
-                color: '#FFFFFF',
-                border: '1px solid #8c8c8c',
-                hoverBgColor: '#3B3B3B',
-                hoverBorder: '#A0A0A0'
-            }
-
-        } : {
-            button: {
-                backgroundColor: '#FFFFFF',
-                color: '#1F1F1F',
-                border: '1px solid #F5F5F5',
-                hoverBgColor: '#f7f1f1',
-                hoverBorder: '#f3e3e3'
-            },
-            circle: {
-                backgroundColor: '#FFFFFF',
-                color: '#1F1F1F',
-                border: '1px solid #F5F5F5',
-                hoverBgColor: '#f7f1f1',
-                hoverBorder: '#f3e3e3'
-            }
-        },
-
-
-        facebook: {
-            button: {
-                backgroundColor: '#1877F2',
-                color: '#FFFFFF',
-                border: '1px solid #1877F2',
-                hoverBgColor: '#4287e2',
-                hoverBorder: '#4287e2',
-                logoColor: '#FFFFFF',
-            },
-            circle: {
-                backgroundColor: '#1877F2',
-                color: '#FFFFFF',
-                border: '1px solid #1877F2',
-                hoverBgColor: '#4287e2',
-                hoverBorder: '#4287e2',
-                logoColor: '#ffffff',
-            }
-
-        },
-
-
-        linkedin: {
-            button: {
-                backgroundColor: '#0A66C2',
-                color: '#FFFFFF',
-                border: '1px solid #0A66C2',
-                hoverBgColor: '#004182',
-                hoverBorder: '#004182',
-                logoColor: '#FFFFFF',
-                loadingcolor: '#FFFFFF'
-            },
-            circle: {
-                backgroundColor: '#0A66C2',
-                color: '#FFFFFF',
-                border: '1px solid #0A66C2',
-                hoverBgColor: '#004182',
-                hoverBorder: '#004182',
-                logoColor: '#FFFFFF',
-                loadingcolor: '#FFFFFF'
-            }
-
-        },
-
-
-        x: isDark ? {
-            button: {
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.22)',
-                hoverBgColor: '#272727',
-                hoverBorder: 'rgba(255, 255, 255, 0.3)',
-                logoColor: '#FFFFFF',
-            },
-            circle: {
-                backgroundColor: '#000000',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.22)',
-                hoverBgColor: '#272727',
-                hoverBorder: 'rgba(255, 255, 255, 0.3)',
-                logoColor: '#FFFFFF',
-            }
-        } : {
-            button: {
-                backgroundColor: '#FFFFFF',
-                color: '#000000',
-                border: '1px solid rgba(0, 0, 0, 0.18)',
-                hoverBgColor: '#F2F2F2',
-                hoverBorder: 'rgba(0, 0, 0, 0.26)',
-                logoColor: '#000000',
-            },
-            circle: {
-                backgroundColor: '#FFFFFF',
-                color: '#000000',
-                border: '1px solid rgba(0, 0, 0, 0.18)',
-                hoverBgColor: '#F2F2F2',
-                hoverBorder: 'rgba(0, 0, 0, 0.26)',
-                logoColor: '#000000',
-            }
-        },
-
-
-        gitlab: isDark ? {
-            button: {
-                backgroundColor: '#171321',
-                color: '#FFFFFF',
-                border: '1px solid #FC6D26',
-                hoverBgColor: 'rgb(26, 23, 23)',
-                hoverBorder: 'rgba(226, 67, 41, 0.8)',
-                loadingcolor: '#FC6D26'
-            },
-            circle: {
-                backgroundColor: '#171321',
-                color: '#FFFFFF',
-                border: '1px solid #FC6D26',
-                hoverBgColor: 'rgb(26, 23, 23)',
-                hoverBorder: 'rgba(226, 67, 41, 0.8)',
-                loadingcolor: '#FC6D26'
-            }
-        } : {
-            button: {
-                backgroundColor: '#FFFFFF',
-                color: '#FC6D26',
-                border: '1px solid #FC6D26',
-                hoverBgColor: '#F5F5F5',
-                hoverBorder: '#FC6D26',
-                loadingcolor: '#FC6D26'
-            },
-            circle: {
-                backgroundColor: '#FFFFFF',
-                color: '#FC6D26',
-                border: '1px solid #FC6D26',
-                hoverBgColor: '#F5F5F5',
-                hoverBorder: '#FC6D26',
-                loadingcolor: '#FC6D26'
-            }
-        },
-
-
-        discord: isDark ? {
-            button: {
-                backgroundColor: '#1c1d23',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                hoverBgColor: '#23252e',
-                hoverBorder: 'rgba(255, 255, 255, 0.16)',
-            },
-            circle: {
-                backgroundColor: '#1c1d23',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                hoverBgColor: '#23252e',
-                hoverBorder: 'rgba(255, 255, 255, 0.16)',
-            },
-        } : {
-            button: {
-                backgroundColor: '#FFFFFF',
-                color: '#000000',
-                border: '1px solid rgba(0, 0, 0, 0.08)',
-                hoverBgColor: '#F4F5F7',
-                hoverBorder: 'rgba(17, 18, 19, 0.16)',
-            },
-            circle: {
-                backgroundColor: '#FFFFFF',
-                color: '#000000',
-                border: '1px solid rgba(0, 0, 0, 0.08)',
-                hoverBgColor: '#F4F5F7',
-                hoverBorder: 'rgba(17, 18, 19, 0.16)',
-            }
-        },
-
-
-        slack: isDark ? {
-            button: {
-                backgroundColor: '#1c1d23',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                hoverBgColor: '#23252e',
-                hoverBorder: 'rgba(255, 255, 255, 0.16)',
-            },
-            circle: {
-                backgroundColor: '#1c1d23',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.08)',
-                hoverBgColor: '#23252e',
-                hoverBorder: 'rgba(255, 255, 255, 0.16)',
-            }
-        } : {
-            button: {
-                backgroundColor: '#FFFFFF',
-                color: '#1F1F1F',
-                border: '1px solid rgba(0, 0, 0, 0.1)',
-                hoverBgColor: '#F8F8F8',
-                hoverBorder: 'rgba(0, 0, 0, 0.18)',
-            },
-            circle: {
-                backgroundColor: '#FFFFFF',
-                color: '#1F1F1F',
-                border: '1px solid rgba(0, 0, 0, 0.1)',
-                hoverBgColor: '#F8F8F8',
-                hoverBorder: 'rgba(0, 0, 0, 0.18)',
-            }
-        },
-
-        passkey: isDark ? {
-            button: {
-                backgroundColor: '#1F222B',
-                color: '#F8F5F1',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                hoverBgColor: '#2A2F3A',
-                hoverBorder: 'rgba(255, 255, 255, 0.24)',
-                loadingcolor: '#F8F5F1',
-                logoColor: '#F8F5F1',
-            },
-            circle: {
-                backgroundColor: '#1F222B',
-                color: '#F8F5F1',
-                border: '1px solid rgba(255, 255, 255, 0.14)',
-                hoverBgColor: '#2A2F3A',
-                hoverBorder: 'rgba(255, 255, 255, 0.24)',
-                loadingcolor: '#F8F5F1',
-                logoColor: '#F8F5F1',
-            }
-        } : {
-            button: {
-                backgroundColor: '#F4ECE4',
-                color: '#2D1C12',
-                border: '1px solid rgba(157, 112, 82, 0.32)',
-                hoverBgColor: '#EDE1D5',
-                hoverBorder: 'rgba(157, 112, 82, 0.48)',
-                loadingcolor: '#2D1C12',
-                logoColor: '#2D1C12',
-            },
-            circle: {
-                backgroundColor: '#F4ECE4',
-                color: '#2D1C12',
-                border: '1px solid rgba(157, 112, 82, 0.32)',
-                hoverBgColor: '#EDE1D5',
-                hoverBorder: 'rgba(157, 112, 82, 0.48)',
-                loadingcolor: '#2D1C12',
-                logoColor: '#2D1C12',
-            }
-        }
+    // eigene Provider bringen ihre Farben mit (vorher fielen sie auf die Google-Farben zurueck)
+    if (typeof Provider === "object") {
+        return bothVariants(Provider.color);
     }
-    return styles[ProviderName] || styles.google;
 
+    const styles: Record<BuiltInProvider, ProviderButtonStyle> = {
+        google: isDark
+            ? bothVariants({
+                backgroundColor: '#131314',
+                color: '#E3E3E3',
+                border: '1px solid #8E918F',
+                hoverBgColor: '#262627',
+                hoverBorder: '#8E918F',
+            })
+            : bothVariants({
+                backgroundColor: '#FFFFFF',
+                color: '#1F1F1F',
+                border: '1px solid #747775',
+                hoverBgColor: '#EEEEEE',
+                hoverBorder: '#747775',
+            }),
+
+        microsoft: isDark
+            ? bothVariants({
+                backgroundColor: '#2F2F2F',
+                color: '#FFFFFF',
+                // Vorgabe ist randlos; gleichfarbiger Rand haelt die Groesse identisch zur hellen Variante
+                border: '1px solid #2F2F2F',
+                hoverBgColor: '#3B3B3B',
+                hoverBorder: '#3B3B3B',
+            })
+            : bothVariants({
+                backgroundColor: '#FFFFFF',
+                color: '#5E5E5E',
+                border: '1px solid #8C8C8C',
+                hoverBgColor: '#F3F3F3',
+                hoverBorder: '#8C8C8C',
+            }),
+
+        apple: isDark
+            ? bothVariants({
+                backgroundColor: '#FFFFFF',
+                color: '#000000',
+                border: '1px solid #FFFFFF',
+                hoverBgColor: '#F0F0F0',
+                hoverBorder: '#F0F0F0',
+                logoColor: '#000000',
+                loadingcolor: '#000000',
+            })
+            : bothVariants({
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                border: '1px solid #000000',
+                hoverBgColor: '#1C1C1C',
+                hoverBorder: '#1C1C1C',
+                logoColor: '#FFFFFF',
+                loadingcolor: '#FFFFFF',
+            }),
+
+        github: isDark
+            ? bothVariants({
+                backgroundColor: '#212830',
+                color: '#F0F6FC',
+                border: '1px solid #3D444D',
+                hoverBgColor: '#262C36',
+                hoverBorder: '#3D444D',
+                logoColor: '#FFFFFF',
+            })
+            : bothVariants({
+                backgroundColor: '#F6F8FA',
+                color: '#25292E',
+                border: '1px solid #D1D9E0',
+                hoverBgColor: '#EFF2F5',
+                hoverBorder: '#D1D9E0',
+                logoColor: '#1F2328',
+            }),
+
+        facebook: bothVariants({
+            backgroundColor: '#1877F2',
+            color: '#FFFFFF',
+            border: '1px solid #1877F2',
+            hoverBgColor: '#166FE5',
+            hoverBorder: '#166FE5',
+            logoColor: '#FFFFFF',
+            loadingcolor: '#FFFFFF',
+        }),
+
+        linkedin: bothVariants({
+            backgroundColor: '#0A66C2',
+            color: '#FFFFFF',
+            border: '1px solid #0A66C2',
+            hoverBgColor: '#004182',
+            hoverBorder: '#004182',
+            logoColor: '#FFFFFF',
+            loadingcolor: '#FFFFFF',
+        }),
+
+        x: isDark
+            ? bothVariants({
+                backgroundColor: '#000000',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.22)',
+                hoverBgColor: '#272727',
+                hoverBorder: 'rgba(255, 255, 255, 0.3)',
+                logoColor: '#FFFFFF',
+            })
+            : bothVariants({
+                backgroundColor: '#FFFFFF',
+                color: '#000000',
+                border: '1px solid rgba(0, 0, 0, 0.18)',
+                hoverBgColor: '#F2F2F2',
+                hoverBorder: 'rgba(0, 0, 0, 0.26)',
+                logoColor: '#000000',
+            }),
+
+        gitlab: isDark
+            ? bothVariants({
+                backgroundColor: '#171321',
+                color: '#FFFFFF',
+                border: '1px solid #FC6D26',
+                hoverBgColor: '#231C33',
+                hoverBorder: '#FC6D26',
+                loadingcolor: '#FC6D26',
+            })
+            : bothVariants({
+                backgroundColor: '#FFFFFF',
+                color: '#171321',
+                border: '1px solid #FC6D26',
+                hoverBgColor: '#FFF4EE',
+                hoverBorder: '#FC6D26',
+                loadingcolor: '#FC6D26',
+            }),
+
+        discord: bothVariants({
+            backgroundColor: '#5865F2',
+            color: '#FFFFFF',
+            border: '1px solid #5865F2',
+            hoverBgColor: '#4752C4',
+            hoverBorder: '#4752C4',
+            logoColor: '#FFFFFF',
+            loadingcolor: '#FFFFFF',
+        }),
+
+        slack: isDark
+            ? bothVariants({
+                backgroundColor: '#4A154B',
+                color: '#FFFFFF',
+                // Vorgabe ist randlos; gleichfarbiger Rand haelt die Groesse identisch zur hellen Variante
+                border: '1px solid #4A154B',
+                hoverBgColor: '#5C2A5D',
+                hoverBorder: '#5C2A5D',
+                loadingcolor: '#FFFFFF',
+            })
+            : bothVariants({
+                backgroundColor: '#FFFFFF',
+                color: '#000000',
+                border: '1px solid #DDDDDD',
+                hoverBgColor: '#F8F8F8',
+                hoverBorder: '#DDDDDD',
+            }),
+
+        passkey: isDark
+            ? bothVariants({
+                backgroundColor: '#1F222B',
+                color: '#F8F5F1',
+                border: '1px solid rgba(255, 255, 255, 0.14)',
+                hoverBgColor: '#2A2F3A',
+                hoverBorder: 'rgba(255, 255, 255, 0.24)',
+                loadingcolor: '#F8F5F1',
+                logoColor: '#F8F5F1',
+            })
+            : bothVariants({
+                backgroundColor: '#F4ECE4',
+                color: '#2D1C12',
+                border: '1px solid rgba(157, 112, 82, 0.32)',
+                hoverBgColor: '#EDE1D5',
+                hoverBorder: 'rgba(157, 112, 82, 0.48)',
+                loadingcolor: '#2D1C12',
+                logoColor: '#2D1C12',
+            }),
+    };
+
+    return styles[Provider] ?? styles.google;
 }
 export {
     resolveProviderPresentation,

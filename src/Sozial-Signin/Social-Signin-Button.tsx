@@ -45,6 +45,9 @@ function resolveButtonWidth(extrawidth?: number, maxWidth?: number): string {
 
 type OwnerStateProps = { ownerState: SocialSigninButtonOwnerState };
 
+// 40px entspricht der Hoehe des grossen Buttons und Googles Icon-Button
+const CIRCLE_DIAMETER = { small: 32, medium: 40, large: 48 } as const;
+
 // beide Varianten teilen sich den Slot "root", damit styleOverrides.root/variants fuer beide gelten
 const SocialSigninLargeRoot = styled(Button, {
   name: "MuiSocialSigninButton",
@@ -57,14 +60,18 @@ const SocialSigninLargeRoot = styled(Button, {
     borderRadius: "20px",
     backgroundColor: styles.backgroundColor,
     height: "40px",
-    width: ownerState.buttonWidth,
-    minWidth: "183px",
+    // Mindestbreite statt fester Breite, damit laengere Labels nicht umbrechen
+    minWidth: ownerState.buttonWidth,
     maxWidth: "400px",
     justifyContent: "flex-start",
     color: styles.color,
+    // Google-Vorgaben: Medium 14/20, Satzschreibung (MUI-Buttons sind sonst uppercase)
     fontSize: "14px",
+    fontWeight: 500,
     lineHeight: "20px",
     letterSpacing: "0.25px",
+    textTransform: "none",
+    whiteSpace: "nowrap",
     padding: 0,
     "&:hover": {
       backgroundColor: styles.hoverBgColor,
@@ -79,9 +86,10 @@ const SocialSigninLargeRoot = styled(Button, {
     "&.Mui-disabled .MuiCircularProgress-root": {
       color: `${styles.loadingcolor || styles.color} !important`,
     },
+    // Google-Vorgaben: 12px vor dem Logo, 10px zwischen Logo und Text, 12px nach dem Text (Label)
     "& .MuiButton-startIcon": {
-      marginLeft: "11px",
-      marginRight: "11px",
+      marginLeft: "12px",
+      marginRight: "10px",
       display: "flex",
       alignItems: "center",
     },
@@ -100,7 +108,11 @@ const SocialSigninCircleRoot = styled(IconButton, {
   shouldForwardProp: shouldForwardSlotProp,
 })<OwnerStateProps>(({ ownerState }) => {
   const styles = ownerState.providerStyles.circle;
+  // ohne feste Groesse schrumpft der Kreis auf die Logo-Groesse und der Rand liegt als Ring um das Logo
+  const diameter = CIRCLE_DIAMETER[ownerState.size ?? "medium"];
   return {
+    width: diameter,
+    height: diameter,
     backgroundColor: styles.backgroundColor,
     border: styles.border,
     color: styles.color,

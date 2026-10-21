@@ -178,12 +178,14 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
         }
 
         const groupSizes = React.useMemo(() => {
-            if (!groups || groups <= 1) {
+            // ganzzahlig und hoechstens length, sonst entstehen leere Gruppen (doppelte Separatoren) oder fehlende Felder
+            const groupCount = Math.min(Math.floor(groups ?? 1), length);
+            if (groupCount <= 1) {
                 return [length];
             }
-            const base = Math.floor(length / groups);
-            const remainder = length % groups;
-            return Array.from({ length: groups }, (_, i) => base + (i < remainder ? 1 : 0));
+            const base = Math.floor(length / groupCount);
+            const remainder = length % groupCount;
+            return Array.from({ length: groupCount }, (_, i) => base + (i < remainder ? 1 : 0));
         }, [groups, length]);
 
         const content: React.ReactNode[] = [];
@@ -239,7 +241,10 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
 
             if (groupIndex < groupSizes.length - 1) {
                 content.push(
-                    <OtpInputSeparator key={`separator-${groupIndex}`}>{separator}</OtpInputSeparator>,
+                    // rein optisch; die Felder tragen bereits "Zeichen x von n"
+                    <OtpInputSeparator key={`separator-${groupIndex}`} aria-hidden="true">
+                        {separator}
+                    </OtpInputSeparator>,
                 );
             }
         });

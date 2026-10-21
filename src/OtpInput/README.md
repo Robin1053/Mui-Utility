@@ -57,8 +57,15 @@ function Example() {
     })}
   />
   ```
-- `groups?: number` Teilt die Felder in n gleich grosse Gruppen auf (z.B. `length={6} groups={2}` -> `XXX-XXX`)
-- `separator?: React.ReactNode` Trennzeichen zwischen den Gruppen (Default `-`)
+- `groups?: number` Teilt die Felder in n gleich grosse Gruppen auf (z.B. `length={6} groups={2}` -> `XXX-XXX`).
+  Restfelder gehen an die vorderen Gruppen (`length={7} groups={3}` -> `XXX-XX-XX`). Wird abgerundet und auf
+  `length` begrenzt.
+- `separator?: React.ReactNode` Trennzeichen zwischen den Gruppen (Default `-`). Wird **nur** bei `groups >= 2`
+  angezeigt und ist per `aria-hidden` vor Screenreadern verborgen:
+
+  ```tsx
+  <OtpInput length={6} groups={2} separator={<RemoveIcon fontSize="small" />} />
+  ```
 - `onBlur?: (value: string, isCompleted: boolean) => void` Wird aufgerufen, wenn der Fokus die gesamte Komponente verlaesst
 
 ## Theming

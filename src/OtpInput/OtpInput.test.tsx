@@ -148,6 +148,40 @@ describe("OtpInput", () => {
         expect(screen.getByText("*")).toBeInTheDocument();
     });
 
+    // liefert die Reihenfolge der gerenderten Kinder: "F" = Feld, sonst Text des Separators
+    function getLayout(container: HTMLElement): string {
+        const root = container.querySelector('[role="group"]') as HTMLElement;
+        return Array.from(root.children)
+            .map((child) => (child.querySelector("input") ? "F" : child.textContent))
+            .join("");
+    }
+
+    it("setzt den Separator an die Gruppengrenzen und verteilt Restfelder auf die vorderen Gruppen", () => {
+        const { container } = render(<OtpInput length={7} groups={3} separator="-" />);
+        expect(getLayout(container)).toBe("FFF-FF-FF");
+    });
+
+    it("rendert ohne groups keinen Separator", () => {
+        const { container } = render(<OtpInput length={4} separator="-" />);
+        expect(getLayout(container)).toBe("FFFF");
+    });
+
+    it("rendert bei groups > length keine doppelten Separatoren", () => {
+        const { container } = render(<OtpInput length={3} groups={5} separator="-" />);
+        expect(getLayout(container)).toBe("F-F-F");
+    });
+
+    it("rundet nicht-ganzzahlige groups ab", () => {
+        const { container } = render(<OtpInput length={6} groups={2.7} separator="-" />);
+        expect(getLayout(container)).toBe("FFF-FFF");
+    });
+
+    it("akzeptiert ReactNode als Separator und versteckt ihn vor Screenreadern", () => {
+        render(<OtpInput length={4} groups={2} separator={<span data-testid="sep">/</span>} />);
+        const separator = screen.getByTestId("sep");
+        expect(separator.parentElement).toHaveAttribute("aria-hidden", "true");
+    });
+
     it("ruft onBlur erst auf, wenn der Fokus die gesamte Komponente verlaesst", async () => {
         const onBlur = jest.fn();
         const user = userEvent.setup();

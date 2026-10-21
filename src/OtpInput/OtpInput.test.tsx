@@ -55,6 +55,29 @@ describe("OtpInput", () => {
         expect(inputs[0]).toHaveFocus();
     });
 
+    it("ersetzt das Zeichen eines belegten Feldes auch ohne Selektion statt ins naechste Feld zu schreiben", async () => {
+        const onChange = jest.fn();
+        const user = userEvent.setup();
+
+        render(<OtpInput length={4} value="1234" onChange={onChange} />);
+        const inputs = screen.getAllByRole("textbox") as HTMLInputElement[];
+
+        await user.click(inputs[1]);
+        // simuliert Browser, die die Fokus-Selektion beim Klick wieder aufheben
+        inputs[1].setSelectionRange(1, 1);
+        await user.keyboard("9");
+
+        expect(onChange).toHaveBeenLastCalledWith("1934");
+        expect(inputs[2]).toHaveFocus();
+    });
+
+    it("setzt autoComplete=one-time-code nur am ersten Feld", () => {
+        render(<OtpInput length={3} />);
+        const inputs = screen.getAllByRole("textbox");
+        expect(inputs[0]).toHaveAttribute("autocomplete", "one-time-code");
+        expect(inputs[1]).toHaveAttribute("autocomplete", "off");
+    });
+
     it("navigiert mit den Pfeiltasten zwischen den Feldern", async () => {
         const user = userEvent.setup();
 
@@ -123,6 +146,40 @@ describe("OtpInput", () => {
         render(<OtpInput length={6} groups={2} separator="*" />);
         expect(screen.getAllByRole("textbox")).toHaveLength(6);
         expect(screen.getByText("*")).toBeInTheDocument();
+    });
+
+    // liefert die Reihenfolge der gerenderten Kinder: "F" = Feld, sonst Text des Separators
+    function getLayout(container: HTMLElement): string {
+        const root = container.querySelector('[role="group"]') as HTMLElement;
+        return Array.from(root.children)
+            .map((child) => (child.querySelector("input") ? "F" : child.textContent))
+            .join("");
+    }
+
+    it("setzt den Separator an die Gruppengrenzen und verteilt Restfelder auf die vorderen Gruppen", () => {
+        const { container } = render(<OtpInput length={7} groups={3} separator="-" />);
+        expect(getLayout(container)).toBe("FFF-FF-FF");
+    });
+
+    it("rendert ohne groups keinen Separator", () => {
+        const { container } = render(<OtpInput length={4} separator="-" />);
+        expect(getLayout(container)).toBe("FFFF");
+    });
+
+    it("rendert bei groups > length keine doppelten Separatoren", () => {
+        const { container } = render(<OtpInput length={3} groups={5} separator="-" />);
+        expect(getLayout(container)).toBe("F-F-F");
+    });
+
+    it("rundet nicht-ganzzahlige groups ab", () => {
+        const { container } = render(<OtpInput length={6} groups={2.7} separator="-" />);
+        expect(getLayout(container)).toBe("FFF-FFF");
+    });
+
+    it("akzeptiert ReactNode als Separator und versteckt ihn vor Screenreadern", () => {
+        render(<OtpInput length={4} groups={2} separator={<span data-testid="sep">/</span>} />);
+        const separator = screen.getByTestId("sep");
+        expect(separator.parentElement).toHaveAttribute("aria-hidden", "true");
     });
 
     it("ruft onBlur erst auf, wenn der Fokus die gesamte Komponente verlaesst", async () => {

@@ -1,6 +1,6 @@
 {
   "name": "@robineb/mui-utility",
-  "version": "1.1.7",
+  "version": "1.2.0",
   "description": "Utility extensions for MUI",
   "keywords": [
     "mui",
@@ -9,7 +9,7 @@
   "homepage": "https://github.com/Robin1053/Mui-Utility#readme",
   "bugs": {
     "url": "https://github.com/Robin1053/Mui-Utility/issues",
-    "email": "robineb174@gmx.de"
+    "email": "robin.eberle@robineb.de"
   },
   "repository": {
     "type": "git",

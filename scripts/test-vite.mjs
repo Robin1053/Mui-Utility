@@ -1,5 +1,5 @@
 import { execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -17,6 +17,12 @@ const run = (command, cwd = root) => {
     stdio: "inherit",
   });
 };
+// alte Tarballs plattformunabhaengig entfernen (kein `rm`/Glob unter Windows cmd, kein Fehler wenn keiner da ist)
+for (const file of readdirSync(root)) {
+  if (file.startsWith(`${normalizedName}-`) && file.endsWith(".tgz")) {
+    rmSync(join(root, file));
+  }
+}
 
 run("npm run build");
 run("npm pack");

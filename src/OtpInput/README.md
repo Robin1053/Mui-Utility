@@ -57,8 +57,15 @@ function Example() {
     })}
   />
   ```
-- `groups?: number` Teilt die Felder in n gleich grosse Gruppen auf (z.B. `length={6} groups={2}` -> `XXX-XXX`)
-- `separator?: React.ReactNode` Trennzeichen zwischen den Gruppen (Default `-`)
+- `groups?: number` Teilt die Felder in n gleich grosse Gruppen auf (z.B. `length={6} groups={2}` -> `XXX-XXX`).
+  Restfelder gehen an die vorderen Gruppen (`length={7} groups={3}` -> `XXX-XX-XX`). Wird abgerundet und auf
+  `length` begrenzt.
+- `separator?: React.ReactNode` Trennzeichen zwischen den Gruppen (Default `-`). Wird **nur** bei `groups >= 2`
+  angezeigt und ist per `aria-hidden` vor Screenreadern verborgen:
+
+  ```tsx
+  <OtpInput length={6} groups={2} separator={<RemoveIcon fontSize="small" />} />
+  ```
 - `onBlur?: (value: string, isCompleted: boolean) => void` Wird aufgerufen, wenn der Fokus die gesamte Komponente verlaesst
 
 ## Theming
@@ -91,4 +98,7 @@ const theme = createTheme({
 - Unterstuetzt Tasten-Navigation mit Pfeilen, `Home`, `End` und `Backspace`
 - Unterstuetzt Paste ueber mehrere Felder
 - Selektiert den Inhalt beim Fokus, um Eingabe zu beschleunigen
+- Ein getipptes Zeichen ersetzt immer den Inhalt des aktiven Feldes, unabhaengig von der Cursorposition
+- Das erste Feld traegt `autoComplete="one-time-code"`, damit iOS/Android Codes aus SMS oder Mail
+  vorschlagen; der eingefuegte Code wird auf alle Felder verteilt. Ueberschreibbar via `TextFieldsProps`.
 

@@ -221,7 +221,9 @@ function DiscordSVG({ size = 20, title, Props }: SocialSvgProps) {
     <svg
       width={size}
       height={size}
-      fill="#7289DA"
+      // aktuelles Discord-Blurple; ueber `color` (z.B. logoColor) ueberschreibbar
+      color="#5865F2"
+      fill="currentColor"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       {...getA11yProps(title)}

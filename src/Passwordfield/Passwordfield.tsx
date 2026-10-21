@@ -9,51 +9,105 @@ import {
   Divider,
   LinearProgress,
 } from "@mui/material";
+import { styled, useThemeProps } from "@mui/material/styles";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import * as React from "react";
 import { getPasswordStrength } from "@robineb/mui-utility/Passwordfield/Passwordstrength";
-import { PasswordfieldProps } from "@robineb/mui-utility";
+import type { PasswordfieldOwnerState, PasswordfieldProps } from "@robineb/mui-utility";
+import { shouldForwardSlotProp } from "@robineb/mui-utility";
 
+type OwnerStateProps = { ownerState: PasswordfieldOwnerState };
 
+const PasswordfieldRoot = styled(FormControl, {
+  name: "MuiPasswordfield",
+  slot: "root",
+  shouldForwardProp: shouldForwardSlotProp,
+})<OwnerStateProps>(({ theme }) => ({
+  margin: theme.spacing(1),
+  width: "25ch",
+}));
 
-function MUIPasswordfield({
-  loading = false,
-  children,
-  showstrength = false,
-  error = false,
-  onChange,
-  Props = {
-    TextfieldProps: {},
-  },
-  value,
-}: PasswordfieldProps) {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [internalPassword, setInternalPassword] = React.useState("");
-  const strengthDescriptionId = "password-strength-indicator";
+const PasswordfieldLabel = styled(InputLabel, {
+  name: "MuiPasswordfield",
+  slot: "label",
+  shouldForwardProp: shouldForwardSlotProp,
+})<OwnerStateProps>({});
 
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
+const PasswordfieldInput = styled(Input, {
+  name: "MuiPasswordfield",
+  slot: "input",
+  shouldForwardProp: shouldForwardSlotProp,
+})<OwnerStateProps>({});
 
-  const handleMouseUpPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
+const PasswordfieldStrength = styled(LinearProgress, {
+  name: "MuiPasswordfield",
+  slot: "strength",
+  shouldForwardProp: shouldForwardSlotProp,
+})<OwnerStateProps>({
+  height: 2,
+});
 
-  const passwordValue = typeof value === "string" ? value : internalPassword;
-  const strength = getPasswordStrength(passwordValue);
+const PasswordfieldDivider = styled(Divider, {
+  name: "MuiPasswordfield",
+  slot: "divider",
+  shouldForwardProp: shouldForwardSlotProp,
+})<OwnerStateProps>({});
 
-  return (
-    <>
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel htmlFor="Passwordfield">{children}</InputLabel>
-        <Input
+const MUIPasswordfield = React.forwardRef<HTMLDivElement, PasswordfieldProps>(
+  function MUIPasswordfield(inProps, ref) {
+    const props = useThemeProps({ props: inProps, name: "MuiPasswordfield" });
+    const {
+      loading = false,
+      children,
+      showstrength = false,
+      error = false,
+      onChange,
+      Props = {
+        TextfieldProps: {},
+      },
+      value,
+    } = props;
+    const [showPassword, setShowPassword] = React.useState(false);
+    const [internalPassword, setInternalPassword] = React.useState("");
+
+    // eindeutige IDs, damit mehrere Passwordfields auf einer Seite nicht kollidieren
+    const idPrefix = React.useId();
+    const inputId = Props.TextfieldProps?.id ?? `${idPrefix}-input`;
+    const strengthDescriptionId = `${idPrefix}-strength`;
+
+    const handleMouseDownPassword = (
+      event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+      event.preventDefault();
+    };
+
+    const handleMouseUpPassword = (
+      event: React.MouseEvent<HTMLButtonElement>,
+    ) => {
+      event.preventDefault();
+    };
+
+    const passwordValue = typeof value === "string" ? value : internalPassword;
+    const strength = getPasswordStrength(passwordValue);
+
+    const ownerState: PasswordfieldOwnerState = {
+      ...props,
+      loading,
+      showstrength,
+      error,
+      strength,
+      showPassword,
+    };
+
+    return (
+      <PasswordfieldRoot ref={ref} ownerState={ownerState} variant="outlined">
+        <PasswordfieldLabel ownerState={ownerState} htmlFor={inputId}>
+          {children}
+        </PasswordfieldLabel>
+        <PasswordfieldInput
           aria-label="Password field"
           {...Props?.TextfieldProps}
-          sx={Props.TextfieldProps?.sx}
+          ownerState={ownerState}
           inputProps={{
             ...(Props.TextfieldProps?.inputProps || {}),
             "aria-describedby": showstrength
@@ -62,7 +116,7 @@ function MUIPasswordfield({
           }}
           disableUnderline
           inputComponent={"input"}
-          id="Passwordfield"
+          id={inputId}
           type={showPassword ? "text" : "password"}
           value={passwordValue}
           onChange={(
@@ -90,18 +144,18 @@ function MUIPasswordfield({
           error={error}
         />
         {!showstrength ? (
-          <Divider />
+          <PasswordfieldDivider ownerState={ownerState} />
         ) : (
-          <LinearProgress
+          <PasswordfieldStrength
+            ownerState={ownerState}
             id={strengthDescriptionId}
             variant="determinate"
             value={strength}
-            sx={{ height: "2px" }}
           />
         )}
-      </FormControl>
-    </>
-  );
-}
+      </PasswordfieldRoot>
+    );
+  },
+);
 
-export default MUIPasswordfield
+export default MUIPasswordfield;

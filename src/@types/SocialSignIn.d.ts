@@ -2,6 +2,7 @@ import { SocialSvgProps } from "@robineb/mui-utility";
 import { ActionButtonNotification } from "@robineb/mui-utility";
 import { ButtonProps } from "@mui/material/Button";
 import { IconButtonProps } from "@mui/material/IconButton";
+import type { ThemedStyleOverrides, ThemedVariants } from './Theming';
 
 type BuiltInProvider =
     | "google"
@@ -114,7 +115,36 @@ type SocialButtonProps =
     }
 
 
+/** Wird als `ownerState` an alle Slots gereicht (styleOverrides-Callbacks, Theme-variants) */
+type SocialSigninButtonOwnerState = SocialButtonProps & {
+    variant: Variant;
+    providerStyles: ProviderButtonStyle;
+    iconSize: number;
+    buttonWidth: string;
+    isLoading: boolean;
+    hasError: boolean;
+};
+
+declare module '@mui/material/styles' {
+    interface ComponentNameToClassKey {
+        MuiSocialSigninButton: 'root' | 'icon' | 'label' | 'progress';
+    }
+
+    interface ComponentsPropsList {
+        MuiSocialSigninButton: Partial<SocialButtonProps>;
+    }
+
+    interface Components {
+        MuiSocialSigninButton?: {
+            defaultProps?: ComponentsPropsList['MuiSocialSigninButton'];
+            styleOverrides?: ThemedStyleOverrides<ComponentNameToClassKey['MuiSocialSigninButton'], SocialSigninButtonOwnerState>;
+            variants?: ThemedVariants<SocialSigninButtonOwnerState>;
+        };
+    }
+}
+
 export {
+    SocialSigninButtonOwnerState,
     BuiltInProvider,
     CustomProvider,
     ProviderType,

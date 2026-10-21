@@ -1,4 +1,5 @@
 import { ButtonProps, DialogProps } from '@mui/material';
+import type { ThemedStyleOverrides, ThemedVariants } from './Theming';
 
 type ActionButtonResult = {
     error: boolean;
@@ -39,4 +40,29 @@ type ActionButtonProps = {
     fullWidth?: boolean;
 };
 
-export type { ActionButtonProps, ActionButtonNotification, ActionButtonResult };
+/** Wird als `ownerState` an alle Slots gereicht (styleOverrides-Callbacks, Theme-variants) */
+type ActionButtonOwnerState = ActionButtonProps & {
+    loading: boolean;
+    hasError: boolean;
+    dialogOpen: boolean;
+};
+
+declare module '@mui/material/styles' {
+    interface ComponentNameToClassKey {
+        MuiActionButton: 'root' | 'button' | 'dialog';
+    }
+
+    interface ComponentsPropsList {
+        MuiActionButton: Partial<ActionButtonProps>;
+    }
+
+    interface Components {
+        MuiActionButton?: {
+            defaultProps?: ComponentsPropsList['MuiActionButton'];
+            styleOverrides?: ThemedStyleOverrides<ComponentNameToClassKey['MuiActionButton'], ActionButtonOwnerState>;
+            variants?: ThemedVariants<ActionButtonOwnerState>;
+        };
+    }
+}
+
+export type { ActionButtonProps, ActionButtonNotification, ActionButtonResult, ActionButtonOwnerState };

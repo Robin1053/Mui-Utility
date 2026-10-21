@@ -11,7 +11,6 @@ import {
     getFilledArray,
     updateIndex,
     joinArrayStrings,
-    mergeArrayStringFromIndex,
     split,
 } from '@robineb/mui-utility';
 import {
@@ -119,8 +118,11 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
                 return;
             }
 
-            const merged = mergeArrayStringFromIndex(chars, incoming, index);
+            // nur die betroffenen Felder ersetzen, nachfolgende Zeichen bleiben erhalten
             const consumed = Math.min(incoming.length, length - index);
+            const merged = chars.map((char, i) =>
+                i >= index && i < index + consumed ? incoming[i - index] : char,
+            );
 
             commitValue(joinArrayStrings(merged));
             requestFocus(Math.min(index + consumed, length - 1));
@@ -155,10 +157,15 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
                     event.preventDefault();
                     requestFocus(length - 1);
                     return;
-                default:
-                    if (event.key.length === 1 && validateChar && !validateChar(event.key, index)) {
-                        event.preventDefault();
+                default: {
+                    if (event.key.length !== 1 || event.ctrlKey || event.metaKey || event.altKey) {
+                        return;
                     }
+                    // Zeichen direkt uebernehmen, damit ein belegtes Feld unabhaengig von
+                    // Cursorposition/Selektion ersetzt wird (sonst liefert onChange z.B. "15")
+                    event.preventDefault();
+                    handleFieldChange(index, event.key);
+                }
             }
         }
 
@@ -204,6 +211,8 @@ const MuiOtpInput = React.forwardRef<HTMLDivElement, MUIOTPInputProps>(
                         inputRef={(el: HTMLInputElement | null) => {
                             inputRefs.current[index] = el;
                         }}
+                        // SMS-/Mail-Autofill von iOS/Android landet im ersten Feld und wird von dort verteilt
+                        autoComplete={index === 0 ? 'one-time-code' : 'off'}
                         {...extraProps}
                         value={chars[index]}
                         error={!!error}

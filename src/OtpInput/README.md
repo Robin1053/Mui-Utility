@@ -91,4 +91,7 @@ const theme = createTheme({
 - Unterstuetzt Tasten-Navigation mit Pfeilen, `Home`, `End` und `Backspace`
 - Unterstuetzt Paste ueber mehrere Felder
 - Selektiert den Inhalt beim Fokus, um Eingabe zu beschleunigen
+- Ein getipptes Zeichen ersetzt immer den Inhalt des aktiven Feldes, unabhaengig von der Cursorposition
+- Das erste Feld traegt `autoComplete="one-time-code"`, damit iOS/Android Codes aus SMS oder Mail
+  vorschlagen; der eingefuegte Code wird auf alle Felder verteilt. Ueberschreibbar via `TextFieldsProps`.
 

@@ -55,6 +55,29 @@ describe("OtpInput", () => {
         expect(inputs[0]).toHaveFocus();
     });
 
+    it("ersetzt das Zeichen eines belegten Feldes auch ohne Selektion statt ins naechste Feld zu schreiben", async () => {
+        const onChange = jest.fn();
+        const user = userEvent.setup();
+
+        render(<OtpInput length={4} value="1234" onChange={onChange} />);
+        const inputs = screen.getAllByRole("textbox") as HTMLInputElement[];
+
+        await user.click(inputs[1]);
+        // simuliert Browser, die die Fokus-Selektion beim Klick wieder aufheben
+        inputs[1].setSelectionRange(1, 1);
+        await user.keyboard("9");
+
+        expect(onChange).toHaveBeenLastCalledWith("1934");
+        expect(inputs[2]).toHaveFocus();
+    });
+
+    it("setzt autoComplete=one-time-code nur am ersten Feld", () => {
+        render(<OtpInput length={3} />);
+        const inputs = screen.getAllByRole("textbox");
+        expect(inputs[0]).toHaveAttribute("autocomplete", "one-time-code");
+        expect(inputs[1]).toHaveAttribute("autocomplete", "off");
+    });
+
     it("navigiert mit den Pfeiltasten zwischen den Feldern", async () => {
         const user = userEvent.setup();
 

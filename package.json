@@ -62,7 +62,7 @@
     "jest-environment-jsdom": "^30.3.0",
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
-    "tsup": "^8.0.0",
+    "tsup": "^9.0.0",
     "typescript": "^6.0.3",
     "yaml": "^2.8.3"
   },

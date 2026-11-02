@@ -11,7 +11,7 @@ Utility-Komponenten für MUI-Projekte.
 
 ## Status
 
-- Version: 3.0.0
+- Version: 2.1.0
 
 ## Installation
 
